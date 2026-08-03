@@ -22,7 +22,8 @@ def roc_curve(labels: np.ndarray, scores: np.ndarray):
     distinct = np.r_[np.diff(scores[order]) != 0, True]
     tpr = np.r_[0.0, tp[distinct] / P]
     fpr = np.r_[0.0, fp[distinct] / N]
-    auc = float(np.trapz(tpr, fpr))
+    trapezoid = getattr(np, "trapezoid", np.trapz)  # numpy 2.0 rename
+    auc = float(trapezoid(tpr, fpr))
     return fpr, tpr, auc
 
 

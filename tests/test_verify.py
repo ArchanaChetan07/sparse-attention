@@ -72,6 +72,27 @@ def test_sampled_verifier_bounds_contain_truth(adaptive):
     assert misses / reps <= ALPHA + 0.07
 
 
+def test_hoeffding_tracks_drifting_running_mean():
+    """Regression for the running-intersection bug: with a late burst, a CS
+    that intersects across time freezes near the pre-burst mean and misses
+    the post-burst running mean. Raw union-bound Hoeffding must track it."""
+    rng = np.random.default_rng(9)
+    reps, T = 60, 900
+    misses = 0
+    for _ in range(reps):
+        cs = HoeffdingCS(ALPHA)
+        seen, ok = 0.0, True
+        for t in range(1, T + 1):
+            p = 0.01 if t <= 600 else 0.5  # phase-transition-style burst
+            x = float(rng.random() < p)
+            seen += x
+            lo, hi = cs.update(x)
+            if not (lo - 1e-9 <= seen / t <= hi + 1e-9):
+                ok = False
+        misses += not ok
+    assert misses / reps <= ALPHA + 0.05
+
+
 def test_probe_rate_matches_target():
     v = make_estimator("hoeffding", ALPHA, p=0.15, seed=0)
     rng = np.random.default_rng(5)

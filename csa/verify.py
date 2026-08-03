@@ -34,10 +34,20 @@ import numpy as np
 
 
 class ConfidenceSequence:
-    """Base: anytime-valid CS for the running mean of a [0,1]-bounded stream."""
+    """Base: anytime-valid CS for the running mean of a [0,1]-bounded stream.
 
-    def __init__(self, alpha: float = 0.05):
+    NOTE on intersection: intersecting intervals across time is only valid
+    when the target is a FIXED mean. The serving stream is non-stationary by
+    hypothesis (divergence arrives in bursts at a phase boundary), and the
+    quantity certified is the RUNNING diverged fraction — a moving target.
+    Hoeffding/EB intervals below are simultaneously valid for the running
+    (conditional) mean at every t via martingale arguments, so we report the
+    raw interval at each t. Set intersect=True only for a stationary target.
+    """
+
+    def __init__(self, alpha: float = 0.05, intersect: bool = False):
         self.alpha = alpha
+        self.intersect = intersect
         self.n = 0
         self.lo = 0.0
         self.hi = 1.0
@@ -45,13 +55,13 @@ class ConfidenceSequence:
     def update(self, x: float):
         raise NotImplementedError
 
-    def _intersect(self, lo, hi):
-        # running intersection is valid for a time-uniform CS
-        self.lo = max(self.lo, max(0.0, lo))
-        self.hi = min(self.hi, min(1.0, hi))
-        if self.lo > self.hi:  # numerically possible at tiny alpha; clamp
-            mid = 0.5 * (self.lo + self.hi)
-            self.lo = self.hi = mid
+    def _set(self, lo, hi):
+        lo, hi = max(0.0, lo), min(1.0, hi)
+        if self.intersect:
+            lo, hi = max(self.lo, lo), min(self.hi, hi)
+            if lo > hi:
+                lo = hi = 0.5 * (lo + hi)
+        self.lo, self.hi = lo, hi
         return self.lo, self.hi
 
     @property
@@ -60,10 +70,15 @@ class ConfidenceSequence:
 
 
 class HoeffdingCS(ConfidenceSequence):
-    """Union-bound Hoeffding: alpha_t = alpha / (t (t+1)), sums to alpha."""
+    """Union-bound Hoeffding: alpha_t = alpha / (t (t+1)), sums to alpha.
 
-    def __init__(self, alpha: float = 0.05):
-        super().__init__(alpha)
+    Azuma-Hoeffding applies to the martingale sum of (x_i - E[x_i | past]),
+    so each interval covers the running conditional mean even under drift;
+    the union bound makes coverage simultaneous over all t.
+    """
+
+    def __init__(self, alpha: float = 0.05, intersect: bool = False):
+        super().__init__(alpha, intersect)
         self.sum = 0.0
 
     def update(self, x: float):
@@ -72,14 +87,15 @@ class HoeffdingCS(ConfidenceSequence):
         mean = self.sum / self.n
         eps = math.sqrt(math.log(2.0 * self.n * (self.n + 1) / self.alpha)
                         / (2.0 * self.n))
-        return self._intersect(mean - eps, mean + eps)
+        return self._set(mean - eps, mean + eps)
 
 
 class EmpiricalBernsteinCS(ConfidenceSequence):
     """Predictable plug-in empirical-Bernstein CS (WSR'23, eq. "EB-CS")."""
 
-    def __init__(self, alpha: float = 0.05, c: float = 0.5):
-        super().__init__(alpha)
+    def __init__(self, alpha: float = 0.05, c: float = 0.5,
+                 intersect: bool = False):
+        super().__init__(alpha, intersect)
         self.c = c
         self.sum_x = 0.0
         self.mu_prev = 0.5      # mu_hat_{t-1} with prior weight 1
@@ -113,20 +129,28 @@ class EmpiricalBernsteinCS(ConfidenceSequence):
             return self.lo, self.hi
         center = self.S_lx / self.S_l
         rad = (math.log(2.0 / self.alpha) + self.S_v) / self.S_l
-        return self._intersect(center - rad, center + rad)
+        return self._set(center - rad, center + rad)
 
 
 class BettingCS(ConfidenceSequence):
     """Hedged betting CS: for each candidate mean m, grow capital
     K+(m) = prod(1 + lam_t (x_t - m)) and K-(m) = prod(1 - lam_t (x_t - m));
-    reject m once max(K+, K-) >= 1/alpha. aGRAPA-style predictable bets.
+    reject m once max(K+, K-) ever reaches 1/alpha (Ville's inequality makes
+    rejection permanent). aGRAPA-style predictable bets.
+
+    Scope: targets a FIXED mean (exchangeable-ish streams). Permanent
+    rejection is intrinsic to the capital-process construction, so under a
+    drifting target this CS can lock onto early behaviour — Study B's
+    coverage audit quantifies exactly this. Use EB for bursty streams.
     """
 
-    def __init__(self, alpha: float = 0.05, grid: int = 401, c: float = 0.5):
-        super().__init__(alpha)
+    def __init__(self, alpha: float = 0.05, grid: int = 401, c: float = 0.5,
+                 intersect: bool = True):
+        super().__init__(alpha, intersect)
         self.m = np.linspace(0.0, 1.0, grid)
         self.logK_plus = np.zeros(grid)
         self.logK_minus = np.zeros(grid)
+        self.rejected = np.zeros(grid, dtype=bool)
         self.c = c
         self.sum_x = 0.0
         self.mu_prev = 0.5
@@ -143,18 +167,19 @@ class BettingCS(ConfidenceSequence):
         lam_minus = np.clip(-lam, 0.0, self.c / np.maximum(1.0 - m, 1e-4))
         self.logK_plus += np.log1p(lam_plus * (x - m))
         self.logK_minus += np.log1p(-lam_minus * (x - m))
+        self.rejected |= (np.maximum(self.logK_plus, self.logK_minus)
+                          >= self.thresh)
         self.n = t
         self.sum_x += x
         self.mu_prev = (0.5 + self.sum_x) / (t + 1.0)
         self.sum_sq_dev += (x - self.mu_prev) ** 2
         self.var_prev = self.sum_sq_dev / (t + 1.0)
-        alive = np.maximum(self.logK_plus, self.logK_minus) < self.thresh
+        alive = ~self.rejected
         if alive.any():
             lo, hi = float(self.m[alive].min()), float(self.m[alive].max())
         else:
-            mid = self.sum_x / t
-            lo = hi = mid
-        return self._intersect(lo, hi)
+            lo = hi = self.sum_x / t
+        return self._set(lo, hi)
 
 
 # ---------------------------------------------------------------------------
@@ -247,7 +272,8 @@ class SampledVerifier:
 
 
 def make_estimator(kind: str, alpha: float, p: float, seed: int = 0,
-                   adaptive: bool = False, p_min: float = None) -> SampledVerifier:
+                   adaptive: bool = False,
+                   p_min: float | None = None) -> SampledVerifier:
     cs = {"hoeffding": HoeffdingCS, "eb": EmpiricalBernsteinCS,
           "betting": BettingCS}[kind](alpha)
     if adaptive:

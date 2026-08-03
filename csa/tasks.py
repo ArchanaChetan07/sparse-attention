@@ -60,7 +60,6 @@ def _assemble(rng: random.Random, facts: list[str], question: str,
               count_tokens, target_tokens: int) -> str:
     """Interleave facts with filler until the prompt reaches target length."""
     segments: list[str] = []
-    per_gap = max(1, len(facts))
     # start with a filler, then alternate fact / filler
     segments.append(_filler_paragraph(rng))
     for f in facts:

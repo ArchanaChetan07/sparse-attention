@@ -54,9 +54,11 @@ def block_minmax(keys: torch.Tensor, block_size: int):
     nb = n_blocks(T, block_size)
     pad = nb * block_size - T
     kf = keys.float()
+    # large-finite padding (not inf): downstream computes q*kmin, and a
+    # zero query coordinate times inf would poison the score with NaN
     if pad:
-        kmin_src = F.pad(kf, (0, 0, 0, pad), value=float("inf"))
-        kmax_src = F.pad(kf, (0, 0, 0, pad), value=float("-inf"))
+        kmin_src = F.pad(kf, (0, 0, 0, pad), value=1e30)
+        kmax_src = F.pad(kf, (0, 0, 0, pad), value=-1e30)
     else:
         kmin_src = kmax_src = kf
     kmin = kmin_src.view(B, H, nb, block_size, D).amin(dim=3)

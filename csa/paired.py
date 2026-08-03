@@ -211,9 +211,9 @@ class PairedModel:
         tok = int(out.logits[0, -1].argmax())
         toks = []
         for _ in range(max_new_tokens):
-            toks.append(tok)
             if tok == self.tokenizer.eos_token_id:
-                break
+                break  # EOS is not part of the trajectory (keeps teacher runs clean)
+            toks.append(tok)
             out = self._forward(torch.tensor([[tok]], device=self.device), cache)
             tok = int(out.logits[0, -1].argmax())
         return toks, self.tokenizer.decode(toks, skip_special_tokens=True)
