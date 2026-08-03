@@ -1,0 +1,64 @@
+{
+  "fingerprint": {
+    "platform": "Windows-10-10.0.26200-SP0",
+    "python": "3.11.5",
+    "cpu": "Intel64 Family 6 Model 183 Stepping 1, GenuineIntel",
+    "torch": "2.6.0+cu124",
+    "gpu": "NVIDIA T1000 8GB",
+    "gpu_mem_gb": 8.0,
+    "cuda": "12.4",
+    "transformers": "5.12.1",
+    "driver": "596.51",
+    "power_limit": "50.00 W",
+    "pcie": "gen3 x16"
+  },
+  "auc_teacher_flip": {
+    "est dropped mass (mean)": 0.7759146341463414,
+    "est dropped mass (max)": 0.7396680216802167,
+    "eviction consensus": 0.7704098915989159,
+    "fully-dropped mass": 0.7690548780487805,
+    "sparse attn entropy": 0.4119241192411924,
+    "top1-top2 margin": 0.8167767615176152,
+    "cross-layer dropped-mass std": 0.7250169376693767,
+    "ORACLE dropped mass": 0.762618563685637,
+    "ORACLE output cos-dist": 0.7498306233062331
+  },
+  "teacher_steps": 226,
+  "teacher_flip_rate": 0.36283185840707965,
+  "dense_qa_accuracy_by_family": {
+    "coreference": 1.0,
+    "multi_entity": 1.0,
+    "multi_hop": 0.0
+  },
+  "dense_qa_accuracy": 0.6666666666666666,
+  "cliff": [
+    {
+      "method": "quest_topk",
+      "keep_frac": 0.0625,
+      "acc": 0.5,
+      "flip": 0.25,
+      "odrop": 0.3546802695556026,
+      "n": 6
+    },
+    {
+      "method": "quest_topk",
+      "keep_frac": 0.25,
+      "acc": 0.6666666666666666,
+      "flip": 0.08333333333333333,
+      "odrop": 0.08482307962064321,
+      "n": 6
+    }
+  ],
+  "h4": {
+    "spearman_flipfrac_correct": -0.47809144373375745,
+    "spearman_meankl_correct": -0.661031797240524,
+    "spearman_estdrop_correct": -0.31827456904173373,
+    "auc_flipfrac_incorrect": 0.7285714285714286,
+    "n_requests": 12
+  },
+  "timing_ms": {
+    "probe_mean": 57.7162896494186,
+    "sparse_step_mean": 118.13140186031573,
+    "probe_over_step": 0.4885770315133069
+  }
+}

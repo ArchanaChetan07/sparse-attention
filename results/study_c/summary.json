@@ -1,0 +1,48 @@
+{
+  "high_load": {
+    "elastic": {
+      "tpot_p99": 20.0,
+      "system_width": 0.6154709606848263,
+      "probe_completion": 0.015744138982496297
+    },
+    "inline": {
+      "tpot_p99": 33.5,
+      "system_width": 0.12411496846318264,
+      "probe_completion": 1.0
+    },
+    "none": {
+      "tpot_p99": 19.5,
+      "system_width": 1.0,
+      "probe_completion": 1.0
+    }
+  },
+  "mid_load": {
+    "elastic": {
+      "tpot_p99": 2.0,
+      "system_width": 0.13386384400887197,
+      "probe_completion": 0.75173673083193
+    },
+    "inline": {
+      "tpot_p99": 2.5,
+      "system_width": 0.13045713443691767,
+      "probe_completion": 1.0
+    },
+    "none": {
+      "tpot_p99": 2.5,
+      "system_width": 1.0,
+      "probe_completion": 1.0
+    }
+  },
+  "rq3_priority": {
+    "elastic[maxmin]": {
+      "mean_width": 0.999271477985247,
+      "p90_width": 1.0,
+      "system_width": 0.2850530923163833
+    },
+    "elastic[value]": {
+      "mean_width": 0.9969592580895128,
+      "p90_width": 1.0,
+      "system_width": 0.2850530923163833
+    }
+  }
+}

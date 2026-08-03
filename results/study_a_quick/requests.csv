@@ -1,0 +1,25 @@
+task_id,family,ctx,method,keep_frac,mode,correct,n_steps,text,prompt_tokens,flip_frac,mean_kl,mean_est_dropped,mean_oracle_dropped
+multi_entity-1024-0,multi_entity,1024,dense,1.0,free,True,2,Map,,,,,
+multi_entity-1024-0,multi_entity,1024,quest_topk,0.25,free,True,1,Map,1091.0,0.0,0.004892013967037201,0.026040982322835287,0.07197106396779418
+multi_entity-1024-0,multi_entity,1024,quest_topk,0.0625,free,True,1,Map,1091.0,0.0,0.5607640743255615,0.44065466259295744,0.4874175327519576
+multi_entity-1024-1,multi_entity,1024,dense,1.0,free,True,2,Map,,,,,
+multi_entity-1024-1,multi_entity,1024,quest_topk,0.25,free,True,1,Map,1103.0,0.0,0.003418327309191227,0.033072641066307064,0.06606071714001398
+multi_entity-1024-1,multi_entity,1024,quest_topk,0.0625,free,True,2,Mappe,1103.0,0.5,0.6101866541430354,0.3095596601294043,0.27318490288841224
+multi_hop-1024-0,multi_hop,1024,dense,1.0,free,False,3,Carla,,,,,
+multi_hop-1024-0,multi_hop,1024,quest_topk,0.25,free,False,2,Carla,1090.0,0.0,0.006475201167631894,0.0389028348223898,0.1254919484296503
+multi_hop-1024-0,multi_hop,1024,quest_topk,0.0625,free,False,2,Carla,1090.0,0.0,0.7542654336430132,0.46286205473976827,0.46965731369952357
+multi_hop-1024-1,multi_hop,1024,dense,1.0,free,False,3,Hiro,,,,,
+multi_hop-1024-1,multi_hop,1024,quest_topk,0.25,free,False,2,Helen,1093.0,0.5,1.0667188016232103,0.03357612843198392,0.09939936527128641
+multi_hop-1024-1,multi_hop,1024,quest_topk,0.0625,free,False,2,Hans,1093.0,0.5,3.200169160962105,0.4167567241626481,0.46180526725947857
+coreference-1024-0,coreference,1024,dense,1.0,free,True,4,Florist,,,,,
+coreference-1024-0,coreference,1024,quest_topk,0.25,free,True,3,Florist,1076.0,0.0,0.10942141150007956,0.04463795823054776,0.07953831233317032
+coreference-1024-0,coreference,1024,quest_topk,0.0625,free,False,2,Flotation,1076.0,0.5,2.2977070808410645,0.28439090311682474,0.19133414460035664
+coreference-1024-1,coreference,1024,dense,1.0,free,True,3,chemist,,,,,
+coreference-1024-1,coreference,1024,quest_topk,0.25,free,True,2,chemist,1076.0,0.0,0.002699379969271831,0.032146362467149935,0.06647707058194403
+coreference-1024-1,coreference,1024,quest_topk,0.0625,free,True,2,chemist,1076.0,0.0,0.506124597042799,0.2445433392955844,0.24468245613388717
+longform-1024-0,longform,1024,dense,1.0,free,,48,The village council was postponed until spring with little fanfare. The northern road carried on as before as recorded i,,,,,
+longform-1024-0,longform,1024,quest_topk,0.25,free,,48,"The village council was postponed until spring, the apple harvest remained a favorite topic, the stone bridge carried on",1087.0,0.125,0.22204230823551066,0.05438679179491777,0.1515577402753681
+longform-1024-0,longform,1024,quest_topk,0.0625,free,,35,The village village village village village village village village village village village village village village vill,1087.0,0.14285714285714285,1.509747794696263,0.5382626815006092,0.4770067501369687
+longform-1024-1,longform,1024,dense,1.0,free,,48,"The account details the daily activities and gossip of a village, including the lighthouse keeper, river barge, clock to",,,,,
+longform-1024-1,longform,1024,quest_topk,0.25,free,,25,"The account details the village's activities and events, including the lighthouse, apple harvest, weekly market, and sum",1091.0,0.24,0.25865407417848474,0.05836028744985621,0.1490590000183632
+longform-1024-1,longform,1024,quest_topk,0.0625,free,,21,"The village council discussed the proposed new community center, which will provide a space for local events and gatheri",1091.0,0.47619047619047616,1.326660292932675,0.39848198065172047,0.3048648295059268
