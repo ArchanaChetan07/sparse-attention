@@ -1,3 +1,0 @@
-Loading weights:   0%|          | 0/290 [00:00<?, ?it/s]Loading weights:  96%|█████████▌| 279/290 [00:00<00:00, 2779.92it/s]Loading weights: 100%|██████████| 290/290 [00:00<00:00, 2832.82it/s]
-C:\Users\archa\OneDrive\Desktop\VLLM\certified-sparse-attention\experiments\study_a_smoke.py:111: RuntimeWarning: Mean of empty slice
-  "mean_est_dropped": float(np.nanmean(

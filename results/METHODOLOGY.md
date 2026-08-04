@@ -64,6 +64,26 @@ a budget, and a KV trajectory. Splitting them i.i.d. leaks a request across
 train and test folds and inflates the combined detector's AUC. Folds are split
 by request group, and a noise-only control asserts the CV returns ~0.5.
 
+**Validity gates width, not the other way round.** When comparing estimators,
+the cheapest one reaching a target bound width is meaningless unless that
+interval actually covers. Selecting on width alone picks whichever estimator
+undercovers most aggressively, which would reproduce precisely the failure
+this project exists to eliminate — a confident-looking claim that is wrong.
+Estimators must pass a coverage audit before they may support a verdict, and
+those rejected are recorded rather than dropped silently. Relatedly, a capital
+-process CS that has rejected every candidate mean has *failed* rather than
+converged; it reports a vacuous interval and a failure flag instead of a
+zero-width one.
+
+**Bound width is set by probe count, not probe rate.** Width falls as
+1/sqrt(n_probes). On a short trace no sampling rate reaches a tight bound, so
+quoting a rate there would measure trace length rather than verification cost.
+Cost is therefore reported scale-free — probes needed for a target width — and
+only then translated into a rate at realistic stream lengths. A corollary
+worth stating plainly: a *short single request* cannot be certified tightly at
+any affordable cost; tight guarantees are a property of long requests or of
+aggregated per-tenant streams.
+
 ## 4. Threats to validity, in descending order of seriousness
 
 1. **Scale.** Results are on 0.5B and 1.5B models at 1–2K contexts on an 8 GB

@@ -6,4 +6,7 @@ dist/
 .pytest_cache/
 results/**/*.parquet
 results/**/*.csv.gz
+results/sweep.log
+results/sweep.err
+results/_validate*/
 .venv/
