@@ -297,6 +297,65 @@
       "n": 18
     }
   ],
+  "effective_keep_fraction": [
+    {
+      "ctx": 1024,
+      "keep_frac": 0.03125,
+      "keep_tokens_frac_Lmean": 0.04299383890048588
+    },
+    {
+      "ctx": 1024,
+      "keep_frac": 0.0625,
+      "keep_tokens_frac_Lmean": 0.04299383890048588
+    },
+    {
+      "ctx": 1024,
+      "keep_frac": 0.125,
+      "keep_tokens_frac_Lmean": 0.10165577868260246
+    },
+    {
+      "ctx": 1024,
+      "keep_frac": 0.25,
+      "keep_tokens_frac_Lmean": 0.236803950695154
+    },
+    {
+      "ctx": 1024,
+      "keep_frac": 0.5,
+      "keep_tokens_frac_Lmean": 0.4988828438312508
+    },
+    {
+      "ctx": 2048,
+      "keep_frac": 0.03125,
+      "keep_tokens_frac_Lmean": 0.02227663767243324
+    },
+    {
+      "ctx": 2048,
+      "keep_frac": 0.0625,
+      "keep_tokens_frac_Lmean": 0.05247139297230018
+    },
+    {
+      "ctx": 2048,
+      "keep_frac": 0.125,
+      "keep_tokens_frac_Lmean": 0.11334312475490857
+    },
+    {
+      "ctx": 2048,
+      "keep_frac": 0.25,
+      "keep_tokens_frac_Lmean": 0.24032654743833637
+    },
+    {
+      "ctx": 2048,
+      "keep_frac": 0.5,
+      "keep_tokens_frac_Lmean": 0.49811646920695984
+    }
+  ],
+  "budgets_clamped_by_sink_local_floor": [
+    {
+      "ctx": 1024,
+      "keep_frac": 0.03125,
+      "keep_tokens_frac_Lmean": 0.04299383890048588
+    }
+  ],
   "h4_all_requests": {
     "spearman_flipfrac_correct": -0.30369047298078683,
     "spearman_meankl_correct": -0.23595569968256144,

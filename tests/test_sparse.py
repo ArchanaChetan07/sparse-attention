@@ -1,3 +1,4 @@
+import pytest
 import torch
 
 from csa import sparse as sp
@@ -42,6 +43,24 @@ def test_token_mask_shape_and_partial_block():
     # sink and local blocks always kept
     assert tok[..., :32].all()
     assert tok[..., -8:].all()
+
+
+def test_nominal_budget_below_floor_is_clamped_and_collapses():
+    """Sink+local blocks are always kept, so nominal budgets below that floor
+    are clamped upward -- and two distinct nominal budgets can become the SAME
+    actual budget. Analysis reports the effective fraction because of this;
+    the test pins the behaviour so it cannot change silently.
+    """
+    q, k, _ = rand_qkv(T=1024)  # 32 blocks of 32
+    actual = {}
+    for frac in (0.03125, 0.0625, 0.25):
+        mask, _, _ = sp.compute_selection(
+            SparseConfig(keep_frac=frac, block_size=32, sink_blocks=1,
+                         local_blocks=1), q, k, 0.25, 2)
+        actual[frac] = float(mask.float().mean())
+    # 0.03125 * 32 blocks = 1 block, below the sink+local floor of 2
+    assert actual[0.03125] == actual[0.0625] == pytest.approx(2 / 32)
+    assert actual[0.25] == pytest.approx(8 / 32)
 
 
 def test_est_mass_sums_to_one():

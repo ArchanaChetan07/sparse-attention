@@ -64,6 +64,15 @@ a budget, and a KV trajectory. Splitting them i.i.d. leaks a request across
 train and test folds and inflates the combined detector's AUC. Folds are split
 by request group, and a noise-only control asserts the CV returns ~0.5.
 
+**Nominal budget is not actual budget.** Sink and local blocks are always
+retained, so a nominal keep fraction below that floor is clamped upward. At
+short contexts two distinct nominal budgets can therefore be the *same* actual
+budget, at which point the sparse methods collapse to identical selections and
+appear — misleadingly — to agree. The harness records the true kept-token
+fraction per step, and the analysis reports the nominal-to-effective mapping
+plus an explicit list of clamped configurations. Read the cliff against the
+effective fraction, not the nominal one.
+
 **A flip predictor is not automatically a fidelity signal.** A step whose
 top-1/top-2 margin is small flips under *any* perturbation, so a
 confidence-based signal can score well at predicting flips while carrying no

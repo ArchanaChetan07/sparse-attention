@@ -169,6 +169,24 @@ def analyze(steps: pd.DataFrame, reqs: pd.DataFrame, out: Path,
              .reset_index())
     summary["cliff"] = cliff.to_dict("records")
 
+    # Nominal budget != actual budget. Sink and local blocks are always kept,
+    # so a nominal keep_frac below that floor is silently clamped upward, and
+    # at short contexts two distinct nominal budgets can be the SAME actual
+    # budget (which makes the methods collapse to identical selections). The
+    # harness records the true kept-token fraction; report it so the cliff is
+    # read against what was actually computed.
+    if "keep_tokens_frac_Lmean" in steps:
+        eff = (steps[steps["keep_tokens_frac_Lmean"].notna()]
+               .groupby(["ctx", "keep_frac"])["keep_tokens_frac_Lmean"]
+               .mean().reset_index()
+               if "ctx" in steps else
+               steps.groupby("keep_frac")["keep_tokens_frac_Lmean"]
+               .mean().reset_index())
+        summary["effective_keep_fraction"] = eff.to_dict("records")
+        clamped = [r for r in eff.to_dict("records")
+                   if r["keep_tokens_frac_Lmean"] > r["keep_frac"] * 1.25]
+        summary["budgets_clamped_by_sink_local_floor"] = clamped
+
     # ---------------- H4 --------------------------------------------------
     qa_ok = qa[qa["correct"].notna()]
     summary["h4_all_requests"] = _h4_block(qa_ok)
