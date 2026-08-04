@@ -1,5 +1,3 @@
-import math
-
 import torch
 
 from csa import sparse as sp

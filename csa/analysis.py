@@ -97,6 +97,7 @@ def _h4_within_budget(d: pd.DataFrame) -> dict:
 def analyze(steps: pd.DataFrame, reqs: pd.DataFrame, out: Path,
             make_figures: bool = True) -> dict:
     out = Path(out)
+    out.mkdir(parents=True, exist_ok=True)
     summary = {"fingerprint": machine_fingerprint()}
 
     # ---------------- H1: per-signal detection ----------------------------
@@ -172,11 +173,11 @@ def analyze(steps: pd.DataFrame, reqs: pd.DataFrame, out: Path,
     with open(out / "summary.json", "w") as f:
         json.dump(summary, f, indent=2, default=float)
     if make_figures:
-        figures(steps, qa, cliff, teach, labels, out)
+        figures(steps, cliff, teach, labels, out)
     return summary
 
 
-def figures(steps, qa, cliff, teach, labels, out: Path):
+def figures(steps, cliff, teach, labels, out: Path):
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
