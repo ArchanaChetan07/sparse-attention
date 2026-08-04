@@ -151,6 +151,7 @@ class BettingCS(ConfidenceSequence):
         self.logK_plus = np.zeros(grid)
         self.logK_minus = np.zeros(grid)
         self.rejected = np.zeros(grid, dtype=bool)
+        self.failed = False   # True once every candidate mean is rejected
         self.c = c
         self.sum_x = 0.0
         self.mu_prev = 0.5
@@ -178,7 +179,15 @@ class BettingCS(ConfidenceSequence):
         if alive.any():
             lo, hi = float(self.m[alive].min()), float(self.m[alive].max())
         else:
-            lo = hi = self.sum_x / t
+            # Every candidate mean has been rejected. That is not a
+            # zero-width certificate -- it means the capital process has
+            # failed (its fixed-mean assumption is violated, e.g. the target
+            # drifted). Degrade to vacuous and say so, rather than emitting a
+            # confident point estimate that is exactly what this project
+            # exists to prevent.
+            self.failed = True
+            self.lo, self.hi = 0.0, 1.0
+            return self.lo, self.hi
         return self._set(lo, hi)
 
 
@@ -234,6 +243,7 @@ class VerifierReport:
     n_probes: int
     lo: float
     hi: float
+    failed: bool = False   # estimator self-reported an invalid certificate
 
     @property
     def width(self):
@@ -268,7 +278,8 @@ class SampledVerifier:
     def report(self) -> VerifierReport:
         return VerifierReport(self.n_steps, self.n_probes,
                               self.cs.lo / self.scale,
-                              min(self.cs.hi / self.scale, 1.0))
+                              min(self.cs.hi / self.scale, 1.0),
+                              bool(getattr(self.cs, "failed", False)))
 
 
 def make_estimator(kind: str, alpha: float, p: float, seed: int = 0,

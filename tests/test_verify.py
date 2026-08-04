@@ -72,6 +72,33 @@ def test_sampled_verifier_bounds_contain_truth(adaptive):
     assert misses / reps <= ALPHA + 0.07
 
 
+def test_betting_failure_degrades_to_vacuous_not_to_a_point():
+    """A capital process that rejects every candidate has FAILED. It must not
+    report a zero-width interval -- a confident-looking wrong certificate is
+    the exact failure mode this project exists to prevent."""
+    cs = BettingCS(ALPHA, grid=101)
+    # a hard regime shift: long stretch at 0, then a long stretch at 1
+    for _ in range(400):
+        cs.update(0.0)
+    for _ in range(400):
+        cs.update(1.0)
+    if cs.failed:
+        assert (cs.lo, cs.hi) == (0.0, 1.0)
+        assert cs.width == 1.0
+    else:
+        assert cs.width > 0.0, "a surviving CS must have positive width"
+
+
+def test_report_surfaces_failure_flag():
+    v = make_estimator("betting", ALPHA, p=1.0, seed=0)
+    for i in range(300):
+        v.step(0 if i < 200 else 1, None)
+    r = v.report()
+    assert isinstance(r.failed, bool)
+    if r.failed:
+        assert r.width == 1.0
+
+
 def test_hoeffding_tracks_drifting_running_mean():
     """Regression for the running-intersection bug: with a late burst, a CS
     that intersects across time freezes near the pre-burst mean and misses
