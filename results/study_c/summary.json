@@ -1,13 +1,13 @@
 {
   "high_load": {
     "elastic": {
-      "tpot_p99": 20.0,
-      "system_width": 0.6154709606848263,
-      "probe_completion": 0.015744138982496297
+      "tpot_p99": 17.5,
+      "system_width": 0.6422837089511111,
+      "probe_completion": 0.01604377791636
     },
     "inline": {
-      "tpot_p99": 33.5,
-      "system_width": 0.12411496846318264,
+      "tpot_p99": 44.0,
+      "system_width": 0.10418225005495507,
       "probe_completion": 1.0
     },
     "none": {
@@ -18,13 +18,13 @@
   },
   "mid_load": {
     "elastic": {
-      "tpot_p99": 2.0,
-      "system_width": 0.13386384400887197,
-      "probe_completion": 0.75173673083193
+      "tpot_p99": 1.6666666666666667,
+      "system_width": 0.13581371391344763,
+      "probe_completion": 0.7940664972105552
     },
     "inline": {
-      "tpot_p99": 2.5,
-      "system_width": 0.13045713443691767,
+      "tpot_p99": 3.5,
+      "system_width": 0.11819888288863474,
       "probe_completion": 1.0
     },
     "none": {
@@ -35,14 +35,94 @@
   },
   "rq3_priority": {
     "elastic[maxmin]": {
-      "mean_width": 0.999271477985247,
+      "mean_width": 0.9992510874770144,
       "p90_width": 1.0,
-      "system_width": 0.2850530923163833
+      "system_width": 0.25872270769203626
     },
     "elastic[value]": {
-      "mean_width": 0.9969592580895128,
+      "mean_width": 0.995789823119922,
       "p90_width": 1.0,
-      "system_width": 0.2850530923163833
+      "system_width": 0.25872270769203626
+    }
+  },
+  "probe_cost_sensitivity": {
+    "probe_cost=1.5": {
+      "elastic": {
+        "tpot_p99": 6.333333333333333,
+        "system_width": 0.26437083118081867,
+        "probe_completion": 0.3696220062077431,
+        "unfinished": 142
+      },
+      "inline": {
+        "tpot_p99": 14.0,
+        "system_width": 0.10551777827178721,
+        "probe_completion": 1.0,
+        "unfinished": 297
+      },
+      "none": {
+        "tpot_p99": 5.666666666666667,
+        "system_width": 1.0,
+        "probe_completion": 1.0,
+        "unfinished": 125
+      }
+    },
+    "probe_cost=3": {
+      "elastic": {
+        "tpot_p99": 6.333333333333333,
+        "system_width": 0.3506329552393255,
+        "probe_completion": 0.3283018473816015,
+        "unfinished": 142
+      },
+      "inline": {
+        "tpot_p99": 18.0,
+        "system_width": 0.10775183784013559,
+        "probe_completion": 1.0,
+        "unfinished": 339
+      },
+      "none": {
+        "tpot_p99": 5.666666666666667,
+        "system_width": 1.0,
+        "probe_completion": 1.0,
+        "unfinished": 125
+      }
+    },
+    "probe_cost=6": {
+      "elastic": {
+        "tpot_p99": 6.333333333333333,
+        "system_width": 0.7329338267235433,
+        "probe_completion": 0.10680086760855666,
+        "unfinished": 142
+      },
+      "inline": {
+        "tpot_p99": 32.0,
+        "system_width": 0.11623052624906428,
+        "probe_completion": 1.0,
+        "unfinished": 487
+      },
+      "none": {
+        "tpot_p99": 5.666666666666667,
+        "system_width": 1.0,
+        "probe_completion": 1.0,
+        "unfinished": 125
+      }
+    },
+    "probe_cost=12": {
+      "elastic": {
+        "tpot_p99": 6.333333333333333,
+        "system_width": 1.0,
+        "probe_completion": 0.0,
+        "unfinished": 142
+      },
+      "inline": {
+        "infeasible": true,
+        "note": "one step + inline probe exceeds capacity; those steps can never be served, so latency here reflects only surviving requests"
+      },
+      "none": {
+        "tpot_p99": 5.666666666666667,
+        "system_width": 1.0,
+        "probe_completion": 1.0,
+        "unfinished": 125
+      }
     }
   }
 }

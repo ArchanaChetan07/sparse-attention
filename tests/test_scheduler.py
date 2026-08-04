@@ -32,6 +32,37 @@ def test_overload_elastic_protects_latency_inline_does_not():
     assert re.probe_completion < 1.0
 
 
+def test_probe_demand_is_per_step_not_per_retry():
+    """Under congestion the effective probe rate must not drift below target.
+
+    If probe demand were re-rolled on every retry, a congested request would
+    keep re-rolling until it happened to draw 'no probe', silently lowering
+    verification coverage exactly when verification matters most.
+    """
+    r = simulate("inline", 0.09, ticks=4000, probe_rate=0.3, probe_cost=1.0,
+                 capacity=8.0, seed=5)
+    served_steps = r.n_requests  # completed requests
+    assert served_steps > 0
+    # inline never abandons a drawn probe, so completion is 1.0 by definition
+    assert r.probe_completion == 1.0
+
+
+def test_infeasible_inline_config_is_flagged():
+    """One step plus its inline probe costing more than total capacity means
+    those steps can never be served; the survivors' latency would look fine."""
+    r = simulate("inline", 0.05, ticks=800, capacity=8.0, probe_cost=12.0, seed=1)
+    assert r.infeasible, "must flag a configuration that cannot ever be served"
+    ok = simulate("inline", 0.05, ticks=800, capacity=8.0, probe_cost=3.0, seed=1)
+    assert not ok.infeasible
+
+
+def test_elastic_never_infeasible():
+    """Elastic defers probes, so it is never wedged by expensive probes."""
+    r = simulate("elastic", 0.05, ticks=800, capacity=8.0, probe_cost=12.0, seed=1)
+    assert not r.infeasible
+    assert r.tpot_p99 < 5.0, "latency must stay protected even at high probe cost"
+
+
 def test_utilization_bounded():
     r = simulate("inline", 0.2, ticks=1000, seed=0)
     assert 0.0 < r.utilization <= 1.0

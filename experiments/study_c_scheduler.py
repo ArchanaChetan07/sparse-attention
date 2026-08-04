@@ -47,8 +47,23 @@ def main():
             d["policy"] = f"elastic[{'value' if vw else 'maxmin'}]"
             rows.append(d)
 
+    # Sensitivity to probe cost. r is the least certain parameter available
+    # from this hardware, so the elastic claim must be shown to survive a
+    # range of it rather than at one convenient value.
+    sens = []
+    for pc in (1.5, 3.0, 6.0, 12.0):
+        for pol in ("none", "inline", "elastic"):
+            for rate in (0.06, 0.09, 0.105):
+                r = simulate(pol, rate, ticks=args.ticks, capacity=8.0,
+                             probe_rate=0.1, probe_cost=pc, seed=11)
+                d = asdict(r)
+                d["probe_cost"] = pc
+                sens.append(d)
+    save_results(sens, {"ticks": args.ticks}, out, "probe_cost_sensitivity")
+
     save_results(rows, {"ticks": args.ticks}, out, "sweep")
     df = pd.DataFrame(rows)
+    sdf = pd.DataFrame(sens)
 
     import matplotlib
     matplotlib.use("Agg")
@@ -89,6 +104,20 @@ def main():
         "rq3_priority": df[df["policy"].str.startswith("elastic[")]
         .groupby("policy")[["mean_width", "p90_width", "system_width"]]
         .mean().to_dict("index"),
+        # does elastic still protect latency as probes get more expensive?
+        "probe_cost_sensitivity": {
+            f"probe_cost={pc:g}": {
+                pol: ({"infeasible": True,
+                       "note": ("one step + inline probe exceeds capacity; "
+                                "those steps can never be served, so latency "
+                                "here reflects only surviving requests")}
+                      if bool(g["infeasible"].any()) else
+                      {"tpot_p99": float(g["tpot_p99"].mean()),
+                       "system_width": float(g["system_width"].mean()),
+                       "probe_completion": float(g["probe_completion"].mean()),
+                       "unfinished": int(g["n_unfinished"].sum())})
+                for pol, g in gp.groupby("policy")}
+            for pc, gp in sdf.groupby("probe_cost")},
     }
     with open(out / "summary.json", "w") as f:
         json.dump(summary, f, indent=2, default=float)

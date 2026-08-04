@@ -25,6 +25,7 @@ from __future__ import annotations
 
 import math
 from dataclasses import dataclass, field
+from typing import Optional
 
 import numpy as np
 
@@ -49,6 +50,7 @@ class Request:
     probes_done: int = 0
     step_delays: list = field(default_factory=list)  # ticks per decode step
     _wait: int = 0
+    _pending_probe: Optional[bool] = None  # probe demand for the CURRENT step
 
     def bound_width(self, alpha: float = 0.05) -> float:
         return hoeffding_width(self.probes_done, alpha)
@@ -67,6 +69,8 @@ class SimResult:
                              # operator statement "x% of decode steps diverged"
     probe_completion: float  # fraction of drawn probes actually executed
     n_requests: int
+    n_unfinished: int = 0    # requests still in flight when the sim ended
+    infeasible: bool = False  # one step + inline probe exceeds total capacity
 
 
 def simulate(policy: str, arrival_rate: float, ticks: int = 4000,
@@ -96,7 +100,13 @@ def simulate(policy: str, arrival_rate: float, ticks: int = 4000,
         order = sorted(active, key=lambda r: -r._wait)
         finished = []
         for r in order:
-            draw_probe = policy != "none" and rng.random() < probe_rate
+            # Probe demand is a property of the STEP, decided once when the
+            # step first becomes current. Re-rolling it on every retry would
+            # silently lower the effective probe rate under congestion, and
+            # would make the policies face different demand.
+            if r._pending_probe is None:
+                r._pending_probe = policy != "none" and rng.random() < probe_rate
+            draw_probe = r._pending_probe
             cost = 1.0 + (probe_cost if (policy == "inline" and draw_probe) else 0.0)
             if cap < cost:
                 r._wait += 1
@@ -106,6 +116,7 @@ def simulate(policy: str, arrival_rate: float, ticks: int = 4000,
             r.step_delays.append(r._wait + 1)
             r._wait = 0
             r.steps_done += 1
+            r._pending_probe = None   # next step draws afresh
             if draw_probe:
                 r.probes_wanted += 1
                 if policy == "inline":
@@ -137,6 +148,11 @@ def simulate(policy: str, arrival_rate: float, ticks: int = 4000,
                 cap -= probe_cost
                 used_total += probe_cost
 
+    # A configuration where one step plus its inline probe exceeds total
+    # capacity can never be served: those requests stall forever and would
+    # silently drop out of the statistics, biasing latency downward by
+    # survivorship. Surface it rather than reporting the survivors' numbers.
+    infeasible = policy == "inline" and (1.0 + probe_cost) > capacity
     done = [r for r in reqs if r.finish_tick >= 0]
     delays = np.array([d for r in done for d in r.step_delays], dtype=float)
     widths = (np.array([r.bound_width() for r in done])
@@ -154,6 +170,8 @@ def simulate(policy: str, arrival_rate: float, ticks: int = 4000,
         system_width=hoeffding_width(got),
         probe_completion=(got / wanted) if wanted else 1.0,
         n_requests=len(done),
+        n_unfinished=len(reqs) - len(done),
+        infeasible=infeasible,
     )
 
 
