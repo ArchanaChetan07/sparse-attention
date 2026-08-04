@@ -83,17 +83,23 @@ def main():
                     step_rows.append({**row, **meta})
                 correct = task.check(r.text) if task.gold else None
                 flips = [x.get("top1_flip", False) for x in r.rows]
-                kls = [x.get("logit_kl", np.nan) for x in r.rows]
+
+                def _nanmean(key):
+                    # local_sink computes no block scores, so its label-free
+                    # columns are legitimately all-NaN; return NaN quietly
+                    # rather than warning on an empty slice.
+                    vals = [x[key] for x in r.rows
+                            if x.get(key) is not None and np.isfinite(x.get(key, np.nan))]
+                    return float(np.mean(vals)) if vals else np.nan
+
                 req_rows.append({**meta,
                                  "correct": correct,
                                  "dense_correct": dense_correct,
                                  "n_steps": len(r.rows),
                                  "flip_frac": float(np.mean(flips)) if flips else np.nan,
-                                 "mean_kl": float(np.nanmean(kls)) if kls else np.nan,
-                                 "mean_est_dropped": float(np.nanmean(
-                                     [x.get("est_dropped_mean_Lmean", np.nan) for x in r.rows])),
-                                 "mean_oracle_dropped": float(np.nanmean(
-                                     [x.get("oracle_dropped_mean_Lmean", np.nan) for x in r.rows])),
+                                 "mean_kl": _nanmean("logit_kl"),
+                                 "mean_est_dropped": _nanmean("est_dropped_mean_Lmean"),
+                                 "mean_oracle_dropped": _nanmean("oracle_dropped_mean_Lmean"),
                                  "text": r.text[:120]})
                 # --- teacher-forced on dense trajectory (quest only) ---
                 if method == "quest_topk" and dense_toks:
