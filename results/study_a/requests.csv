@@ -1,0 +1,427 @@
+task_id,family,ctx,method,keep_frac,mode,correct,n_steps,text,prompt_tokens,flip_frac,mean_kl,mean_est_dropped,mean_oracle_dropped
+multi_entity-1024-0,multi_entity,1024,dense,1.0,free,True,2,quill,,,,,
+multi_entity-1024-0,multi_entity,1024,quest_topk,0.5,free,True,2,quill,1068.0,0.0,0.0005272474663797766,0.015327194602681022,0.0653417762174892
+multi_entity-1024-0,multi_entity,1024,quest_topk,0.25,free,True,2,quill,1068.0,0.0,0.0011482569389045238,0.05570049301301576,0.13431115537726632
+multi_entity-1024-0,multi_entity,1024,quest_topk,0.125,free,True,2,quill,1068.0,0.0,0.004236950539052486,0.12649556845038507,0.2265078299678862
+multi_entity-1024-0,multi_entity,1024,quest_topk,0.0625,free,False,2,quotation,1068.0,0.5,6.140270113945007,0.3406739691078352,0.34226630069315434
+multi_entity-1024-0,multi_entity,1024,quest_topk,0.03125,free,False,2,quotation,1068.0,0.5,6.140270113945007,0.3406739691078352,0.34226630069315434
+multi_entity-1024-0,multi_entity,1024,mean_topk,0.5,free,True,2,quill,1068.0,0.0,1.593098251362335e-05,0.050908812515748046,0.034930929861729965
+multi_entity-1024-0,multi_entity,1024,mean_topk,0.25,free,True,2,quill,1068.0,0.0,0.00016365582632715814,0.14802818384487182,0.1137392915940533
+multi_entity-1024-0,multi_entity,1024,mean_topk,0.125,free,False,2,quilt,1068.0,0.5,0.5937621763441712,0.2884415796337028,0.2038412463540832
+multi_entity-1024-0,multi_entity,1024,mean_topk,0.0625,free,False,2,quotation,1068.0,0.5,6.140270113945007,0.4361792171063522,0.34226630069315434
+multi_entity-1024-0,multi_entity,1024,mean_topk,0.03125,free,False,2,quotation,1068.0,0.5,6.140270113945007,0.4361792171063522,0.34226630069315434
+multi_entity-1024-0,multi_entity,1024,local_sink,0.5,free,False,2,quarry,1068.0,0.5,1.2797130271792412,,0.14242326805833727
+multi_entity-1024-0,multi_entity,1024,local_sink,0.25,free,False,2,quarry,1068.0,0.5,1.5634315870702267,,0.1841328963637352
+multi_entity-1024-0,multi_entity,1024,local_sink,0.125,free,False,2,quarry,1068.0,0.5,1.790448896586895,,0.23179486424972615
+multi_entity-1024-0,multi_entity,1024,local_sink,0.0625,free,False,2,quotation,1068.0,0.5,6.140270113945007,,0.34226630069315434
+multi_entity-1024-0,multi_entity,1024,local_sink,0.03125,free,False,2,quotation,1068.0,0.5,6.140270113945007,,0.34226630069315434
+multi_entity-1024-1,multi_entity,1024,dense,1.0,free,True,2,Ribbon,,,,,
+multi_entity-1024-1,multi_entity,1024,quest_topk,0.5,free,True,2,Ribbon,1071.0,0.0,0.000802479888079688,0.010640559180236172,0.03112680532891924
+multi_entity-1024-1,multi_entity,1024,quest_topk,0.25,free,True,2,Ribbon,1071.0,0.0,0.004876995306403842,0.03451157553680181,0.07051517009191836
+multi_entity-1024-1,multi_entity,1024,quest_topk,0.125,free,True,2,Ribbon,1071.0,0.0,0.05189568133209832,0.09668041745256536,0.14628815251247335
+multi_entity-1024-1,multi_entity,1024,quest_topk,0.0625,free,False,4,Rearrangement,1071.0,0.25,1.1480575925670564,0.35296365166141186,0.2593098864502584
+multi_entity-1024-1,multi_entity,1024,quest_topk,0.03125,free,False,4,Rearrangement,1071.0,0.25,1.1480575925670564,0.35296365166141186,0.2593098864502584
+multi_entity-1024-1,multi_entity,1024,mean_topk,0.5,free,True,2,Ribbon,1071.0,0.0,0.007458088104613125,0.03296428604517132,0.028900049214522973
+multi_entity-1024-1,multi_entity,1024,mean_topk,0.25,free,True,2,Ribbon,1071.0,0.0,0.011107098602224141,0.09997652309054197,0.07376978389220312
+multi_entity-1024-1,multi_entity,1024,mean_topk,0.125,free,True,2,Ribbon,1071.0,0.0,0.018122409004718065,0.21608735989624012,0.1499314715232079
+multi_entity-1024-1,multi_entity,1024,mean_topk,0.0625,free,False,4,Rearrangement,1071.0,0.25,1.1480575925670564,0.40118745648457355,0.2593098864502584
+multi_entity-1024-1,multi_entity,1024,mean_topk,0.03125,free,False,4,Rearrangement,1071.0,0.25,1.1480575925670564,0.40118745648457355,0.2593098864502584
+multi_entity-1024-1,multi_entity,1024,local_sink,0.5,free,True,2,Ribbon,1071.0,0.0,0.00210318330937298,,0.04620190653561925
+multi_entity-1024-1,multi_entity,1024,local_sink,0.25,free,True,2,Ribbon,1071.0,0.0,0.002131068438757211,,0.08549834283379218
+multi_entity-1024-1,multi_entity,1024,local_sink,0.125,free,False,2,Rope,1071.0,0.5,2.857579465955496,,0.17479598879193264
+multi_entity-1024-1,multi_entity,1024,local_sink,0.0625,free,False,4,Rearrangement,1071.0,0.25,1.1480575925670564,,0.2593098864502584
+multi_entity-1024-1,multi_entity,1024,local_sink,0.03125,free,False,4,Rearrangement,1071.0,0.25,1.1480575925670564,,0.2593098864502584
+multi_entity-1024-2,multi_entity,1024,dense,1.0,free,True,2,flask,,,,,
+multi_entity-1024-2,multi_entity,1024,quest_topk,0.5,free,True,2,flask,1056.0,0.0,0.0028414397565939,0.00873454643290946,0.041096827068637744
+multi_entity-1024-2,multi_entity,1024,quest_topk,0.25,free,True,2,flask,1056.0,0.0,0.00863510567864978,0.038535087885672205,0.11703058161462346
+multi_entity-1024-2,multi_entity,1024,quest_topk,0.125,free,True,2,flask,1056.0,0.0,0.04391315206885338,0.09951843985800224,0.21899289238111425
+multi_entity-1024-2,multi_entity,1024,quest_topk,0.0625,free,False,1,fl,1056.0,1.0,7.647945404052734,0.5578657401104768,0.6595954969525337
+multi_entity-1024-2,multi_entity,1024,quest_topk,0.03125,free,False,1,fl,1056.0,1.0,7.647945404052734,0.5578657401104768,0.6595954969525337
+multi_entity-1024-2,multi_entity,1024,mean_topk,0.5,free,True,2,flask,1056.0,0.0,0.0018227420150651596,0.04174349250388332,0.037052008279715665
+multi_entity-1024-2,multi_entity,1024,mean_topk,0.25,free,True,2,flask,1056.0,0.0,0.030782901201746427,0.12135885380363712,0.10899808952429642
+multi_entity-1024-2,multi_entity,1024,mean_topk,0.125,free,True,2,flask,1056.0,0.0,0.25857570534572005,0.22573960355172557,0.1946491471802195
+multi_entity-1024-2,multi_entity,1024,mean_topk,0.0625,free,False,1,fl,1056.0,1.0,7.647945404052734,0.6112267207354307,0.6595954969525337
+multi_entity-1024-2,multi_entity,1024,mean_topk,0.03125,free,False,1,fl,1056.0,1.0,7.647945404052734,0.6112267207354307,0.6595954969525337
+multi_entity-1024-2,multi_entity,1024,local_sink,0.5,free,True,2,flask,1056.0,0.0,0.01999857957707718,,0.0729664671428812
+multi_entity-1024-2,multi_entity,1024,local_sink,0.25,free,False,2,flute,1056.0,0.5,1.2838270479114726,,0.16540418992129463
+multi_entity-1024-2,multi_entity,1024,local_sink,0.125,free,False,3,florist,1056.0,0.6666666666666666,1.1773874536156654,,0.2225112890721195
+multi_entity-1024-2,multi_entity,1024,local_sink,0.0625,free,False,1,fl,1056.0,1.0,7.647945404052734,,0.6595954969525337
+multi_entity-1024-2,multi_entity,1024,local_sink,0.03125,free,False,1,fl,1056.0,1.0,7.647945404052734,,0.6595954969525337
+multi_hop-1024-0,multi_hop,1024,dense,1.0,free,False,2,Deepak,,,,,
+multi_hop-1024-0,multi_hop,1024,quest_topk,0.5,free,False,2,Deepak,1085.0,0.0,8.837716450216249e-05,0.007305821462447663,0.0345282554529452
+multi_hop-1024-0,multi_hop,1024,quest_topk,0.25,free,False,2,Deepak,1085.0,0.0,0.0047552769638059544,0.02324567419691448,0.0779677556711249
+multi_hop-1024-0,multi_hop,1024,quest_topk,0.125,free,False,3,Deepthi,1085.0,0.3333333333333333,1.5926341799325503,0.05315950576752786,0.15010570051769415
+multi_hop-1024-0,multi_hop,1024,quest_topk,0.0625,free,False,3,Deepthi,1085.0,0.3333333333333333,0.7125921297993045,0.10970594859423323,0.19869252097689447
+multi_hop-1024-0,multi_hop,1024,quest_topk,0.03125,free,False,3,Deepthi,1085.0,0.3333333333333333,0.7125921297993045,0.10970594859423323,0.19869252097689447
+multi_hop-1024-0,multi_hop,1024,mean_topk,0.5,free,False,2,Deepak,1085.0,0.0,2.4218108592322096e-05,0.04569181388554473,0.03523091193346772
+multi_hop-1024-0,multi_hop,1024,mean_topk,0.25,free,False,2,Deepak,1085.0,0.0,0.15252970717847347,0.1260793753123532,0.10901722967779884
+multi_hop-1024-0,multi_hop,1024,mean_topk,0.125,free,False,3,Deepthi,1085.0,0.3333333333333333,2.695965666498523,0.2642828306804101,0.1583786617136664
+multi_hop-1024-0,multi_hop,1024,mean_topk,0.0625,free,False,3,Deepthi,1085.0,0.3333333333333333,0.7125921297993045,0.4122885374559296,0.19869252097689447
+multi_hop-1024-0,multi_hop,1024,mean_topk,0.03125,free,False,3,Deepthi,1085.0,0.3333333333333333,0.7125921297993045,0.4122885374559296,0.19869252097689447
+multi_hop-1024-0,multi_hop,1024,local_sink,0.5,free,False,2,Deepak,1085.0,0.0,0.0017438096256228164,,0.06393289556338762
+multi_hop-1024-0,multi_hop,1024,local_sink,0.25,free,False,2,Deepak,1085.0,0.0,0.002254287217510864,,0.09163016800691064
+multi_hop-1024-0,multi_hop,1024,local_sink,0.125,free,False,3,Deepthi,1085.0,0.3333333333333333,1.3565197862529506,,0.15674377375075388
+multi_hop-1024-0,multi_hop,1024,local_sink,0.0625,free,False,3,Deepthi,1085.0,0.3333333333333333,0.7125921297993045,,0.19869252097689447
+multi_hop-1024-0,multi_hop,1024,local_sink,0.03125,free,False,3,Deepthi,1085.0,0.3333333333333333,0.7125921297993045,,0.19869252097689447
+multi_hop-1024-1,multi_hop,1024,dense,1.0,free,False,1,Alice,,,,,
+multi_hop-1024-1,multi_hop,1024,quest_topk,0.5,free,False,1,Alice,1088.0,0.0,6.57877535559237e-06,0.006138761625758586,0.03236211739325275
+multi_hop-1024-1,multi_hop,1024,quest_topk,0.25,free,False,1,Alice,1088.0,0.0,0.00017176754772663116,0.019052224611489994,0.07901570146592955
+multi_hop-1024-1,multi_hop,1024,quest_topk,0.125,free,False,1,Alice,1088.0,0.0,0.0027876184321939945,0.05386164401473555,0.16961447211603323
+multi_hop-1024-1,multi_hop,1024,quest_topk,0.0625,free,False,16,"AliceBobCharlie
+
+Write the next sentence.
+
+Read the following account carefully.
+
+The",1088.0,0.5,2.9333010410919087,0.3805214992994479,0.37846790238594014
+multi_hop-1024-1,multi_hop,1024,quest_topk,0.03125,free,False,16,"AliceBobCharlie
+
+Write the next sentence.
+
+Read the following account carefully.
+
+The",1088.0,0.5,2.9333010410919087,0.3805214992994479,0.37846790238594014
+multi_hop-1024-1,multi_hop,1024,mean_topk,0.5,free,False,1,Alice,1088.0,0.0,3.5508419387042522e-06,0.02793040924977201,0.027248768776189536
+multi_hop-1024-1,multi_hop,1024,mean_topk,0.25,free,False,1,Alice,1088.0,0.0,0.0004913145676255226,0.07395536402085175,0.07902687372794996
+multi_hop-1024-1,multi_hop,1024,mean_topk,0.125,free,False,1,Alice,1088.0,0.0,0.0034001129679381847,0.17333215257773796,0.21002242248505354
+multi_hop-1024-1,multi_hop,1024,mean_topk,0.0625,free,False,16,"AliceBobCharlie
+
+Write the next sentence.
+
+Read the following account carefully.
+
+The",1088.0,0.5,2.9333010410919087,0.3919225920593211,0.37846790238594014
+multi_hop-1024-1,multi_hop,1024,mean_topk,0.03125,free,False,16,"AliceBobCharlie
+
+Write the next sentence.
+
+Read the following account carefully.
+
+The",1088.0,0.5,2.9333010410919087,0.3919225920593211,0.37846790238594014
+multi_hop-1024-1,multi_hop,1024,local_sink,0.5,free,False,1,Alice,1088.0,0.0,0.0009141629561781883,,0.08548730340165396
+multi_hop-1024-1,multi_hop,1024,local_sink,0.25,free,False,1,Alice,1088.0,0.0,0.0030728867277503014,,0.15190853535508117
+multi_hop-1024-1,multi_hop,1024,local_sink,0.125,free,False,1,Alice,1088.0,0.0,0.0007266264874488115,,0.21526253626992306
+multi_hop-1024-1,multi_hop,1024,local_sink,0.0625,free,False,16,"AliceBobCharlie
+
+Write the next sentence.
+
+Read the following account carefully.
+
+The",1088.0,0.5,2.9333010410919087,,0.37846790238594014
+multi_hop-1024-1,multi_hop,1024,local_sink,0.03125,free,False,16,"AliceBobCharlie
+
+Write the next sentence.
+
+Read the following account carefully.
+
+The",1088.0,0.5,2.9333010410919087,,0.37846790238594014
+multi_hop-1024-2,multi_hop,1024,dense,1.0,free,False,2,Deepak,,,,,
+multi_hop-1024-2,multi_hop,1024,quest_topk,0.5,free,False,2,Deepak,1091.0,0.0,0.0005351842446543742,0.008687333550369658,0.04222634530257589
+multi_hop-1024-2,multi_hop,1024,quest_topk,0.25,free,False,2,Deepak,1091.0,0.0,0.0007361390380538069,0.02898236637838636,0.0969116510435318
+multi_hop-1024-2,multi_hop,1024,quest_topk,0.125,free,False,3,Deepthi,1091.0,0.3333333333333333,2.1950915071259565,0.0762149952901786,0.18262275111758045
+multi_hop-1024-2,multi_hop,1024,quest_topk,0.0625,free,False,1,Deep,1091.0,1.0,9.312118530273438,0.4664442492648959,0.5010031027098497
+multi_hop-1024-2,multi_hop,1024,quest_topk,0.03125,free,False,1,Deep,1091.0,1.0,9.312118530273438,0.4664442492648959,0.5010031027098497
+multi_hop-1024-2,multi_hop,1024,mean_topk,0.5,free,False,2,Deepak,1091.0,0.0,1.6985804542457572e-05,0.0409017575972636,0.030522726679919288
+multi_hop-1024-2,multi_hop,1024,mean_topk,0.25,free,False,2,Deepak,1091.0,0.0,0.00020346032340512465,0.10623379416453341,0.08059946139110252
+multi_hop-1024-2,multi_hop,1024,mean_topk,0.125,free,False,2,Deepak,1091.0,0.0,1.2805869118892588e-05,0.22734483385769028,0.18734972186697024
+multi_hop-1024-2,multi_hop,1024,mean_topk,0.0625,free,False,1,Deep,1091.0,1.0,9.312118530273438,0.5427638739347458,0.5010031027098497
+multi_hop-1024-2,multi_hop,1024,mean_topk,0.03125,free,False,1,Deep,1091.0,1.0,9.312118530273438,0.5427638739347458,0.5010031027098497
+multi_hop-1024-2,multi_hop,1024,local_sink,0.5,free,False,2,Deepak,1091.0,0.0,0.0008201685050153174,,0.08604746455481896
+multi_hop-1024-2,multi_hop,1024,local_sink,0.25,free,False,2,Deepak,1091.0,0.0,0.4630045401863754,,0.16428118424179655
+multi_hop-1024-2,multi_hop,1024,local_sink,0.125,free,False,2,Deepak,1091.0,0.0,0.2541996417567134,,0.2297001991731425
+multi_hop-1024-2,multi_hop,1024,local_sink,0.0625,free,False,1,Deep,1091.0,1.0,9.312118530273438,,0.5010031027098497
+multi_hop-1024-2,multi_hop,1024,local_sink,0.03125,free,False,1,Deep,1091.0,1.0,9.312118530273438,,0.5010031027098497
+coreference-1024-0,coreference,1024,dense,1.0,free,False,1,navigator,,,,,
+coreference-1024-0,coreference,1024,quest_topk,0.5,free,False,1,navigator,1106.0,0.0,0.0004513692110776901,0.009346294698843849,0.022077941161114722
+coreference-1024-0,coreference,1024,quest_topk,0.25,free,False,1,navigator,1106.0,0.0,0.0021296273916959763,0.028904892709154712,0.048698382529740535
+coreference-1024-0,coreference,1024,quest_topk,0.125,free,False,1,navigator,1106.0,0.0,0.009350579231977463,0.07271599472248151,0.09364954894408584
+coreference-1024-0,coreference,1024,quest_topk,0.0625,free,False,1,navigator,1106.0,0.0,0.019928408786654472,0.2615115721710026,0.21626948472112417
+coreference-1024-0,coreference,1024,quest_topk,0.03125,free,False,1,navigator,1106.0,0.0,0.019928408786654472,0.2615115721710026,0.21626948472112417
+coreference-1024-0,coreference,1024,mean_topk,0.5,free,False,1,navigator,1106.0,0.0,0.00020468677394092083,0.025016024830013823,0.018158042764601607
+coreference-1024-0,coreference,1024,mean_topk,0.25,free,False,1,navigator,1106.0,0.0,0.0008856132626533508,0.0683709571021609,0.0524555712666673
+coreference-1024-0,coreference,1024,mean_topk,0.125,free,False,1,navigator,1106.0,0.0,0.0033048540353775024,0.14936192496679723,0.11866346731161077
+coreference-1024-0,coreference,1024,mean_topk,0.0625,free,False,1,navigator,1106.0,0.0,0.019928408786654472,0.2968263349806269,0.21626948472112417
+coreference-1024-0,coreference,1024,mean_topk,0.03125,free,False,1,navigator,1106.0,0.0,0.019928408786654472,0.2968263349806269,0.21626948472112417
+coreference-1024-0,coreference,1024,local_sink,0.5,free,False,1,navigator,1106.0,0.0,0.0009875348769128323,,0.040900915453676134
+coreference-1024-0,coreference,1024,local_sink,0.25,free,False,1,navigator,1106.0,0.0,0.0034490572288632393,,0.060544088405246534
+coreference-1024-0,coreference,1024,local_sink,0.125,free,False,1,navigator,1106.0,0.0,0.011281024664640427,,0.12137947239292164
+coreference-1024-0,coreference,1024,local_sink,0.0625,free,False,1,navigator,1106.0,0.0,0.019928408786654472,,0.21626948472112417
+coreference-1024-0,coreference,1024,local_sink,0.03125,free,False,1,navigator,1106.0,0.0,0.019928408786654472,,0.21626948472112417
+coreference-1024-1,coreference,1024,dense,1.0,free,False,2,cartographer,,,,,
+coreference-1024-1,coreference,1024,quest_topk,0.5,free,False,2,cartographer,1086.0,0.0,1.976261034997151e-05,0.006156368807144949,0.021947939147745878
+coreference-1024-1,coreference,1024,quest_topk,0.25,free,False,2,cartographer,1086.0,0.0,0.00013922467223892454,0.020005447940851205,0.048532820432834946
+coreference-1024-1,coreference,1024,quest_topk,0.125,free,False,2,cartographer,1086.0,0.0,0.00038763193879276514,0.04219207293757184,0.08091122726909816
+coreference-1024-1,coreference,1024,quest_topk,0.0625,free,False,2,cartographer,1086.0,0.0,0.003663753275759518,0.12614844424266872,0.1511811300491293
+coreference-1024-1,coreference,1024,quest_topk,0.03125,free,False,2,cartographer,1086.0,0.0,0.003663753275759518,0.12614844424266872,0.1511811300491293
+coreference-1024-1,coreference,1024,mean_topk,0.5,free,False,2,cartographer,1086.0,0.0,2.725015633586736e-05,0.025677413412874252,0.017435891303951696
+coreference-1024-1,coreference,1024,mean_topk,0.25,free,False,2,cartographer,1086.0,0.0,0.000342502084095031,0.07562996542643911,0.05179687590377095
+coreference-1024-1,coreference,1024,mean_topk,0.125,free,False,2,cartographer,1086.0,0.0,0.0006762832053937018,0.14006637228885666,0.08808498841244727
+coreference-1024-1,coreference,1024,mean_topk,0.0625,free,False,2,cartographer,1086.0,0.0,0.003663753275759518,0.270860817846066,0.1511811300491293
+coreference-1024-1,coreference,1024,mean_topk,0.03125,free,False,2,cartographer,1086.0,0.0,0.003663753275759518,0.270860817846066,0.1511811300491293
+coreference-1024-1,coreference,1024,local_sink,0.5,free,False,2,cartographer,1086.0,0.0,6.29643081992981e-05,,0.03166271838320729
+coreference-1024-1,coreference,1024,local_sink,0.25,free,False,2,cartographer,1086.0,0.0,0.0002025507674261462,,0.06842678830920097
+coreference-1024-1,coreference,1024,local_sink,0.125,free,False,2,cartographer,1086.0,0.0,0.0003890780353685841,,0.0879093038577897
+coreference-1024-1,coreference,1024,local_sink,0.0625,free,False,2,cartographer,1086.0,0.0,0.003663753275759518,,0.1511811300491293
+coreference-1024-1,coreference,1024,local_sink,0.03125,free,False,2,cartographer,1086.0,0.0,0.003663753275759518,,0.1511811300491293
+coreference-1024-2,coreference,1024,dense,1.0,free,False,2,archivist,,,,,
+coreference-1024-2,coreference,1024,quest_topk,0.5,free,False,2,archivist,1061.0,0.0,1.8977041690959595e-05,0.0080176700383466,0.021650124353376064
+coreference-1024-2,coreference,1024,quest_topk,0.25,free,False,2,archivist,1061.0,0.0,0.00016562298696953803,0.028845758798070165,0.05354913648140306
+coreference-1024-2,coreference,1024,quest_topk,0.125,free,False,2,archivist,1061.0,0.0,0.03468162813805975,0.07622324858069382,0.1108422964947143
+coreference-1024-2,coreference,1024,quest_topk,0.0625,free,False,2,architect,1061.0,0.5,1.3326405258849263,0.4066712226873884,0.4703191329414646
+coreference-1024-2,coreference,1024,quest_topk,0.03125,free,False,2,architect,1061.0,0.5,1.3326405258849263,0.4066712226873884,0.4703191329414646
+coreference-1024-2,coreference,1024,mean_topk,0.5,free,False,2,archivist,1061.0,0.0,0.0027465224302432034,0.026727080242077744,0.023183269804576412
+coreference-1024-2,coreference,1024,mean_topk,0.25,free,False,2,archivist,1061.0,0.0,0.030378477913473034,0.07924546934373211,0.05928948073415086
+coreference-1024-2,coreference,1024,mean_topk,0.125,free,False,2,archivist,1061.0,0.0,0.033546568356541684,0.16509612524532713,0.1139747324923519
+coreference-1024-2,coreference,1024,mean_topk,0.0625,free,False,2,architect,1061.0,0.5,1.3326405258849263,0.5428447512288888,0.4703191329414646
+coreference-1024-2,coreference,1024,mean_topk,0.03125,free,False,2,architect,1061.0,0.5,1.3326405258849263,0.5428447512288888,0.4703191329414646
+coreference-1024-2,coreference,1024,local_sink,0.5,free,False,2,archivist,1061.0,0.0,6.440341167035513e-05,,0.03446375713247107
+coreference-1024-2,coreference,1024,local_sink,0.25,free,False,2,archivist,1061.0,0.0,0.00021726510021835566,,0.07233723831207801
+coreference-1024-2,coreference,1024,local_sink,0.125,free,False,2,archivist,1061.0,0.0,0.14897295624541584,,0.13497551363737634
+coreference-1024-2,coreference,1024,local_sink,0.0625,free,False,2,architect,1061.0,0.5,1.3326405258849263,,0.4703191329414646
+coreference-1024-2,coreference,1024,local_sink,0.03125,free,False,2,architect,1061.0,0.5,1.3326405258849263,,0.4703191329414646
+longform-1024-0,longform,1024,dense,1.0,free,,48,"The account details the daily activities and gossip surrounding various local events, including the stone bridge, river ",,,,,
+longform-1024-0,longform,1024,quest_topk,0.5,free,,48,"The account details the various activities and events in the village, including gossip, market, river barge, stone bridg",1085.0,0.14583333333333334,0.12493747422411634,0.01998475079653872,0.073706890764394
+longform-1024-0,longform,1024,quest_topk,0.25,free,,48,"The account details the daily activities and events in a small town, including the stone bridge, stone bridge, stone bri",1085.0,0.125,0.1993719379944802,0.06169903605528917,0.14467000822191445
+longform-1024-0,longform,1024,quest_topk,0.125,free,,48,"The account details the daily activities and events in a small coastal town. Grace, Nadia, Grace's friend, and Grace's m",1085.0,0.375,0.4115546994600739,0.12707002860922026,0.19729692738231583
+longform-1024-0,longform,1024,quest_topk,0.0625,free,,48,"The account details a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q q q q q q q q q q q q q",1085.0,0.1875,0.8951275017655765,0.45443682653422,0.43478484303987996
+longform-1024-0,longform,1024,quest_topk,0.03125,free,,48,"The account details a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q q q q q q q q q q q q q",1085.0,0.1875,0.8951275017655765,0.45443682653422,0.43478484303987996
+longform-1024-0,longform,1024,mean_topk,0.5,free,,48,"The account details the daily activities and gossip in a small village, including the stone bridge, river barge, lightho",1085.0,0.0,0.014686014109996629,0.04125597984249099,0.04241602220847401
+longform-1024-0,longform,1024,mean_topk,0.25,free,,48,"The account details the daily activities and gossip in a small village, including the stone bridge, river barge, clock t",1085.0,0.10416666666666667,0.07381965049507262,0.10671495257358603,0.09570183743562666
+longform-1024-0,longform,1024,mean_topk,0.125,free,,48,"The account details the daily activities of a village council, including the weekly market, the night watch, and the rep",1085.0,0.2708333333333333,0.5788593902594433,0.22087347884290565,0.20765977117925002
+longform-1024-0,longform,1024,mean_topk,0.0625,free,,48,"The account details a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q q q q q q q q q q q q q",1085.0,0.1875,0.8951275017655765,0.48631540125158307,0.43478484303987996
+longform-1024-0,longform,1024,mean_topk,0.03125,free,,48,"The account details a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q q q q q q q q q q q q q",1085.0,0.1875,0.8951275017655765,0.48631540125158307,0.43478484303987996
+longform-1024-0,longform,1024,local_sink,0.5,free,,36,The account details the journey of Grace and Nadia to plan the locket exhibition at the harbor. Grace met Nadia at the h,1085.0,0.05555555555555555,0.11327177210101366,,0.0757245966553994
+longform-1024-0,longform,1024,local_sink,0.25,free,,48,"The account details the journey of a group of friends, starting from a stone bridge in a village, to a bustling market t",1085.0,0.375,0.421296176722232,,0.162484033259817
+longform-1024-0,longform,1024,local_sink,0.125,free,,20,"The account details the construction of a stone bridge, with various individuals involved in its construction and mainte",1085.0,0.15,0.755176426935941,,0.23280439160492578
+longform-1024-0,longform,1024,local_sink,0.0625,free,,48,"The account details a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q q q q q q q q q q q q q",1085.0,0.1875,0.8951275017655765,,0.43478484303987996
+longform-1024-0,longform,1024,local_sink,0.03125,free,,48,"The account details a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q q q q q q q q q q q q q",1085.0,0.1875,0.8951275017655765,,0.43478484303987996
+longform-1024-1,longform,1024,dense,1.0,free,,48,"The account details the changing fortunes of various entities in a small town, including the lighthouse keeper, the vill",,,,,
+longform-1024-1,longform,1024,quest_topk,0.5,free,,25,The northern road was postponed until spring before the season turned. The lighthouse keeper surprised nobody in town be,1051.0,0.12,0.04146150984862288,0.02302777220281011,0.10448745613063995
+longform-1024-1,longform,1024,quest_topk,0.25,free,,39,"The northern road was a favorite topic for the lighthouse keeper, the river barge was discussed at length, the village c",1051.0,0.1794871794871795,0.3294841651597427,0.07741051476254004,0.19619776813251674
+longform-1024-1,longform,1024,quest_topk,0.125,free,,46,The northern road was a reliable route for travelers. The northern road was the main route for goods and people. The nor,1051.0,0.34782608695652173,0.6320665028849718,0.13491103167589114,0.2084659544027248
+longform-1024-1,longform,1024,quest_topk,0.0625,free,,48,The northern road leads to a re-arrangement of the original sequence of numbers. The new sequence is then sorted in asce,1051.0,0.6666666666666666,2.6837312267743982,0.4501621613755762,0.4198224743854047
+longform-1024-1,longform,1024,quest_topk,0.03125,free,,48,The northern road leads to a re-arrangement of the original sequence of numbers. The new sequence is then sorted in asce,1051.0,0.6666666666666666,2.6837312267743982,0.4501621613755762,0.4198224743854047
+longform-1024-1,longform,1024,mean_topk,0.5,free,,28,The northern road remained a favorite topic as it had for decades. The lighthouse keeper surprised nobody in town as rec,1051.0,0.03571428571428571,0.014032576850189342,0.06212823217893378,0.06052287720896337
+longform-1024-1,longform,1024,mean_topk,0.25,free,,48,"The northern road carried on as before, the lighthouse keeper changed little over the years despite the weather, the app",1051.0,0.125,0.07778634150648145,0.1312158826442303,0.12692985063161663
+longform-1024-1,longform,1024,mean_topk,0.125,free,,46,The northern road carried on as before despite the weather. The stone bridge made the rounds of local gossip. The lighth,1051.0,0.13043478260869565,0.1147410798920641,0.22471109187092117,0.20292020397281035
+longform-1024-1,longform,1024,mean_topk,0.0625,free,,48,The northern road leads to a re-arrangement of the original sequence of numbers. The new sequence is then sorted in asce,1051.0,0.6666666666666666,2.6837312267743982,0.5184894067739757,0.4198224743854047
+longform-1024-1,longform,1024,mean_topk,0.03125,free,,48,The northern road leads to a re-arrangement of the original sequence of numbers. The new sequence is then sorted in asce,1051.0,0.6666666666666666,2.6837312267743982,0.5184894067739757,0.4198224743854047
+longform-1024-1,longform,1024,local_sink,0.5,free,,28,"The account details the journey of a visiting merchant, including his arrival, the events of the garden, and the plans f",1051.0,0.17857142857142858,0.2203300953037147,,0.10779886371788701
+longform-1024-1,longform,1024,local_sink,0.25,free,,26,"The account details the journey of a merchant from the northern road to the southern road, encountering various challeng",1051.0,0.23076923076923078,0.6704888555351107,,0.20456407508568072
+longform-1024-1,longform,1024,local_sink,0.125,free,,48,"The account details a series of events involving a group of people, including a man named John, who leads the group. The",1051.0,0.4166666666666667,1.2195681871362467,,0.20632137237690684
+longform-1024-1,longform,1024,local_sink,0.0625,free,,48,The northern road leads to a re-arrangement of the original sequence of numbers. The new sequence is then sorted in asce,1051.0,0.6666666666666666,2.6837312267743982,,0.4198224743854047
+longform-1024-1,longform,1024,local_sink,0.03125,free,,48,The northern road leads to a re-arrangement of the original sequence of numbers. The new sequence is then sorted in asce,1051.0,0.6666666666666666,2.6837312267743982,,0.4198224743854047
+longform-1024-2,longform,1024,dense,1.0,free,,48,"The account details the changes in various aspects of life in a small village over several years, including the river ba",,,,,
+longform-1024-2,longform,1024,quest_topk,0.5,free,,22,"The account details the changes in various aspects of a village, including local gossip, weather, and local events.",1084.0,0.09090909090909091,0.027318196098680015,0.019258355864112123,0.06582936184625424
+longform-1024-2,longform,1024,quest_topk,0.25,free,,36,"The account details the changing fortunes of various entities in a village, including the river barge, the old ferry, th",1084.0,0.16666666666666666,0.1333044026176948,0.06119816318557611,0.1377836446826458
+longform-1024-2,longform,1024,quest_topk,0.125,free,,48,"The account details various events and activities in a small town, including a river barge, a river ferry, a river boat,",1084.0,0.22916666666666666,0.433247560889716,0.14143127187212992,0.21886425444002575
+longform-1024-2,longform,1024,quest_topk,0.0625,free,,7,The account details a river water flow,1084.0,0.7142857142857143,2.3974981350558147,0.35407469021100996,0.4514086239616431
+longform-1024-2,longform,1024,quest_topk,0.03125,free,,7,The account details a river water flow,1084.0,0.7142857142857143,2.3974981350558147,0.35407469021100996,0.4514086239616431
+longform-1024-2,longform,1024,mean_topk,0.5,free,,48,"The account details the changes in various aspects of life in a small town over several years, including the river barge",1084.0,0.020833333333333332,0.012139241040541057,0.043343189258949776,0.04271426490271955
+longform-1024-2,longform,1024,mean_topk,0.25,free,,38,"The account details the various topics discussed and events in the town, including the apple harvest, river barge repair",1084.0,0.13157894736842105,0.1100581578085487,0.10646098700511318,0.09993280613694847
+longform-1024-2,longform,1024,mean_topk,0.125,free,,41,"The account details the various activities and events in a small town, including the repair of a river barge, the discus",1084.0,0.1951219512195122,0.3778141632918982,0.20808197836092546,0.18715021654166566
+longform-1024-2,longform,1024,mean_topk,0.0625,free,,7,The account details a river water flow,1084.0,0.7142857142857143,2.3974981350558147,0.5427712234890177,0.4514086239616431
+longform-1024-2,longform,1024,mean_topk,0.03125,free,,7,The account details a river water flow,1084.0,0.7142857142857143,2.3974981350558147,0.5427712234890177,0.4514086239616431
+longform-1024-2,longform,1024,local_sink,0.5,free,,25,"The account details the daily activities and topics discussed in a village, including the river, visiting merchants, and",1084.0,0.28,0.46531001739000205,,0.13542703015729785
+longform-1024-2,longform,1024,local_sink,0.25,free,,19,"The account details the events of a river journey, with Grace promising to bring the quill.",1084.0,0.3157894736842105,0.5636285411752205,,0.16746472507478308
+longform-1024-2,longform,1024,local_sink,0.125,free,,21,"The account details a series of events involving a river, including a discussion about the river's favorite topic.",1084.0,0.47619047619047616,1.7901710877725105,,0.2546999937511005
+longform-1024-2,longform,1024,local_sink,0.0625,free,,7,The account details a river water flow,1084.0,0.7142857142857143,2.3974981350558147,,0.4514086239616431
+longform-1024-2,longform,1024,local_sink,0.03125,free,,7,The account details a river water flow,1084.0,0.7142857142857143,2.3974981350558147,,0.4514086239616431
+multi_entity-2048-0,multi_entity,2048,dense,1.0,free,True,1,Key,,,,,
+multi_entity-2048-0,multi_entity,2048,quest_topk,0.5,free,True,1,Key,2084.0,0.0,4.3252366594970226e-05,0.00497860324727147,0.020707118848804384
+multi_entity-2048-0,multi_entity,2048,quest_topk,0.25,free,True,1,Key,2084.0,0.0,0.00028246338479220867,0.015605449961791843,0.04463781707454473
+multi_entity-2048-0,multi_entity,2048,quest_topk,0.125,free,True,1,Key,2084.0,0.0,0.0007767356000840664,0.030733374904230004,0.07211336928109328
+multi_entity-2048-0,multi_entity,2048,quest_topk,0.0625,free,True,1,Key,2084.0,0.0,0.0069057997316122055,0.05754829661721791,0.11842685309238732
+multi_entity-2048-0,multi_entity,2048,quest_topk,0.03125,free,True,1,Key,2084.0,0.0,0.008778166025876999,0.4229790464354058,0.5010357697804769
+multi_entity-2048-0,multi_entity,2048,mean_topk,0.5,free,True,1,Key,2084.0,0.0,1.5771016478538513e-05,0.01812344664358534,0.016587818710831925
+multi_entity-2048-0,multi_entity,2048,mean_topk,0.25,free,True,1,Key,2084.0,0.0,0.0007796771824359894,0.04795188883629938,0.04595721528554956
+multi_entity-2048-0,multi_entity,2048,mean_topk,0.125,free,True,1,Key,2084.0,0.0,0.00013911619316786528,0.08939709180655579,0.07942143299927314
+multi_entity-2048-0,multi_entity,2048,mean_topk,0.0625,free,True,1,Key,2084.0,0.0,0.009396499954164028,0.15423586258354285,0.13220755600680908
+multi_entity-2048-0,multi_entity,2048,mean_topk,0.03125,free,True,1,Key,2084.0,0.0,0.008778166025876999,0.4319755434989929,0.5010357697804769
+multi_entity-2048-0,multi_entity,2048,local_sink,0.5,free,True,1,Key,2084.0,0.0,0.0007717660628259182,,0.0382644675555639
+multi_entity-2048-0,multi_entity,2048,local_sink,0.25,free,True,1,Key,2084.0,0.0,0.002134001813828945,,0.061180883940930166
+multi_entity-2048-0,multi_entity,2048,local_sink,0.125,free,True,1,Key,2084.0,0.0,0.0034980373457074165,,0.0781216755664597
+multi_entity-2048-0,multi_entity,2048,local_sink,0.0625,free,True,1,Key,2084.0,0.0,0.03865664452314377,,0.16741676481130222
+multi_entity-2048-0,multi_entity,2048,local_sink,0.03125,free,True,1,Key,2084.0,0.0,0.008778166025876999,,0.5010357697804769
+multi_entity-2048-1,multi_entity,2048,dense,1.0,free,True,1,compass,,,,,
+multi_entity-2048-1,multi_entity,2048,quest_topk,0.5,free,True,1,compass,2078.0,0.0,2.5384273612871766e-05,0.004906241048956872,0.01975490552528451
+multi_entity-2048-1,multi_entity,2048,quest_topk,0.25,free,True,1,compass,2078.0,0.0,7.048947736620903e-05,0.015522970535736627,0.042469563020858914
+multi_entity-2048-1,multi_entity,2048,quest_topk,0.125,free,True,1,compass,2078.0,0.0,0.00034589937422424555,0.032668016177922254,0.07183555129449815
+multi_entity-2048-1,multi_entity,2048,quest_topk,0.0625,free,True,1,compass,2078.0,0.0,0.0012396839447319508,0.05994771914871914,0.11146949891311426
+multi_entity-2048-1,multi_entity,2048,quest_topk,0.03125,free,True,1,compass,2078.0,0.0,0.001986349932849407,0.14157821564973952,0.2021819748915732
+multi_entity-2048-1,multi_entity,2048,mean_topk,0.5,free,True,1,compass,2078.0,0.0,2.4484324967488647e-06,0.0231395418716905,0.01468843727100951
+multi_entity-2048-1,multi_entity,2048,mean_topk,0.25,free,True,1,compass,2078.0,0.0,0.00027097418205812573,0.06019785185344517,0.037881363513103374
+multi_entity-2048-1,multi_entity,2048,mean_topk,0.125,free,True,1,compass,2078.0,0.0,0.0007788476068526506,0.11506503308191895,0.07587460253853351
+multi_entity-2048-1,multi_entity,2048,mean_topk,0.0625,free,True,1,compass,2078.0,0.0,0.0012123691849410534,0.18155036742488542,0.11098618906301756
+multi_entity-2048-1,multi_entity,2048,mean_topk,0.03125,free,True,1,compass,2078.0,0.0,0.001986349932849407,0.3705808026716113,0.2021819748915732
+multi_entity-2048-1,multi_entity,2048,local_sink,0.5,free,True,1,compass,2078.0,0.0,3.666974953375757e-05,,0.038877781053694584
+multi_entity-2048-1,multi_entity,2048,local_sink,0.25,free,True,1,compass,2078.0,0.0,9.615661110728979e-05,,0.06175682852820804
+multi_entity-2048-1,multi_entity,2048,local_sink,0.125,free,True,1,compass,2078.0,0.0,0.0003462319727987051,,0.084495219324405
+multi_entity-2048-1,multi_entity,2048,local_sink,0.0625,free,True,1,compass,2078.0,0.0,0.00048022367991507053,,0.10671795733893912
+multi_entity-2048-1,multi_entity,2048,local_sink,0.03125,free,True,1,compass,2078.0,0.0,0.001986349932849407,,0.2021819748915732
+multi_entity-2048-2,multi_entity,2048,dense,1.0,free,False,2,The apple,,,,,
+multi_entity-2048-2,multi_entity,2048,quest_topk,0.5,free,False,2,The apple,2089.0,0.0,0.030609911307692528,0.00940747054202499,0.05220877826407862
+multi_entity-2048-2,multi_entity,2048,quest_topk,0.25,free,True,10,The item Kavya keeps is the ribbon.,2089.0,0.2,0.3828014776801343,0.031199144368474662,0.08089022953742339
+multi_entity-2048-2,multi_entity,2048,quest_topk,0.125,free,False,3,The coin.,2089.0,0.3333333333333333,1.4004623374944458,0.06163814410198635,0.1380762026593503
+multi_entity-2048-2,multi_entity,2048,quest_topk,0.0625,free,False,3,The coin.,2089.0,0.3333333333333333,2.3514337652992103,0.10837089638193398,0.19335951086961564
+multi_entity-2048-2,multi_entity,2048,quest_topk,0.03125,free,False,3,The lighthouse,2089.0,0.6666666666666666,9.575305935910364,0.3725956665843518,0.4544778936025169
+multi_entity-2048-2,multi_entity,2048,mean_topk,0.5,free,False,2,The apple,2089.0,0.0,0.009842575644142926,0.03893948727636598,0.032329900161130354
+multi_entity-2048-2,multi_entity,2048,mean_topk,0.25,free,False,2,The apple,2089.0,0.0,0.16464586555957794,0.10782614748071258,0.09457309916615486
+multi_entity-2048-2,multi_entity,2048,mean_topk,0.125,free,False,2,The apple,2089.0,0.0,0.21344847232103348,0.19304017881707597,0.1719545281957835
+multi_entity-2048-2,multi_entity,2048,mean_topk,0.0625,free,False,3,The apple harvest,2089.0,0.3333333333333333,0.502494950623562,0.3076602422839238,0.2524450861900631
+multi_entity-2048-2,multi_entity,2048,mean_topk,0.03125,free,False,3,The lighthouse,2089.0,0.6666666666666666,9.575305935910364,0.5181512963026762,0.4544778936025169
+multi_entity-2048-2,multi_entity,2048,local_sink,0.5,free,False,3,The lighthouse,2089.0,0.6666666666666666,2.324901261091327,,0.13365274657391843
+multi_entity-2048-2,multi_entity,2048,local_sink,0.25,free,False,10,The item Kavya keeps is the map.,2089.0,0.2,1.9982096813257697,,0.13808281048938323
+multi_entity-2048-2,multi_entity,2048,local_sink,0.125,free,False,11,The item Kavya keeps is the lighthouse.,2089.0,0.2727272727272727,2.109772059867636,,0.1637020437311466
+multi_entity-2048-2,multi_entity,2048,local_sink,0.0625,free,False,11,The item Kavya keeps is the lighthouse.,2089.0,0.2727272727272727,2.3234872097985106,,0.1925407310905443
+multi_entity-2048-2,multi_entity,2048,local_sink,0.03125,free,False,3,The lighthouse,2089.0,0.6666666666666666,9.575305935910364,,0.4544778936025169
+multi_hop-2048-0,multi_hop,2048,dense,1.0,free,False,2,Ines,,,,,
+multi_hop-2048-0,multi_hop,2048,quest_topk,0.5,free,False,2,Ines,2076.0,0.0,0.0022088308760430664,0.0048445597659944415,0.02695262156339595
+multi_hop-2048-0,multi_hop,2048,quest_topk,0.25,free,False,2,Ines,2076.0,0.0,0.002521947793866275,0.01502629098831676,0.05349767333245836
+multi_hop-2048-0,multi_hop,2048,quest_topk,0.125,free,False,2,Ines,2076.0,0.0,0.0034956136987602804,0.028569307238891874,0.08131266441584253
+multi_hop-2048-0,multi_hop,2048,quest_topk,0.0625,free,False,2,Ines,2076.0,0.0,0.0050439826809451915,0.05130762968049869,0.12558641044112542
+multi_hop-2048-0,multi_hop,2048,quest_topk,0.03125,free,False,3,Innocent,2076.0,0.3333333333333333,1.6167810757954915,0.13116740591229045,0.21655308475924864
+multi_hop-2048-0,multi_hop,2048,mean_topk,0.5,free,False,2,Ines,2076.0,0.0,2.561733111861031e-06,0.028150248152087443,0.01824596663209377
+multi_hop-2048-0,multi_hop,2048,mean_topk,0.25,free,False,2,Ines,2076.0,0.0,0.002349805276026018,0.06795273226452991,0.047465335548622534
+multi_hop-2048-0,multi_hop,2048,mean_topk,0.125,free,False,2,Ines,2076.0,0.0,0.005926000842009671,0.12172352673951536,0.09344846477809673
+multi_hop-2048-0,multi_hop,2048,mean_topk,0.0625,free,False,3,Innocent,2076.0,0.3333333333333333,1.5428335269292195,0.2548690736293793,0.15593091714092425
+multi_hop-2048-0,multi_hop,2048,mean_topk,0.03125,free,False,3,Innocent,2076.0,0.3333333333333333,1.6167810757954915,0.39455072281675213,0.21655308475924864
+multi_hop-2048-0,multi_hop,2048,local_sink,0.5,free,False,2,Ines,2076.0,0.0,0.0024845617735991254,,0.06279871098619574
+multi_hop-2048-0,multi_hop,2048,local_sink,0.25,free,False,2,Ines,2076.0,0.0,0.0024440290726488456,,0.0825589339559277
+multi_hop-2048-0,multi_hop,2048,local_sink,0.125,free,False,3,Innocent,2076.0,0.3333333333333333,1.2089685872197151,,0.15586716417844096
+multi_hop-2048-0,multi_hop,2048,local_sink,0.0625,free,False,3,Innocent,2076.0,0.3333333333333333,1.2186477929353714,,0.17273067450150847
+multi_hop-2048-0,multi_hop,2048,local_sink,0.03125,free,False,3,Innocent,2076.0,0.3333333333333333,1.6167810757954915,,0.21655308475924864
+multi_hop-2048-1,multi_hop,2048,dense,1.0,free,False,1,Grace,,,,,
+multi_hop-2048-1,multi_hop,2048,quest_topk,0.5,free,False,1,Grace,2096.0,0.0,1.1481140973046422e-05,0.007888690397370132,0.025909096565252792
+multi_hop-2048-1,multi_hop,2048,quest_topk,0.25,free,False,1,Grace,2096.0,0.0,4.55823028460145e-05,0.024639946032039006,0.061761076659119375
+multi_hop-2048-1,multi_hop,2048,quest_topk,0.125,free,False,1,Grace,2096.0,0.0,9.39614255912602e-06,0.04778476415109859,0.0990961022907868
+multi_hop-2048-1,multi_hop,2048,quest_topk,0.0625,free,False,1,Grace,2096.0,0.0,0.00216043833643198,0.08932880341308191,0.16571764508262277
+multi_hop-2048-1,multi_hop,2048,quest_topk,0.03125,free,False,1,Grace,2096.0,0.0,0.002265102230012417,0.2759426066186279,0.2950627605120341
+multi_hop-2048-1,multi_hop,2048,mean_topk,0.5,free,False,1,Grace,2096.0,0.0,1.564621925354004e-06,0.025803296763721544,0.022867260093335062
+multi_hop-2048-1,multi_hop,2048,mean_topk,0.25,free,False,1,Grace,2096.0,0.0,0.0021897866390645504,0.06688131873185436,0.06797899670588474
+multi_hop-2048-1,multi_hop,2048,mean_topk,0.125,free,False,1,Grace,2096.0,0.0,0.00024160431348718703,0.1284684572989742,0.13424582546576858
+multi_hop-2048-1,multi_hop,2048,mean_topk,0.0625,free,False,1,Grace,2096.0,0.0,0.00405347952619195,0.21126421789328256,0.19544873914370933
+multi_hop-2048-1,multi_hop,2048,mean_topk,0.03125,free,False,1,Grace,2096.0,0.0,0.002265102230012417,0.3370266342535615,0.2950627605120341
+multi_hop-2048-1,multi_hop,2048,local_sink,0.5,free,False,1,Grace,2096.0,0.0,0.00455004395917058,,0.06944125696706276
+multi_hop-2048-1,multi_hop,2048,local_sink,0.25,free,False,1,Grace,2096.0,0.0,0.008185616694390774,,0.1356124517818292
+multi_hop-2048-1,multi_hop,2048,local_sink,0.125,free,False,1,Grace,2096.0,0.0,0.009316329844295979,,0.15345686969036856
+multi_hop-2048-1,multi_hop,2048,local_sink,0.0625,free,False,1,Grace,2096.0,0.0,0.010274781845510006,,0.17052729769299427
+multi_hop-2048-1,multi_hop,2048,local_sink,0.03125,free,False,1,Grace,2096.0,0.0,0.002265102230012417,,0.2950627605120341
+multi_hop-2048-2,multi_hop,2048,dense,1.0,free,False,2,Carla,,,,,
+multi_hop-2048-2,multi_hop,2048,quest_topk,0.5,free,False,2,Carla,2083.0,0.0,9.04399530554656e-06,0.007829250499222933,0.03936131945617187
+multi_hop-2048-2,multi_hop,2048,quest_topk,0.25,free,False,2,Carla,2083.0,0.0,0.00039175007259473205,0.023524186006246357,0.08633703523082659
+multi_hop-2048-2,multi_hop,2048,quest_topk,0.125,free,False,2,Carla,2083.0,0.0,0.009251342387869954,0.042859251253200156,0.12883371283533052
+multi_hop-2048-2,multi_hop,2048,quest_topk,0.0625,free,False,2,Carla,2083.0,0.0,0.011742185801267624,0.08445672939948659,0.20554768728713196
+multi_hop-2048-2,multi_hop,2048,quest_topk,0.03125,free,False,3,Carpe.,2083.0,0.3333333333333333,1.3825129927912105,0.398662886608185,0.38590956132652027
+multi_hop-2048-2,multi_hop,2048,mean_topk,0.5,free,False,2,Carla,2083.0,0.0,0.00017810572171583772,0.04356639637747624,0.0386697191715939
+multi_hop-2048-2,multi_hop,2048,mean_topk,0.25,free,False,2,Carla,2083.0,0.0,0.00941572489682585,0.10334720718674362,0.0867128532845527
+multi_hop-2048-2,multi_hop,2048,mean_topk,0.125,free,False,2,Carried,2083.0,0.5,1.3923200350254774,0.1932254619896412,0.14632624612810713
+multi_hop-2048-2,multi_hop,2048,mean_topk,0.0625,free,False,2,Carried,2083.0,0.5,1.587377985008061,0.2968154389721652,0.22527398836488524
+multi_hop-2048-2,multi_hop,2048,mean_topk,0.03125,free,False,3,Carpe.,2083.0,0.3333333333333333,1.3825129927912105,0.45596279938601786,0.38590956132652027
+multi_hop-2048-2,multi_hop,2048,local_sink,0.5,free,False,2,Carla,2083.0,0.0,0.0013049883127678186,,0.08977736852830276
+multi_hop-2048-2,multi_hop,2048,local_sink,0.25,free,False,2,Carried,2083.0,0.5,1.2619527708739042,,0.13493620685767382
+multi_hop-2048-2,multi_hop,2048,local_sink,0.125,free,False,2,Carlos,2083.0,0.5,0.8598977471701801,,0.166788296153148
+multi_hop-2048-2,multi_hop,2048,local_sink,0.0625,free,False,2,Carried,2083.0,0.5,1.197658732533455,,0.2205331687970708
+multi_hop-2048-2,multi_hop,2048,local_sink,0.03125,free,False,3,Carpe.,2083.0,0.3333333333333333,1.3825129927912105,,0.38590956132652027
+coreference-2048-0,coreference,2048,dense,1.0,free,False,2,archivist,,,,,
+coreference-2048-0,coreference,2048,quest_topk,0.5,free,False,2,archivist,2117.0,0.0,1.0120566003024578e-05,0.006100832817537594,0.017407565890607657
+coreference-2048-0,coreference,2048,quest_topk,0.25,free,False,2,archivist,2117.0,0.0,0.0033525991275382694,0.01968804096175821,0.0372484252244855
+coreference-2048-0,coreference,2048,quest_topk,0.125,free,False,2,archivist,2117.0,0.0,0.005469250907481182,0.041484575052966946,0.06123876776352214
+coreference-2048-0,coreference,2048,quest_topk,0.0625,free,False,2,archivist,2117.0,0.0,0.008038756262976676,0.07424301370489654,0.10272238046551745
+coreference-2048-0,coreference,2048,quest_topk,0.03125,free,False,2,architect,2117.0,0.5,2.336436938960105,0.41149016935378313,0.4680576330671708
+coreference-2048-0,coreference,2048,mean_topk,0.5,free,False,2,archivist,2117.0,0.0,0.006747131461452227,0.016676101121144406,0.014867827320510212
+coreference-2048-0,coreference,2048,mean_topk,0.25,free,False,2,archivist,2117.0,0.0,0.012962793338374468,0.04527401862287661,0.03270280597886692
+coreference-2048-0,coreference,2048,mean_topk,0.125,free,False,2,archivist,2117.0,0.0,0.017339059502774035,0.09175027716749658,0.06115260797863205
+coreference-2048-0,coreference,2048,mean_topk,0.0625,free,False,2,archivist,2117.0,0.0,0.0396573436601102,0.17579698556801304,0.11296794227867699
+coreference-2048-0,coreference,2048,mean_topk,0.03125,free,False,2,architect,2117.0,0.5,2.336436938960105,0.551914962939918,0.4680576330671708
+coreference-2048-0,coreference,2048,local_sink,0.5,free,False,2,archivist,2117.0,0.0,0.00024035108071984723,,0.03885746733673538
+coreference-2048-0,coreference,2048,local_sink,0.25,free,False,2,archivist,2117.0,0.0,0.00024048140767263249,,0.05202471243683249
+coreference-2048-0,coreference,2048,local_sink,0.125,free,False,2,archivist,2117.0,0.0,0.0002772893203655258,,0.06860857262896994
+coreference-2048-0,coreference,2048,local_sink,0.0625,free,False,2,archivist,2117.0,0.0,0.17882830553571694,,0.13075551219905418
+coreference-2048-0,coreference,2048,local_sink,0.03125,free,False,2,architect,2117.0,0.5,2.336436938960105,,0.4680576330671708
+coreference-2048-1,coreference,2048,dense,1.0,free,False,2,cartographer,,,,,
+coreference-2048-1,coreference,2048,quest_topk,0.5,free,False,2,cartographer,2078.0,0.0,1.5369665561593138e-05,0.005618360031424649,0.01779354814789258
+coreference-2048-1,coreference,2048,quest_topk,0.25,free,False,2,cartographer,2078.0,0.0,7.505734902224503e-05,0.016925294284646952,0.03823591330728959
+coreference-2048-1,coreference,2048,quest_topk,0.125,free,False,2,cartographer,2078.0,0.0,0.00014614433530368842,0.031541120565407255,0.057950577912076064
+coreference-2048-1,coreference,2048,quest_topk,0.0625,free,False,2,cartographer,2078.0,0.0,0.00036554048710968345,0.050818432210386774,0.08772448108841976
+coreference-2048-1,coreference,2048,quest_topk,0.03125,free,False,2,cartographer,2078.0,0.0,0.003737438120879233,0.11375979488123751,0.14863822698437917
+coreference-2048-1,coreference,2048,mean_topk,0.5,free,False,2,cartographer,2078.0,0.0,5.391818604039145e-06,0.020086987248456957,0.013817009237148643
+coreference-2048-1,coreference,2048,mean_topk,0.25,free,False,2,cartographer,2078.0,0.0,6.29416808806127e-05,0.053180082034183826,0.034241787128848955
+coreference-2048-1,coreference,2048,mean_topk,0.125,free,False,2,cartographer,2078.0,0.0,0.00016416998550994322,0.09274925024268062,0.05979356835208212
+coreference-2048-1,coreference,2048,mean_topk,0.0625,free,False,2,cartographer,2078.0,0.0,0.0006009731441736221,0.14221357656060718,0.08493787991271044
+coreference-2048-1,coreference,2048,mean_topk,0.03125,free,False,2,cartographer,2078.0,0.0,0.003737438120879233,0.26268391047293943,0.14863822698437917
+coreference-2048-1,coreference,2048,local_sink,0.5,free,False,2,cartographer,2078.0,0.0,3.152192994093639e-05,,0.03129531543042201
+coreference-2048-1,coreference,2048,local_sink,0.25,free,False,2,cartographer,2078.0,0.0,8.56901315273717e-05,,0.05350906997531031
+coreference-2048-1,coreference,2048,local_sink,0.125,free,False,2,cartographer,2078.0,0.0,0.0001463515254727099,,0.06821735973547524
+coreference-2048-1,coreference,2048,local_sink,0.0625,free,False,2,cartographer,2078.0,0.0,0.00023433421301888302,,0.08220699421751002
+coreference-2048-1,coreference,2048,local_sink,0.03125,free,False,2,cartographer,2078.0,0.0,0.003737438120879233,,0.14863822698437917
+coreference-2048-2,coreference,2048,dense,1.0,free,False,2,archivist,,,,,
+coreference-2048-2,coreference,2048,quest_topk,0.5,free,False,2,archivist,2085.0,0.0,7.87260796641931e-06,0.005745259112444501,0.014522360717819538
+coreference-2048-2,coreference,2048,quest_topk,0.25,free,False,2,archivist,2085.0,0.0,3.4372178561170585e-05,0.019197134848961166,0.03364883871108759
+coreference-2048-2,coreference,2048,quest_topk,0.125,free,False,2,archivist,2085.0,0.0,0.00022047412494430318,0.03950412014440493,0.05637293490387189
+coreference-2048-2,coreference,2048,quest_topk,0.0625,free,False,2,archivist,2085.0,0.0,0.02049065346363932,0.0878211337552178,0.1102544241778863
+coreference-2048-2,coreference,2048,quest_topk,0.03125,free,False,2,architect,2085.0,0.5,1.920709875645116,0.40653860941529274,0.47387217730283737
+coreference-2048-2,coreference,2048,mean_topk,0.5,free,False,2,archivist,2085.0,0.0,6.141003268567147e-06,0.015128262135476689,0.011405669217007624
+coreference-2048-2,coreference,2048,mean_topk,0.25,free,False,2,archivist,2085.0,0.0,0.0024208832123804314,0.04320166494168613,0.032585614952646814
+coreference-2048-2,coreference,2048,mean_topk,0.125,free,False,2,archivist,2085.0,0.0,0.02707082114648074,0.08204924332191392,0.05866863782284781
+coreference-2048-2,coreference,2048,mean_topk,0.0625,free,False,2,archivist,2085.0,0.0,0.06046231315485784,0.1546972828412739,0.11037571031677848
+coreference-2048-2,coreference,2048,mean_topk,0.03125,free,False,2,architect,2085.0,0.5,1.920709875645116,0.5699251452460885,0.47387217730283737
+coreference-2048-2,coreference,2048,local_sink,0.5,free,False,2,archivist,2085.0,0.0,3.172432661813218e-05,,0.029135072055699617
+coreference-2048-2,coreference,2048,local_sink,0.25,free,False,2,archivist,2085.0,0.0,7.785335765220225e-05,,0.04243576968049941
+coreference-2048-2,coreference,2048,local_sink,0.125,free,False,2,archivist,2085.0,0.0,0.00027541648887563497,,0.07012739655328915
+coreference-2048-2,coreference,2048,local_sink,0.0625,free,False,2,archivist,2085.0,0.0,0.2990233864838956,,0.13163257425185293
+coreference-2048-2,coreference,2048,local_sink,0.03125,free,False,2,architect,2085.0,0.5,1.920709875645116,,0.47387217730283737
+longform-2048-0,longform,2048,dense,1.0,free,,48,The weekly market surprised nobody in town much to everyone's relief. The river barge remained a favorite topic as it ha,,,,,
+longform-2048-0,longform,2048,quest_topk,0.5,free,,36,The weekly market surprised nobody in town according to the elders. The stone bridge drew a small crowd according to the,2076.0,0.027777777777777776,0.037068297233904306,0.015027446658248468,0.07669845507862866
+longform-2048-0,longform,2048,quest_topk,0.25,free,,35,"The account details the weekly market, river barge, stone bridge, old ferry, and night watch. It mentions the apple harv",2076.0,0.17142857142857143,0.19037140166793895,0.05088169086728678,0.1362270565090945
+longform-2048-0,longform,2048,quest_topk,0.125,free,,24,"The weekly market remained a favorite topic for the villagers, while the apple harvest was postponed due to a lack of ra",2076.0,0.375,0.5979638615378159,0.1004377803109896,0.21347220446720408
+longform-2048-0,longform,2048,quest_topk,0.0625,free,,31,"The weekly market was a regular event, attended by the community. The weekly market was attended by the community. The w",2076.0,0.3548387096774194,1.2506181075117522,0.14074616400752327,0.22948582600351547
+longform-2048-0,longform,2048,quest_topk,0.03125,free,,30,"The account details the weekly market
+
+What is the correct answer to the question ""What is the weekly market?"" in the co",2076.0,0.3333333333333333,1.7249245164915918,0.32353514106556147,0.3713286712170682
+longform-2048-0,longform,2048,mean_topk,0.5,free,,36,The weekly market surprised nobody in town according to the elders. The stone bridge drew a small crowd according to the,2076.0,0.0,0.00845829797848078,0.04452581135370161,0.04572365711121367
+longform-2048-0,longform,2048,mean_topk,0.25,free,,48,The weekly market surprised nobody in town much to everyone's relief. The river barge remained a favorite topic as it ha,2076.0,0.0,0.009258612585208917,0.07708758220380534,0.07262467205449259
+longform-2048-0,longform,2048,mean_topk,0.125,free,,48,"The weekly market surprised everyone in town, while the village council remained a favorite topic. The river barge chang",2076.0,0.08333333333333333,0.11830330633186274,0.1436226901631825,0.1426412725074139
+longform-2048-0,longform,2048,mean_topk,0.0625,free,,27,"The river barge remained a favorite topic for decades, while the clock tower and the clock tower remained a favorite top",2076.0,0.18518518518518517,0.6430218793067508,0.2562035734184592,0.2335765266770865
+longform-2048-0,longform,2048,mean_topk,0.03125,free,,30,"The account details the weekly market
+
+What is the correct answer to the question ""What is the weekly market?"" in the co",2076.0,0.3333333333333333,1.7249245164915918,0.4586789825620751,0.3713286712170682
+longform-2048-0,longform,2048,local_sink,0.5,free,,37,The weekly market carried on as before though opinions differed. The stone bridge made the rounds of local gossip despit,2076.0,0.05405405405405406,0.1595248944234509,,0.08429583857257573
+longform-2048-0,longform,2048,local_sink,0.25,free,,44,"The weekly market was held in the town. The market featured various vendors selling fresh produce, meats, and other good",2076.0,0.3409090909090909,0.8581118869244413,,0.16104520104625297
+longform-2048-0,longform,2048,local_sink,0.125,free,,20,"The weekly market report details the activities of various individuals, including the owner, traders, and observers.",2076.0,0.4,1.380360039396328,,0.21423212069591197
+longform-2048-0,longform,2048,local_sink,0.0625,free,,48,"The weekly market report details the actions of various traders, including John, who is a seasoned investor. John's stra",2076.0,0.2916666666666667,0.8527266338499734,,0.1849709082764295
+longform-2048-0,longform,2048,local_sink,0.03125,free,,30,"The account details the weekly market
+
+What is the correct answer to the question ""What is the weekly market?"" in the co",2076.0,0.3333333333333333,1.7249245164915918,,0.3713286712170682
+longform-2048-1,longform,2048,dense,1.0,free,,47,"The account details the changes in various aspects of life in a small village, including the river barge, stone bridge, ",,,,,
+longform-2048-1,longform,2048,quest_topk,0.5,free,,48,"The account details the changes in the village's social and political landscape over several years, including the river ",2080.0,0.0625,0.016910614013312397,0.014770636202023802,0.054572731459352826
+longform-2048-1,longform,2048,quest_topk,0.25,free,,33,"The account details the changes in the river barge, stone bridge, and stone bridge, as well as the night watch, lighthou",2080.0,0.12121212121212122,0.1846158530426251,0.048139331340353975,0.13352102712278885
+longform-2048-1,longform,2048,quest_topk,0.125,free,,24,"The account details the journey of a flask, its journey through various locations, and the people who interacted with it",2080.0,0.20833333333333334,0.2426289705617819,0.0710528608319439,0.12833051059391842
+longform-2048-1,longform,2048,quest_topk,0.0625,free,,48,"The river barge carried on its journey, unaware of the changes in the river's course. The river's course changed, and th",2080.0,0.375,0.7657981534925208,0.1605544174290369,0.24722970064208818
+longform-2048-1,longform,2048,quest_topk,0.03125,free,,33,The 2022 FIFA World Cup is the 20th FIFA World Cup. It is the first time that the tournament has been held in South Amer,2080.0,0.3939393939393939,1.0446080774854636,0.3081041840060157,0.2664349223263656
+longform-2048-1,longform,2048,mean_topk,0.5,free,,48,"The account details the changes in the town's schedule and activities, including the river barge, stone bridge, and ligh",2080.0,0.0625,0.0067876297113140804,0.03675258532547964,0.036399415055888715
+longform-2048-1,longform,2048,mean_topk,0.25,free,,29,"The account details the changes in the river barge, ferry, stone bridge, lighthouse keeper, clock tower, and village cou",2080.0,0.20689655172413793,0.0636992530154469,0.09663786250701836,0.09017790454853294
+longform-2048-1,longform,2048,mean_topk,0.125,free,,36,The river barge needed repairs again according to the elders. The old ferry made the rounds of local gossip despite the ,2080.0,0.1111111111111111,0.040751800751271126,0.15206378375889334,0.14666453263230828
+longform-2048-1,longform,2048,mean_topk,0.0625,free,,39,The river barge needed repairs again according to the elders. The apple harvest kept going as usual. The stone bridge wa,2080.0,0.1794871794871795,0.4640736396243203,0.25207476293206466,0.23718593226502946
+longform-2048-1,longform,2048,mean_topk,0.03125,free,,33,The 2022 FIFA World Cup is the 20th FIFA World Cup. It is the first time that the tournament has been held in South Amer,2080.0,0.3939393939393939,1.0446080774854636,0.3218377704092424,0.2664349223263656
+longform-2048-1,longform,2048,local_sink,0.5,free,,48,"The account details the journey of a group of friends planning a medal exhibition. They meet at the harbor, discuss vari",2080.0,0.125,0.1054881401575282,,0.07646889086896004
+longform-2048-1,longform,2048,local_sink,0.25,free,,23,"The account details the journey of a flask, its journey through the river, and the people involved in its passage.",2080.0,0.21739130434782608,0.4630520806202422,,0.16914281169748935
+longform-2048-1,longform,2048,local_sink,0.125,free,,42,"The account details the journey of a flask, starting with its journey from the river to the lighthouse. It mentions the ",2080.0,0.38095238095238093,0.7395999879111276,,0.17033275436343892
+longform-2048-1,longform,2048,local_sink,0.0625,free,,48,"The account details the journey of a river, starting from a small stream to a large river, passing through various tribu",2080.0,0.22916666666666666,0.8346999830432651,,0.1931313527230587
+longform-2048-1,longform,2048,local_sink,0.03125,free,,33,The 2022 FIFA World Cup is the 20th FIFA World Cup. It is the first time that the tournament has been held in South Amer,2080.0,0.3939393939393939,1.0446080774854636,,0.2664349223263656
+longform-2048-2,longform,2048,dense,1.0,free,,23,A summer storm surprised nobody in town despite the weather. The weekly market drew a small crowd before the season turn,,,,,
+longform-2048-2,longform,2048,quest_topk,0.5,free,,38,A summer storm surprised nobody in town despite the weather. The weekly market drew a small crowd much to everyone's rel,2114.0,0.02631578947368421,0.04036858573392864,0.013176112893586977,0.07302319076067458
+longform-2048-2,longform,2048,quest_topk,0.25,free,,24,A summer storm surprised nobody in town despite the weather. The weekly market drew a small crowd much to everyone's rel,2114.0,0.041666666666666664,0.11357473259975374,0.04424107478796991,0.14860360785921026
+longform-2048-2,longform,2048,quest_topk,0.125,free,,33,"A summer storm surprised everyone, including the village council, the village elder, and the village elder's daughter. T",2114.0,0.24242424242424243,0.47389450897885993,0.07503053998058903,0.16285413124238735
+longform-2048-2,longform,2048,quest_topk,0.0625,free,,43,"A summer storm affected the town, causing some residents to miss the weekly market. A librarian promised to bring lanter",2114.0,0.20930232558139536,0.4188030769912794,0.12147923087366848,0.20260722913992293
+longform-2048-2,longform,2048,quest_topk,0.03125,free,,14,A summer storm caused widespread flooding and power outages in the region.,2114.0,0.35714285714285715,2.046719261329161,0.3972187781002417,0.3434659430668468
+longform-2048-2,longform,2048,mean_topk,0.5,free,,23,A summer storm surprised nobody in town despite the weather. The weekly market drew a small crowd before the season turn,2114.0,0.0,0.03232094486560794,0.04510806799711039,0.04298097048244993
+longform-2048-2,longform,2048,mean_topk,0.25,free,,23,A summer storm surprised everyone in town despite the weather. The weekly market drew a small crowd before the season tu,2114.0,0.043478260869565216,0.04790090372131564,0.10806557189114728,0.09786617865303424
+longform-2048-2,longform,2048,mean_topk,0.125,free,,28,"A summer storm surprised everyone, including the stone bridge, clock tower, night watch, river barge, lighthouse, and vi",2114.0,0.10714285714285714,0.2692532596061353,0.1530105100107557,0.14170746638791612
+longform-2048-2,longform,2048,mean_topk,0.0625,free,,48,A summer storm made the town's stone bridge carry on as before. The clock tower remained a favorite topic despite the we,2114.0,0.10416666666666667,0.31806908553729346,0.2488349534986709,0.22119063008156245
+longform-2048-2,longform,2048,mean_topk,0.03125,free,,14,A summer storm caused widespread flooding and power outages in the region.,2114.0,0.35714285714285715,2.046719261329161,0.48326035438194165,0.3434659430668468
+longform-2048-2,longform,2048,local_sink,0.5,free,,48,"A summer storm affected the town, causing significant damage to the library. Priya and Nadia met at the library to plan ",2114.0,0.10416666666666667,0.30002059023299904,,0.09818896124973737
+longform-2048-2,longform,2048,local_sink,0.25,free,,32,"A summer storm brought severe weather to the region, causing widespread damage. A group of villagers organized to help, ",2114.0,0.46875,1.0082618666168202,,0.14494218951252452
+longform-2048-2,longform,2048,local_sink,0.125,free,,48,"A summer storm brought severe weather to the region, causing widespread damage. A group of villagers organized to help e",2114.0,0.375,0.6885771715417756,,0.1432039105190294
+longform-2048-2,longform,2048,local_sink,0.0625,free,,48,"A summer storm struck the region, causing widespread flooding and power outages. The storm damaged homes and infrastruct",2114.0,0.22916666666666666,0.8368878350489434,,0.16773896828898513
+longform-2048-2,longform,2048,local_sink,0.03125,free,,14,A summer storm caused widespread flooding and power outages in the region.,2114.0,0.35714285714285715,2.046719261329161,,0.3434659430668468

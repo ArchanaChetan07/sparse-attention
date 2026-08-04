@@ -1,0 +1,168 @@
+{
+  "fingerprint": {
+    "platform": "Windows-10-10.0.26200-SP0",
+    "python": "3.11.5",
+    "cpu": "Intel64 Family 6 Model 183 Stepping 1, GenuineIntel",
+    "torch": "2.6.0+cu124",
+    "gpu": "NVIDIA T1000 8GB",
+    "gpu_mem_gb": 8.0,
+    "cuda": "12.4",
+    "transformers": "5.12.1",
+    "driver": "596.51",
+    "power_limit": "50.00 W",
+    "pcie": "gen3 x16"
+  },
+  "auc_teacher_flip": {
+    "est dropped mass (mean)": 0.7684725280352297,
+    "est dropped mass (max)": 0.757161358321812,
+    "eviction consensus": 0.7670558314984552,
+    "fully-dropped mass": 0.7625646474473858,
+    "sparse attn entropy": 0.5141200266270675,
+    "top1-top2 margin": 0.8024956474985918,
+    "cross-layer dropped-mass std": 0.739903903596361,
+    "ORACLE dropped mass": 0.7780160274463619,
+    "ORACLE output cos-dist": 0.7661959991124311
+  },
+  "teacher_steps": 1465,
+  "teacher_flip_rate": 0.3221843003412969,
+  "dense_qa_accuracy_by_family": {
+    "coreference": 0.0,
+    "multi_entity": 0.8333333333333334,
+    "multi_hop": 0.0
+  },
+  "dense_qa_accuracy": 0.2777777777777778,
+  "cliff": [
+    {
+      "method": "local_sink",
+      "keep_frac": 0.03125,
+      "acc": 0.1111111111111111,
+      "flip": 0.35648148148148145,
+      "odrop": 0.3512718911170614,
+      "n": 18
+    },
+    {
+      "method": "local_sink",
+      "keep_frac": 0.0625,
+      "acc": 0.1111111111111111,
+      "flip": 0.2882996632996633,
+      "odrop": 0.2528981462656181,
+      "n": 18
+    },
+    {
+      "method": "local_sink",
+      "keep_frac": 0.125,
+      "acc": 0.1111111111111111,
+      "flip": 0.17255892255892255,
+      "odrop": 0.14358097437541048,
+      "n": 18
+    },
+    {
+      "method": "local_sink",
+      "keep_frac": 0.25,
+      "acc": 0.16666666666666666,
+      "flip": 0.09444444444444444,
+      "odrop": 0.10034783885531834,
+      "n": 18
+    },
+    {
+      "method": "local_sink",
+      "keep_frac": 0.5,
+      "acc": 0.2222222222222222,
+      "flip": 0.06481481481481481,
+      "odrop": 0.06312149348409155,
+      "n": 18
+    },
+    {
+      "method": "mean_topk",
+      "keep_frac": 0.03125,
+      "acc": 0.1111111111111111,
+      "flip": 0.35648148148148145,
+      "odrop": 0.3512718911170614,
+      "n": 18
+    },
+    {
+      "method": "mean_topk",
+      "keep_frac": 0.0625,
+      "acc": 0.1111111111111111,
+      "flip": 0.2916666666666667,
+      "odrop": 0.2532043870165513,
+      "n": 18
+    },
+    {
+      "method": "mean_topk",
+      "keep_frac": 0.125,
+      "acc": 0.2222222222222222,
+      "flip": 0.07407407407407407,
+      "odrop": 0.12809898742215198,
+      "n": 18
+    },
+    {
+      "method": "mean_topk",
+      "keep_frac": 0.25,
+      "acc": 0.2777777777777778,
+      "flip": 0.0,
+      "odrop": 0.06715509607090132,
+      "n": 18
+    },
+    {
+      "method": "mean_topk",
+      "keep_frac": 0.5,
+      "acc": 0.2777777777777778,
+      "flip": 0.0,
+      "odrop": 0.024230122579629768,
+      "n": 18
+    },
+    {
+      "method": "quest_topk",
+      "keep_frac": 0.03125,
+      "acc": 0.1111111111111111,
+      "flip": 0.35648148148148145,
+      "odrop": 0.3512718911170614,
+      "n": 18
+    },
+    {
+      "method": "quest_topk",
+      "keep_frac": 0.0625,
+      "acc": 0.1111111111111111,
+      "flip": 0.24537037037037038,
+      "odrop": 0.24432854718323163,
+      "n": 18
+    },
+    {
+      "method": "quest_topk",
+      "keep_frac": 0.125,
+      "acc": 0.2777777777777778,
+      "flip": 0.05555555555555555,
+      "odrop": 0.11924248637094731,
+      "n": 18
+    },
+    {
+      "method": "quest_topk",
+      "keep_frac": 0.25,
+      "acc": 0.3333333333333333,
+      "flip": 0.011111111111111112,
+      "odrop": 0.06695882926702595,
+      "n": 18
+    },
+    {
+      "method": "quest_topk",
+      "keep_frac": 0.5,
+      "acc": 0.2777777777777778,
+      "flip": 0.0,
+      "odrop": 0.030387524800298032,
+      "n": 18
+    }
+  ],
+  "h4": {
+    "spearman_flipfrac_correct": -0.30369047298078683,
+    "spearman_meankl_correct": -0.23595569968256144,
+    "spearman_estdrop_correct": -0.1668907642088607,
+    "auc_flipfrac_incorrect": 0.6833646700689407,
+    "n_requests": 270
+  },
+  "timing_ms": {
+    "probe_mean": 60.07643642695356,
+    "sparse_step_mean": 106.62407646402858,
+    "probe_over_step": 0.5634415642251435
+  }
+}

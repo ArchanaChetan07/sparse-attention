@@ -59,13 +59,19 @@ phase-transition literature), deliberately not NIAH-style retrieval alone.
 ## Run it
 
 ```bash
-pip install -e .
-python -m pytest tests -q                    # 23 tests, CPU-only, ~10 s
+python -m pip install -e .                   # note: python -m pip, not bare pip
+python -m pytest tests -q                    # CPU-only, ~10 s
 python experiments/smoke_check.py            # model integration check (GPU)
-python experiments/study_a_smoke.py          # paired sweep -> results/study_a
+powershell experiments/run_all_study_a.ps1   # paired sweeps, both model scales
 python experiments/study_b_estimators.py     # replays Study A traces
 python experiments/study_c_scheduler.py      # scheduler simulation
+python experiments/ablations.py              # proposal Table 3 ablations
+python experiments/overhead_bench.py         # measured probe cost ratio
 ```
+
+Use `python -m pip`, not bare `pip`: on machines with more than one Python
+(an Anaconda `python` plus a store-installed `pip`, for instance) bare `pip`
+can install into a different interpreter than the one that runs the code.
 
 Default model is `Qwen/Qwen2.5-0.5B-Instruct` (fits an 8 GB card with room to
 spare); pass `--model` to scale up. `--quick` runs a reduced Study A sweep.

@@ -31,7 +31,8 @@ from csa.roc import auc_score, roc_curve, spearman
 from csa.sparse import SparseConfig
 from csa.tasks import make_tasks
 
-QA_FAMILIES = ("multi_entity", "multi_hop", "coreference")
+QA_FAMILIES = ("multi_entity", "multi_hop", "coreference", "reasoning")
+LONG_DECODE = ("reasoning", "longform")  # families that need long traces
 
 SIGNALS = {  # column -> (pretty name, higher-predicts-divergence sign)
     "est_dropped_mean_Lmean": ("est dropped mass (mean)", +1),
@@ -53,13 +54,16 @@ def main():
     ap.add_argument("--model", default="Qwen/Qwen2.5-0.5B-Instruct")
     ap.add_argument("--out", default="results/study_a")
     ap.add_argument("--quick", action="store_true")
+    ap.add_argument("--per-family", type=int, default=None)
+    ap.add_argument("--max-new-long", type=int, default=64,
+                    help="decode steps for long-trace families (reasoning/longform)")
     args = ap.parse_args()
 
     contexts = [1024] if args.quick else [1024, 2048]
     budgets = [0.25, 0.0625] if args.quick else [0.5, 0.25, 0.125, 0.0625, 0.03125]
     methods = ["quest_topk"] if args.quick else ["quest_topk", "mean_topk", "local_sink"]
-    per_family = 2 if args.quick else 3
-    max_new_qa, max_new_lf = 16, 48
+    per_family = args.per_family or (2 if args.quick else 3)
+    max_new_qa, max_new_lf = 16, args.max_new_long
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
     pm = PairedModel(args.model, device=device)
@@ -77,7 +81,7 @@ def main():
 
     for ti, (ctx, task) in enumerate(tasks):
         ids = pm.encode_chat(task.prompt)
-        max_new = max_new_lf if task.family == "longform" else max_new_qa
+        max_new = max_new_lf if task.family in LONG_DECODE else max_new_qa
         dense_toks, dense_text = pm.generate_dense(ids, max_new)
         dense_correct = task.check(dense_text) if task.gold else None
         req_rows.append(dict(task_id=task.task_id, family=task.family, ctx=ctx,
@@ -100,6 +104,7 @@ def main():
                 kls = [x.get("logit_kl", np.nan) for x in r.rows]
                 req_rows.append({**meta,
                                  "correct": correct,
+                                 "dense_correct": dense_correct,
                                  "n_steps": len(r.rows),
                                  "flip_frac": float(np.mean(flips)) if flips else np.nan,
                                  "mean_kl": float(np.nanmean(kls)) if kls else np.nan,
@@ -147,6 +152,31 @@ def analyze(steps: pd.DataFrame, reqs: pd.DataFrame, out: Path):
     summary["teacher_steps"] = int(len(teach))
     summary["teacher_flip_rate"] = float(labels.mean()) if len(labels) else None
 
+    # AUC pooled across budgets can be inflated: budget itself predicts
+    # divergence, and a serving system knows its own budget. The honest
+    # per-deployment number is the WITHIN-budget AUC.
+    summary["auc_within_budget"] = {}
+    for kf, g in teach.groupby("keep_frac"):
+        lab = g["top1_flip"].astype(int).to_numpy()
+        if 0 < lab.mean() < 1:
+            summary["auc_within_budget"][f"keep={kf:g}"] = {
+                name: auc_score(lab, sign * g[col].to_numpy())
+                for col, (name, sign) in {**SIGNALS, **ORACLES}.items() if col in g}
+            summary["auc_within_budget"][f"keep={kf:g}"]["_n"] = int(len(g))
+            summary["auc_within_budget"][f"keep={kf:g}"]["_flip_rate"] = float(lab.mean())
+
+    # free-running (production-like) detection, per sparse method
+    free = steps[(steps["mode"] == "free") & steps["top1_flip"].notna()]
+    summary["auc_free_by_method"] = {}
+    for meth, g in free.groupby("method"):
+        lab = g["top1_flip"].astype(int).to_numpy()
+        if 0 < lab.mean() < 1:
+            summary["auc_free_by_method"][meth] = {
+                name: auc_score(lab, sign * g[col].to_numpy())
+                for col, (name, sign) in {**SIGNALS, **ORACLES}.items()
+                if col in g and g[col].notna().any()}
+            summary["auc_free_by_method"][meth]["_n"] = int(len(g))
+
     plt.figure(figsize=(7, 5.5))
     for col, (name, sign) in {**SIGNALS, **ORACLES}.items():
         if col not in teach:
@@ -190,20 +220,36 @@ def analyze(steps: pd.DataFrame, reqs: pd.DataFrame, out: Path):
     plt.tight_layout(); plt.savefig(fig_dir / "cliff.png", dpi=140); plt.close()
 
     # ---------------- H4: divergence vs end-task correctness ----------------
+    # H4 asks whether divergence predicts DEGRADATION. On requests the dense
+    # model already gets wrong there is no headroom — sparse cannot make them
+    # more wrong — so those rows add label noise uncorrelated with divergence.
+    # We report both the unconditional correlation and the conditional one on
+    # the answerable subset (dense_correct == True), which is the quantity the
+    # hypothesis is actually about.
+    def _h4_block(d: pd.DataFrame) -> dict:
+        if len(d) < 5 or d["correct"].nunique() < 2:
+            return {"n_requests": int(len(d)), "note": "insufficient variation"}
+        y = d["correct"].astype(float)
+        return {
+            "spearman_flipfrac_correct": spearman(d["flip_frac"], y),
+            "spearman_meankl_correct": spearman(d["mean_kl"], y),
+            "spearman_estdrop_correct": spearman(d["mean_est_dropped"], y),
+            "auc_flipfrac_incorrect": auc_score(
+                1 - d["correct"].astype(int).to_numpy(), d["flip_frac"].to_numpy()),
+            "auc_estdrop_incorrect": auc_score(
+                1 - d["correct"].astype(int).to_numpy(),
+                d["mean_est_dropped"].to_numpy()),
+            "n_requests": int(len(d)),
+            "base_accuracy": float(y.mean()),
+        }
+
     qa_ok = qa[qa["correct"].notna()]
-    h4 = {
-        "spearman_flipfrac_correct": spearman(qa_ok["flip_frac"],
-                                              qa_ok["correct"].astype(float)),
-        "spearman_meankl_correct": spearman(qa_ok["mean_kl"],
-                                            qa_ok["correct"].astype(float)),
-        "spearman_estdrop_correct": spearman(qa_ok["mean_est_dropped"],
-                                             qa_ok["correct"].astype(float)),
-        "auc_flipfrac_incorrect": auc_score(
-            1 - qa_ok["correct"].astype(int).to_numpy(),
-            qa_ok["flip_frac"].to_numpy()),
-        "n_requests": int(len(qa_ok)),
-    }
-    summary["h4"] = h4
+    summary["h4"] = _h4_block(qa_ok)
+    if "dense_correct" in qa_ok:
+        answerable = qa_ok[qa_ok["dense_correct"] == True]  # noqa: E712
+        summary["h4_answerable"] = _h4_block(answerable)
+        summary["h4_by_family"] = {
+            fam: _h4_block(g) for fam, g in qa_ok.groupby("family")}
 
     # ---------------- calibration of the best signal ------------------------
     from csa.roc import calibration_bins

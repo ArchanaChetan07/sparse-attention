@@ -134,10 +134,36 @@ def longform(rng: random.Random, count_tokens, target_tokens: int,
     return Task("longform", prompt, "", task_id, {})
 
 
+def reasoning(rng: random.Random, count_tokens, target_tokens: int,
+              task_id: str = "") -> Task:
+    """Multi-step arithmetic over facts scattered in context.
+
+    Requires an explicit worked answer, so decode traces are long — the regime
+    the proposal flags as dominating cost and deciding outcomes earliest.
+    Answer-critical tokens are separated by filler, so a budget that globally
+    evicts any one of them breaks the chain.
+    """
+    people = rng.sample(NAMES, 3)
+    counts = [rng.randrange(3, 20) for _ in people]
+    item = rng.choice(ITEMS)
+    facts = [f"{p} brought {c} copies of the {item} to the exchange."
+             for p, c in zip(people, counts)]
+    rng.shuffle(facts)
+    total = sum(counts)
+    question = (f"Work through it step by step, then state how many copies of "
+                f"the {item} were brought in total by {people[0]}, "
+                f"{people[1]}, and {people[2]}.")
+    prompt = _assemble(rng, facts, question, count_tokens, target_tokens)
+    prompt = prompt.replace("Answer with a single word.", "")
+    return Task("reasoning", prompt, str(total), task_id,
+                {"counts": counts, "total": total})
+
+
 FAMILIES = {
     "multi_entity": multi_entity,
     "multi_hop": multi_hop,
     "coreference": coreference,
+    "reasoning": reasoning,
     "longform": longform,
 }
 
