@@ -32,6 +32,7 @@ class _State:
     mode: str = "off"
     cfg: Optional[SparseConfig] = None
     recorder: Optional["StepRecorder"] = None
+    n_layers: Optional[int] = None  # for per-layer budget schedules
 
 
 STATE = _State()
@@ -82,12 +83,22 @@ def csa_attention(module, query, key, value, attention_mask, scaling=None,
     kv_len = key.shape[2]
     cfg = STATE.cfg
 
-    sparse_active = (
-        STATE.mode == "sparse"
-        and Q == 1
-        and cfg is not None
-        and kv_len >= cfg.min_kv_sparse
-    )
+    eligible = (Q == 1 and cfg is not None and kv_len >= cfg.min_kv_sparse)
+    sparse_active = STATE.mode == "sparse" and eligible
+    sparse_only = STATE.mode == "sparse_only" and eligible
+
+    if sparse_only:
+        # production path: select, then attend over gathered blocks only.
+        # No dense computation, no metrics -- this is what gets timed.
+        block_mask, _, _ = sp.compute_selection(
+            cfg, query, key, scaling, groups,
+            getattr(module, "layer_idx", None), STATE.n_layers)
+        bias = None
+        if attention_mask is not None:
+            bias = attention_mask[:, :, -1, :kv_len].float()
+        out = sp.gather_sparse_attention(query, key, value, block_mask,
+                                         cfg.block_size, scaling, groups, bias)
+        return out.to(query.dtype).transpose(1, 2).contiguous(), None
 
     if not sparse_active:
         k = sp.expand_kv_heads(key, groups)
@@ -108,7 +119,9 @@ def csa_attention(module, query, key, value, attention_mask, scaling=None,
     dense_probs = torch.softmax(logits, dim=-1)                # (B,Hq,1,T)
     dense_out = torch.matmul(dense_probs, v.float())           # (B,Hq,1,D)
 
-    block_mask, scores, est_mass = sp.compute_selection(cfg, query, key, scaling, groups)
+    block_mask, scores, est_mass = sp.compute_selection(
+        cfg, query, key, scaling, groups,
+        getattr(module, "layer_idx", None), STATE.n_layers)
     token_mask = sp.token_mask_from_blocks(block_mask, cfg.block_size, kv_len)  # (B,Hq,T)
 
     sparse_logits = logits.masked_fill(~token_mask.unsqueeze(2), float("-inf"))
@@ -190,6 +203,7 @@ class PairedModel:
         ).to(device).eval()
         self.device = device
         self.name = model_name
+        STATE.n_layers = getattr(self.model.config, "num_hidden_layers", None)
 
     def _new_cache(self):
         from transformers import DynamicCache

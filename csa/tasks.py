@@ -57,8 +57,14 @@ def _filler_paragraph(rng: random.Random, n_sentences: int = 4) -> str:
 
 
 def _assemble(rng: random.Random, facts: list[str], question: str,
-              count_tokens, target_tokens: int) -> str:
-    """Interleave facts with filler until the prompt reaches target length."""
+              count_tokens, target_tokens: int,
+              answer_hint: str = "Answer with a single word.") -> str:
+    """Interleave facts with filler until the prompt reaches target length.
+
+    answer_hint is part of the rendered prompt so the length guarantee holds
+    for the text actually used; stripping it afterwards would leave the prompt
+    short of target.
+    """
     segments: list[str] = []
     # start with a filler, then alternate fact / filler
     segments.append(_filler_paragraph(rng))
@@ -67,9 +73,10 @@ def _assemble(rng: random.Random, facts: list[str], question: str,
         segments.append(_filler_paragraph(rng))
 
     def render():
+        tail = f"\n{answer_hint}" if answer_hint else ""
         return ("Read the following account carefully.\n\n"
                 + "\n\n".join(segments)
-                + f"\n\nQuestion: {question}\nAnswer with a single word.")
+                + f"\n\nQuestion: {question}{tail}")
 
     # pad with more filler (inserted at random interior gaps, never after the
     # last fact's trailing filler) until long enough
@@ -129,8 +136,8 @@ def longform(rng: random.Random, count_tokens, target_tokens: int,
              f"{names[2]} promised to bring the {rng.choice(ITEMS)}."]
     question = ("Summarize the account above in two or three sentences, "
                 "mentioning every person named.")
-    prompt = _assemble(rng, facts, question, count_tokens, target_tokens)
-    prompt = prompt.replace("Answer with a single word.", "")
+    prompt = _assemble(rng, facts, question, count_tokens, target_tokens,
+                       answer_hint="")
     return Task("longform", prompt, "", task_id, {})
 
 
@@ -153,8 +160,8 @@ def reasoning(rng: random.Random, count_tokens, target_tokens: int,
     question = (f"Work through it step by step, then state how many copies of "
                 f"the {item} were brought in total by {people[0]}, "
                 f"{people[1]}, and {people[2]}.")
-    prompt = _assemble(rng, facts, question, count_tokens, target_tokens)
-    prompt = prompt.replace("Answer with a single word.", "")
+    prompt = _assemble(rng, facts, question, count_tokens, target_tokens,
+                       answer_hint="End with the total as a number.")
     return Task("reasoning", prompt, str(total), task_id,
                 {"counts": counts, "total": total})
 

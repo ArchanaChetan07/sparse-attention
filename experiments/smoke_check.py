@@ -60,11 +60,31 @@ def main():
         f"probe polluted the cache!\n with: {r_probe.tokens}\n w/o : {r_nop.tokens}")
     print("[probe    ] trajectory identical with/without dense probes  OK")
 
-    # 4) timing snapshot
+    # 4) production gather path must match the measurement masking path
+    from csa import paired as P
+    P.STATE.cfg = cfg
+    toks_masked, toks_gather = [], []
+    for mode, sink in (("sparse", toks_masked), ("sparse_only", toks_gather)):
+        cache = pm._new_cache()
+        P.STATE.mode = "off"; P.STATE.recorder = None
+        out = pm._forward(ids, cache)
+        tok = int(out.logits[0, -1].argmax())
+        for _ in range(12):
+            sink.append(tok)
+            P.STATE.mode = mode
+            out = pm._forward(torch.tensor([[tok]], device=pm.device), cache)
+            tok = int(out.logits[0, -1].argmax())
+        P.STATE.mode = "off"
+    assert toks_masked == toks_gather, (
+        f"gather path diverges from masked path!\n masked: {toks_masked}\n "
+        f"gather: {toks_gather}")
+    print("[gather   ] production sparse path matches masked path  OK")
+
+    # 5) timing snapshot
     ps = [x["probe_s"] for x in r_probe.rows]
     ss = [x["step_s"] for x in r_probe.rows]
     print(f"[timing   ] probe {1e3*sum(ps)/len(ps):.1f} ms | "
-          f"sparse step {1e3*sum(ss)/len(ss):.1f} ms")
+          f"paired step {1e3*sum(ss)/len(ss):.1f} ms")
     print("SMOKE CHECK PASSED")
 
 

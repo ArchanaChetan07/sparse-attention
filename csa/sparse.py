@@ -22,14 +22,47 @@ import torch.nn.functional as F
 @dataclass
 class SparseConfig:
     method: str = "quest_topk"  # quest_topk | mean_topk | local_sink
-    keep_frac: float = 0.25     # fraction of KV blocks attended per head
+    keep_frac: float = 0.25     # mean fraction of KV blocks attended per head
     block_size: int = 32
     min_kv_sparse: int = 256    # below this many cached tokens, run dense
     sink_blocks: int = 1        # always-kept prefix blocks
     local_blocks: int = 1       # always-kept suffix blocks
+    # per-layer budget allocation (Ablation 6: composition with PSA-style
+    # allocators). "uniform" reproduces a flat budget exactly.
+    layer_schedule: str = "uniform"  # uniform | pyramid | inv_pyramid
+    schedule_strength: float = 0.6
 
     def label(self) -> str:
-        return f"{self.method}@{self.keep_frac:g}"
+        s = "" if self.layer_schedule == "uniform" else f"/{self.layer_schedule}"
+        return f"{self.method}@{self.keep_frac:g}{s}"
+
+
+def layer_keep_fracs(keep_frac: float, n_layers: int, schedule: str = "uniform",
+                     strength: float = 0.6):
+    """Per-layer keep fractions whose MEAN equals keep_frac.
+
+    Budget-matched by construction, so schedules differ only in *where* the
+    budget goes, never in how much is spent — otherwise a schedule comparison
+    would just be a budget comparison.
+
+      uniform     - flat.
+      pyramid     - more budget in early layers, less in late.
+      inv_pyramid - the reverse.
+    """
+    import numpy as np
+    if n_layers <= 1 or schedule == "uniform":
+        return np.full(max(n_layers, 1), float(keep_frac))
+    t = np.linspace(-1.0, 1.0, n_layers)
+    if schedule == "pyramid":
+        w = 1.0 - strength * t
+    elif schedule == "inv_pyramid":
+        w = 1.0 + strength * t
+    else:
+        raise ValueError(f"unknown layer schedule: {schedule}")
+    fr = keep_frac * w
+    fr = np.clip(fr, 1e-6, 1.0)
+    fr *= keep_frac / fr.mean()          # restore the mean after clipping
+    return np.clip(fr, 1e-6, 1.0)
 
 
 def n_blocks(kv_len: int, block_size: int) -> int:
@@ -181,13 +214,27 @@ def block_mass_from_probs(probs: torch.Tensor, block_size: int) -> torch.Tensor:
     return p.view(B, H, nb, block_size).sum(dim=-1)
 
 
+def effective_keep_frac(cfg: SparseConfig, layer_idx: int | None,
+                        n_layers: int | None) -> float:
+    """This layer's budget under the configured schedule."""
+    if (cfg.layer_schedule == "uniform" or layer_idx is None
+            or n_layers is None or n_layers <= 1):
+        return cfg.keep_frac
+    fr = layer_keep_fracs(cfg.keep_frac, n_layers, cfg.layer_schedule,
+                          cfg.schedule_strength)
+    return float(fr[min(max(layer_idx, 0), n_layers - 1)])
+
+
 def compute_selection(cfg: SparseConfig, query: torch.Tensor, key: torch.Tensor,
-                      scaling: float, groups: int):
+                      scaling: float, groups: int,
+                      layer_idx: int | None = None,
+                      n_layers: int | None = None):
     """Run the configured selection method.
 
     Returns (block_mask (B,Hq,nb) bool, scores (B,Hq,nb) or None, est_mass or None).
     """
     kv_len = key.shape[2]
+    keep = effective_keep_frac(cfg, layer_idx, n_layers)
     if cfg.method == "quest_topk":
         scores = quest_block_scores(query, key, cfg.block_size, groups)
     elif cfg.method == "mean_topk":
@@ -195,10 +242,52 @@ def compute_selection(cfg: SparseConfig, query: torch.Tensor, key: torch.Tensor,
     elif cfg.method == "local_sink":
         B, Hq = query.shape[0], query.shape[1]
         nb = n_blocks(kv_len, cfg.block_size)
-        mask = local_sink_mask(B, Hq, nb, cfg.keep_frac, query.device, cfg.sink_blocks)
+        mask = local_sink_mask(B, Hq, nb, keep, query.device, cfg.sink_blocks)
         return mask, None, None
     else:
         raise ValueError(f"unknown sparse method: {cfg.method}")
-    mask = select_topk_blocks(scores, cfg.keep_frac, cfg.sink_blocks, cfg.local_blocks)
+    mask = select_topk_blocks(scores, keep, cfg.sink_blocks, cfg.local_blocks)
     est_mass = block_mass_estimate(scores, scaling, kv_len, cfg.block_size)
     return mask, scores, est_mass
+
+
+def gather_sparse_attention(query, key, value, block_mask, block_size,
+                            scaling, groups, attn_bias=None):
+    """Production sparse path: attend only over SELECTED blocks.
+
+    Masking the full logit matrix measures nothing about cost, since the whole
+    matmul still runs. Here the selected blocks are gathered per head and
+    attention runs over the gathered subset only, so the work really is
+    proportional to the budget — which is what an overhead measurement needs.
+
+    query (B,Hq,1,D); key/value (B,Hkv,T,D); block_mask (B,Hq,nb) bool.
+    """
+    B, Hq, _, D = query.shape
+    kv_len = key.shape[2]
+    nb = block_mask.shape[-1]
+    k = expand_kv_heads(key, groups)
+    v = expand_kv_heads(value, groups)
+
+    # every head keeps the same COUNT (top-k), so the gather is rectangular
+    kcount = int(block_mask[0, 0].sum())
+    if not bool((block_mask.sum(-1) == kcount).all()):
+        kcount = int(block_mask.sum(-1).max())
+    idx = torch.topk(block_mask.float(), kcount, dim=-1).indices  # (B,Hq,kc)
+    idx, _ = idx.sort(dim=-1)
+
+    ar = torch.arange(block_size, device=query.device)
+    tok_idx = (idx.unsqueeze(-1) * block_size + ar).reshape(B, Hq, -1)
+    valid = tok_idx < kv_len
+    tok_idx = tok_idx.clamp(max=kv_len - 1)
+
+    gi = tok_idx.unsqueeze(-1).expand(-1, -1, -1, D)
+    kg = torch.gather(k, 2, gi)
+    vg = torch.gather(v, 2, gi)
+
+    logits = torch.matmul(query.float(), kg.float().transpose(2, 3)) * scaling
+    logits = logits.masked_fill(~valid.unsqueeze(2), float("-inf"))
+    if attn_bias is not None:
+        bias = torch.gather(attn_bias.expand(B, Hq, kv_len), 2, tok_idx)
+        logits = logits + bias.unsqueeze(2)
+    probs = torch.softmax(logits, dim=-1)
+    return torch.matmul(probs, vg.float())
