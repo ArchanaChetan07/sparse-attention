@@ -30,6 +30,7 @@ from .recording import machine_fingerprint
 from .roc import auc_score, calibration_bins, roc_curve, spearman
 
 QA_FAMILIES = ("multi_entity", "multi_hop", "coreference", "reasoning")
+LONG_DECODE = ("reasoning", "longform")  # families needing long decode traces
 
 SIGNALS = {  # column -> (pretty name, sign making "higher = more diverged")
     "est_dropped_mean_Lmean": ("est dropped mass (mean)", +1),

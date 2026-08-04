@@ -38,6 +38,31 @@ def test_gather_matches_masked_attention():
             f"seed {seed}: max diff {(gathered - masked).abs().max():.2e}"
 
 
+def test_gather_never_attends_outside_selection_with_ragged_counts():
+    """Heads selecting different numbers of blocks must not cause the gather
+    path to attend to blocks the method dropped."""
+    q, k, v = rand_qkv(T=320, seed=9)
+    groups, bs, T = 2, 32, 320
+    nb = sp.n_blocks(T, bs)
+    mask = torch.zeros(1, 4, nb, dtype=torch.bool)
+    mask[0, 0, :2] = True          # head 0 keeps 2 blocks
+    mask[0, 1, :5] = True          # head 1 keeps 5
+    mask[0, 2, 3:4] = True         # head 2 keeps 1
+    mask[0, 3, :] = True           # head 3 keeps all
+
+    gathered = sp.gather_sparse_attention(q, k, v, mask, bs, 0.25, groups)
+
+    kk = sp.expand_kv_heads(k, groups).float()
+    vv = sp.expand_kv_heads(v, groups).float()
+    logits = torch.matmul(q.float(), kk.transpose(2, 3)) * 0.25
+    tok = sp.token_mask_from_blocks(mask, bs, T)
+    masked = torch.matmul(
+        torch.softmax(logits.masked_fill(~tok.unsqueeze(2), float("-inf")), -1),
+        vv)
+    assert torch.allclose(gathered, masked, atol=1e-4), \
+        f"ragged selection diverges: {(gathered - masked).abs().max():.2e}"
+
+
 def test_gather_handles_partial_tail_block():
     q, k, v = rand_qkv(T=300)  # 300 = 9*32 + 12, ragged tail
     mask, _, _ = sp.compute_selection(

@@ -268,16 +268,21 @@ def gather_sparse_attention(query, key, value, block_mask, block_size,
     k = expand_kv_heads(key, groups)
     v = expand_kv_heads(value, groups)
 
-    # every head keeps the same COUNT (top-k), so the gather is rectangular
-    kcount = int(block_mask[0, 0].sum())
-    if not bool((block_mask.sum(-1) == kcount).all()):
-        kcount = int(block_mask.sum(-1).max())
+    # Every current method keeps the same COUNT per head, so the gather is
+    # rectangular. If a future method selects unequal counts, topk on the
+    # float mask pads the short rows with UNSELECTED blocks -- attending to
+    # blocks the method deliberately dropped. Gather the selection flag too
+    # and mask those padded slots out, so the gather path can never silently
+    # attend outside the selected set.
+    counts = block_mask.sum(-1)
+    kcount = max(int(counts.max()), 1)
     idx = torch.topk(block_mask.float(), kcount, dim=-1).indices  # (B,Hq,kc)
     idx, _ = idx.sort(dim=-1)
+    selected = torch.gather(block_mask, 2, idx)                   # (B,Hq,kc)
 
     ar = torch.arange(block_size, device=query.device)
     tok_idx = (idx.unsqueeze(-1) * block_size + ar).reshape(B, Hq, -1)
-    valid = tok_idx < kv_len
+    valid = (tok_idx < kv_len) & selected.repeat_interleave(block_size, dim=-1)
     tok_idx = tok_idx.clamp(max=kv_len - 1)
 
     gi = tok_idx.unsqueeze(-1).expand(-1, -1, -1, D)

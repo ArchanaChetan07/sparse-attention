@@ -261,6 +261,12 @@ class SampledVerifier:
     def __init__(self, cs: ConfidenceSequence, sampler):
         self.cs = cs
         self.sampler = sampler
+        # Horvitz-Thompson weights are bounded by 1/p_min, so a zero floor
+        # would make the weighted stream unbounded (and the bound vacuous or
+        # a division by zero). A positive floor is a correctness requirement,
+        # not a tuning choice.
+        if not sampler.p_min > 0:
+            raise ValueError("sampler.p_min must be > 0 for HT weighting")
         self.scale = sampler.p_min  # z in [0, 1/p_min] -> scaled to [0,1]
         self.n_steps = 0
         self.n_probes = 0
@@ -288,7 +294,8 @@ def make_estimator(kind: str, alpha: float, p: float, seed: int = 0,
     cs = {"hoeffding": HoeffdingCS, "eb": EmpiricalBernsteinCS,
           "betting": BettingCS}[kind](alpha)
     if adaptive:
-        sampler = AdaptiveSampler(p_base=p, p_min=p_min or max(p / 4, 0.005),
+        floor = p_min if p_min is not None else max(p / 4, 0.005)
+        sampler = AdaptiveSampler(p_base=p, p_min=floor,
                                   p_max=min(4 * p, 1.0), seed=seed)
     else:
         sampler = FixedRateSampler(p, seed=seed)

@@ -148,16 +148,16 @@ def probes_needed(mu: float, targets=(0.20, 0.10, 0.05), alpha=0.05,
     real deployment is then n_probes / stream_length, computed separately.
     """
     out = {}
-    rng = np.random.default_rng(0)
     for kind, adaptive, label in ESTIMATORS:
         if adaptive:
             continue  # rate-shaping is irrelevant when every step is probed
-        need = {f"{t:g}": None for t in targets}
+        per_seed = {f"{t:g}": [] for t in targets}
         for seed in range(seeds):
+            rng = np.random.default_rng(1000 + seed)
             v = make_estimator(kind, alpha, p=1.0, seed=seed)
-            remaining = dict(need)
+            remaining = {f"{t:g}": None for t in targets}
             n = 0
-            while n < max_probes and any(v is None for v in remaining.values()):
+            while n < max_probes and any(x is None for x in remaining.values()):
                 v.step(int(rng.random() < mu), None)
                 n += 1
                 if n % 25:
@@ -168,9 +168,13 @@ def probes_needed(mu: float, targets=(0.20, 0.10, 0.05), alpha=0.05,
                     if remaining[key] is None and not r.failed and r.width <= t:
                         remaining[key] = n
             for k, val in remaining.items():
-                if val is not None:
-                    need[k] = val if need[k] is None else min(need[k], val)
-        out[label] = need
+                per_seed[k].append(val if val is not None else max_probes)
+        # MEDIAN across seeds, not min: the minimum reports the luckiest run
+        # and would understate the cost of the guarantee.
+        out[label] = {k: (int(np.median(vals)) if vals else None)
+                      for k, vals in per_seed.items()}
+        out[label] = {k: (None if v is not None and v >= max_probes else v)
+                      for k, v in out[label].items()}
     return out
 
 

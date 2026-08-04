@@ -120,6 +120,19 @@ def test_hoeffding_tracks_drifting_running_mean():
     assert misses / reps <= ALPHA + 0.05
 
 
+def test_zero_probe_floor_is_rejected():
+    """HT weights are bounded by 1/p_min; a zero floor makes them unbounded."""
+    from csa.verify import EmpiricalBernsteinCS, FixedRateSampler, SampledVerifier
+    with pytest.raises(ValueError):
+        SampledVerifier(EmpiricalBernsteinCS(ALPHA), FixedRateSampler(0.0))
+
+
+def test_explicit_p_min_is_honoured_not_overridden():
+    v = make_estimator("eb", ALPHA, p=0.2, seed=0, adaptive=True, p_min=0.2)
+    assert v.sampler.p_min == 0.2
+    assert v.scale == 0.2
+
+
 def test_probe_rate_matches_target():
     v = make_estimator("hoeffding", ALPHA, p=0.15, seed=0)
     rng = np.random.default_rng(5)
