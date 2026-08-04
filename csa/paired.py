@@ -235,7 +235,7 @@ class PairedModel:
     @torch.no_grad()
     def generate_paired(self, prompt_ids: torch.Tensor, max_new_tokens: int,
                         cfg: SparseConfig, teacher_tokens: Optional[list] = None,
-                        probe: bool = True) -> StepResult:
+                        probe: bool = True, dense_state: bool = False) -> StepResult:
         """Sparse execution with per-step paired measurement.
 
         teacher_tokens=None  -> free-running: sparse model's own greedy tokens
@@ -246,7 +246,20 @@ class PairedModel:
                                 dense attention on the identical cache state and
                                 record logit-level divergence labels; the cache
                                 is cropped back so the probe leaves no trace.
+        dense_state=True     -> after measuring, discard the sparse step's KV
+                                and re-advance the cache densely. Teacher
+                                forcing alone removes compounding of TOKEN
+                                CHOICE but not of KV STATE (the cache was still
+                                written by sparse hidden states); this removes
+                                both, so each step's divergence is attributable
+                                to that step's attention approximation alone.
+                                Costs one extra forward per step. Requires
+                                teacher_tokens.
         """
+        if dense_state and teacher_tokens is None:
+            raise ValueError("dense_state requires teacher_tokens: without a "
+                             "fixed trajectory the dense and sparse runs would "
+                             "diverge in tokens as well as state")
         rec = StepRecorder()
         STATE.cfg = cfg
         cache = self._new_cache()
@@ -290,6 +303,17 @@ class PairedModel:
                 torch.cuda.synchronize()
             step_s = time.perf_counter() - t0
             sparse_logits = sout.logits[0, -1].float()
+
+            if dense_state:
+                # Fully isolated attribution: discard the sparse step's KV and
+                # re-advance the cache densely, so the NEXT step's divergence
+                # is caused only by that step's attention approximation.
+                # Ordinary teacher-forcing removes token-choice compounding
+                # but not KV drift; this removes both.
+                crop_cache(cache, cache_len)
+                STATE.mode = "off"
+                STATE.recorder = None
+                self._forward(ids, cache)
 
             extra = {
                 "step": step,
