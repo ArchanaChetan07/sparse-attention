@@ -92,6 +92,50 @@
       "_flip_rate": 0.09215017064846416
     }
   },
+  "signal_vs_damage": {
+    "est dropped mass (mean)": {
+      "auc_for_flip": 0.7684725280352297,
+      "rho_with_oracle_dropped_mass": 0.9728010622166943,
+      "rho_with_output_divergence": 0.9680142173384206,
+      "rho_with_damage_within_budget": 0.8229116435016663
+    },
+    "est dropped mass (max)": {
+      "auc_for_flip": 0.757161358321812,
+      "rho_with_oracle_dropped_mass": 0.9446404010788451,
+      "rho_with_output_divergence": 0.9684904310417717,
+      "rho_with_damage_within_budget": 0.6013066146038049
+    },
+    "eviction consensus": {
+      "auc_for_flip": 0.7670558314984552,
+      "rho_with_oracle_dropped_mass": 0.9699503087763784,
+      "rho_with_output_divergence": 0.9410834366022806,
+      "rho_with_damage_within_budget": 0.8399625594311783
+    },
+    "fully-dropped mass": {
+      "auc_for_flip": 0.7625646474473858,
+      "rho_with_oracle_dropped_mass": 0.9625551135589488,
+      "rho_with_output_divergence": 0.9727597902587647,
+      "rho_with_damage_within_budget": 0.7718852242379022
+    },
+    "sparse attn entropy": {
+      "auc_for_flip": 0.5141200266270675,
+      "rho_with_oracle_dropped_mass": 0.046832493633073444,
+      "rho_with_output_divergence": -0.022153099346953514,
+      "rho_with_damage_within_budget": 0.1275259741560844
+    },
+    "top1-top2 margin": {
+      "auc_for_flip": 0.8024956474985918,
+      "rho_with_oracle_dropped_mass": 0.2637326747281235,
+      "rho_with_output_divergence": 0.28438993145724756,
+      "rho_with_damage_within_budget": 0.11769367091923462
+    },
+    "cross-layer dropped-mass std": {
+      "auc_for_flip": 0.739903903596361,
+      "rho_with_oracle_dropped_mass": 0.9206541609148375,
+      "rho_with_output_divergence": 0.9433177784282842,
+      "rho_with_damage_within_budget": 0.4523251986287059
+    }
+  },
   "auc_free_by_method": {
     "local_sink": {
       "sparse attn entropy": 0.49547165302586776,

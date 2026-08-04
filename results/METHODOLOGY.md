@@ -64,6 +64,18 @@ a budget, and a KV trajectory. Splitting them i.i.d. leaks a request across
 train and test folds and inflates the combined detector's AUC. Folds are split
 by request group, and a noise-only control asserts the CV returns ~0.5.
 
+**A flip predictor is not automatically a fidelity signal.** A step whose
+top-1/top-2 margin is small flips under *any* perturbation, so a
+confidence-based signal can score well at predicting flips while carrying no
+information about what sparse attention actually discarded. Selecting the
+detector by AUC alone would therefore ship an uncertainty meter — one that is
+blind precisely to the dangerous case, a confidently wrong step caused by
+globally evicted content. Every signal is therefore reported with *both* its
+AUC for flips and its correlation with the oracle damage measures
+(`signal_vs_damage`), computed within budget so budget cannot drive both.
+Signals that predict flips but not damage are named as such rather than
+promoted for their AUC.
+
 **Validity gates width, not the other way round.** When comparing estimators,
 the cheapest one reaching a target bound width is meaningless unless that
 interval actually covers. Selecting on width alone picks whichever estimator

@@ -116,6 +116,33 @@ def analyze(steps: pd.DataFrame, reqs: pd.DataFrame, out: Path,
             block["_flip_rate"] = float(lab.mean())
             summary["auc_within_budget"][f"keep={kf:g}"] = block
 
+    # Is a signal detecting sparse-induced DAMAGE, or merely step-level
+    # UNCERTAINTY? A step whose top-1/top-2 margin is small flips easily under
+    # any perturbation, so a margin can score well on flip-prediction without
+    # carrying information about what sparse attention actually discarded.
+    # Correlating each signal against the oracle damage measures separates
+    # them: a signal that predicts flips but not damage is an uncertainty
+    # detector wearing a fidelity signal's clothes.
+    summary["signal_vs_damage"] = {}
+    for col, (name, sign) in SIGNALS.items():
+        if col not in teach or teach[col].isna().all():
+            continue
+        s = sign * teach[col]
+        entry = {
+            "auc_for_flip": summary["auc_teacher_flip"].get(name),
+            "rho_with_oracle_dropped_mass": spearman(
+                s, teach["oracle_dropped_mean_Lmean"]),
+            "rho_with_output_divergence": spearman(
+                s, teach["out_cos_mean_Lmean"]),
+        }
+        # within-budget, so budget cannot drive both
+        within = [spearman(sign * g[col], g["oracle_dropped_mean_Lmean"])
+                  for _, g in teach.groupby("keep_frac") if len(g) > 10]
+        within = [w for w in within if np.isfinite(w)]
+        entry["rho_with_damage_within_budget"] = (
+            float(np.mean(within)) if within else float("nan"))
+        summary["signal_vs_damage"][name] = entry
+
     free = steps[(steps["mode"] == "free") & steps["top1_flip"].notna()]
     summary["auc_free_by_method"] = {}
     for meth, g in free.groupby("method"):

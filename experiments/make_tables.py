@@ -70,6 +70,24 @@ def study_a():
         table(rows, ["budget", "n steps", "flip rate", "est dropped mass",
                      "consensus", "top1-top2 margin", "ORACLE dropped mass"])
 
+    h("Is a signal detecting damage, or just uncertainty?")
+    for r in names:
+        sv = runs[r].get("signal_vs_damage", {})
+        if not sv:
+            continue
+        print(f"\n**{r}**\n")
+        rows = sorted(([k, fmt(v["auc_for_flip"]),
+                        fmt(v["rho_with_oracle_dropped_mass"]),
+                        fmt(v["rho_with_damage_within_budget"])]
+                       for k, v in sv.items()),
+                      key=lambda x: -(float(x[1]) if x[1] not in ("—", "n/a") else 0))
+        table(rows, ["signal", "AUC (flip)", "rho with damage",
+                     "rho with damage, within budget"])
+    print("\nA signal with a high AUC but a near-zero damage correlation is an "
+          "uncertainty detector, not a fidelity signal: it fires on steps that "
+          "would flip under any perturbation and stays quiet on confidently "
+          "wrong steps, which is the case that matters.\n")
+
     h("H4 — does divergence predict end-task wrongness?")
     rows = []
     for r in names:
