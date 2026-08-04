@@ -1,0 +1,105 @@
+# Methodology and threats to validity
+
+This file records how the measurements are constructed and, more importantly,
+the ways they could mislead. It is written before the results are interpreted
+so that the caveats are not chosen after seeing which ones are convenient.
+
+## 1. What is measured
+
+**The paired counterfactual.** A custom attention function computes, at every
+decode step, both the dense attention output and the selection-based sparse
+output from the *same* Q/KV state. Sparsity is applied by masking non-selected
+blocks; the full KV cache is retained. Selection rather than eviction is
+load-bearing: eviction destroys the state that the dense counterfactual would
+need, so a paired comparison would no longer be on identical inputs.
+
+**The divergence label.** A step is labelled *diverged* when the greedy argmax
+token under dense attention differs from the greedy argmax under sparse
+attention, given the same cache. This is exact, cheap, and requires no task
+labels — but it is a proxy for "wrong", which is why H4 exists as a separate
+hypothesis rather than an assumption.
+
+**The dense probe.** A probe re-executes one token with dense attention on the
+retained cache, then crops the cache back so the probe leaves no trace. The
+smoke check asserts that a run with probes produces a token-identical
+trajectory to a run without them; if that assertion ever fails, every
+divergence number in this repo is invalid.
+
+## 2. Execution modes
+
+| Mode | Token trajectory | Purpose |
+|---|---|---|
+| free-running | sparse model's own greedy tokens | production-like; includes compounding |
+| teacher-forced | forced onto the dense trajectory | isolates per-step attention error from token-choice compounding |
+
+Both are reported. Teacher-forcing removes compounding of *token choice* but
+not of *KV state*: the cache at step *t* was still written by sparse-attention
+hidden states at steps < *t*. So the teacher-forced number isolates one of the
+two compounding channels, not both. This is stated because it is easy to
+overclaim "no compounding" here.
+
+## 3. Corrections applied, and why
+
+**Pooling across budgets inflates AUC.** Budget predicts divergence strongly,
+so a detector evaluated on steps pooled across budgets gets credit for
+information a serving system already has (it knows its own budget). The
+deployable number is the within-budget AUC, and it is lower. Both are reported.
+
+**H4 needs headroom.** On a request the dense model already answers wrongly,
+sparse execution cannot degrade the answer further, so such requests
+contribute label noise uncorrelated with divergence. Conditioning on
+`dense_correct` is not cherry-picking — it is the population the hypothesis is
+about. The unconditional number is reported alongside so the effect of the
+conditioning is visible.
+
+**H4 needs budget held fixed.** A negative correlation between divergence and
+correctness can be produced entirely by budget acting as a common cause of
+both. The within-budget correlation is therefore reported; if it collapses
+while the pooled one is large, the pooled one is an artifact.
+`tests/test_analysis.py` constructs exactly that artifact and asserts the
+within-budget estimate detects it.
+
+**Cross-validation must be grouped.** Steps within one request share a prompt,
+a budget, and a KV trajectory. Splitting them i.i.d. leaks a request across
+train and test folds and inflates the combined detector's AUC. Folds are split
+by request group, and a noise-only control asserts the CV returns ~0.5.
+
+## 4. Threats to validity, in descending order of seriousness
+
+1. **Scale.** Results are on 0.5B and 1.5B models at 1–2K contexts on an 8 GB
+   T1000. The proposal's regime is 8B–72B at 16K–128K. The phase-transition
+   literature this work builds on reports cliffs at those scales; whether the
+   detector's AUC holds there is unverified and is the first thing the rented
+   GPU phase must check.
+2. **Task set.** Synthetic, procedurally generated tasks with single-token
+   gold answers. They were designed to require the failure modes the
+   literature identifies (multi-entity tracking, multi-hop chains,
+   coreference, multi-step arithmetic), but they are not the natural
+   distribution of long-context traffic.
+3. **Small answerable subsets.** Where the base model cannot do a task family
+   at all, that family contributes no usable H4 signal. Point estimates on the
+   answerable subset can rest on few distinct tasks; the number of requests
+   behind every conditional estimate is reported alongside it.
+4. **Wall-clock overhead is not measured in the regime that matters.** Sparse
+   attention pays off when decode is KV-bandwidth-bound. On a small model and
+   a small card, decode is dominated by kernel launches and MLP time, so the
+   measured sparsity speedup is a lower bound and the probe/step cost ratio is
+   an upper bound. H2 is therefore reported as a function of that ratio rather
+   than at a single point.
+5. **The divergence label is binary and greedy.** A flipped token can be
+   semantically harmless (a synonym) and an unflipped step can still be on a
+   path to a wrong answer. Logit KL is recorded alongside as a graded measure.
+6. **Scheduler results are simulation, not a serving system.** Study C is a
+   discrete-event model with an assumed probe cost. It establishes that the
+   elastic policy has the claimed *shape* of degradation; it does not
+   establish that vLLM can be made to do this at the claimed cost.
+
+## 5. Reproducibility
+
+Every result directory carries a `*.meta.json` with the machine fingerprint
+(GPU, driver, power limit, PCIe link, library versions) and the run
+configuration. Analysis is decoupled from the sweep (`csa/analysis.py`) so
+that runs performed at different times are analysed by identical code; re-run
+it with `experiments/analyze_study_a.py`. Raw per-step attention tensors are
+never written — only online-aggregated per-step scalars — per the recording
+discipline the proposal specifies.
