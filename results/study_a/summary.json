@@ -12,6 +12,8 @@
     "power_limit": "50.00 W",
     "pcie": "gen3 x16"
   },
+  "teacher_steps": 1465,
+  "teacher_flip_rate": 0.3221843003412969,
   "auc_teacher_flip": {
     "est dropped mass (mean)": 0.7684725280352297,
     "est dropped mass (max)": 0.757161358321812,
@@ -23,14 +25,112 @@
     "ORACLE dropped mass": 0.7780160274463619,
     "ORACLE output cos-dist": 0.7661959991124311
   },
-  "teacher_steps": 1465,
-  "teacher_flip_rate": 0.3221843003412969,
+  "auc_within_budget": {
+    "keep=0.03125": {
+      "est dropped mass (mean)": 0.6987635818658673,
+      "est dropped mass (max)": 0.6094511052828775,
+      "eviction consensus": 0.6987635818658673,
+      "fully-dropped mass": 0.6987635818658673,
+      "sparse attn entropy": 0.3465249156987636,
+      "top1-top2 margin": 0.7711689771449981,
+      "cross-layer dropped-mass std": 0.45808355189209443,
+      "ORACLE dropped mass": 0.7227894342450356,
+      "ORACLE output cos-dist": 0.7347321094042712,
+      "_n": 293,
+      "_flip_rate": 0.5358361774744027
+    },
+    "keep=0.0625": {
+      "est dropped mass (mean)": 0.697948717948718,
+      "est dropped mass (max)": 0.677902097902098,
+      "eviction consensus": 0.6994871794871794,
+      "fully-dropped mass": 0.693006993006993,
+      "sparse attn entropy": 0.43417249417249415,
+      "top1-top2 margin": 0.7811655011655012,
+      "cross-layer dropped-mass std": 0.6137995337995339,
+      "ORACLE dropped mass": 0.7075058275058275,
+      "ORACLE output cos-dist": 0.687878787878788,
+      "_n": 293,
+      "_flip_rate": 0.5119453924914675
+    },
+    "keep=0.125": {
+      "est dropped mass (mean)": 0.5529733424470267,
+      "est dropped mass (max)": 0.5681818181818181,
+      "eviction consensus": 0.5544543176122123,
+      "fully-dropped mass": 0.5413533834586466,
+      "sparse attn entropy": 0.6388129414445203,
+      "top1-top2 margin": 0.8057644110275689,
+      "cross-layer dropped-mass std": 0.5694919115971748,
+      "ORACLE dropped mass": 0.6047505126452495,
+      "ORACLE output cos-dist": 0.5373091820460242,
+      "_n": 293,
+      "_flip_rate": 0.28668941979522183
+    },
+    "keep=0.25": {
+      "est dropped mass (mean)": 0.6596931659693166,
+      "est dropped mass (max)": 0.6641871997520533,
+      "eviction consensus": 0.6178521617852162,
+      "fully-dropped mass": 0.6231210289787696,
+      "sparse attn entropy": 0.7289632728963273,
+      "top1-top2 margin": 0.8415465674879901,
+      "cross-layer dropped-mass std": 0.6599256159925616,
+      "ORACLE dropped mass": 0.6556640322330699,
+      "ORACLE output cos-dist": 0.5814349914768324,
+      "_n": 293,
+      "_flip_rate": 0.18430034129692832
+    },
+    "keep=0.5": {
+      "est dropped mass (mean)": 0.7167919799498748,
+      "est dropped mass (max)": 0.7085769980506822,
+      "eviction consensus": 0.6942355889724311,
+      "fully-dropped mass": 0.5849345586187691,
+      "sparse attn entropy": 0.7680311890838206,
+      "top1-top2 margin": 0.864522417153996,
+      "cross-layer dropped-mass std": 0.7265385686438317,
+      "ORACLE dropped mass": 0.6652742968532442,
+      "ORACLE output cos-dist": 0.586048454469507,
+      "_n": 293,
+      "_flip_rate": 0.09215017064846416
+    }
+  },
+  "auc_free_by_method": {
+    "local_sink": {
+      "sparse attn entropy": 0.49547165302586776,
+      "top1-top2 margin": 0.8045597108548899,
+      "ORACLE dropped mass": 0.7338939004719518,
+      "ORACLE output cos-dist": 0.7252404564191408,
+      "_n": 1261
+    },
+    "mean_topk": {
+      "est dropped mass (mean)": 0.8112280783563964,
+      "est dropped mass (max)": 0.795338408390554,
+      "eviction consensus": 0.8101944143282933,
+      "fully-dropped mass": 0.8049172874479767,
+      "sparse attn entropy": 0.45060368310814225,
+      "top1-top2 margin": 0.8354472928494542,
+      "cross-layer dropped-mass std": 0.7471020490640677,
+      "ORACLE dropped mass": 0.8220737787414947,
+      "ORACLE output cos-dist": 0.8138083524716616,
+      "_n": 1302
+    },
+    "quest_topk": {
+      "est dropped mass (mean)": 0.7262246963562753,
+      "est dropped mass (max)": 0.7245597165991903,
+      "eviction consensus": 0.7197975708502025,
+      "fully-dropped mass": 0.72332995951417,
+      "sparse attn entropy": 0.5073717948717948,
+      "top1-top2 margin": 0.8200489203778677,
+      "cross-layer dropped-mass std": 0.7186875843454792,
+      "ORACLE dropped mass": 0.7583940620782726,
+      "ORACLE output cos-dist": 0.7522604588394062,
+      "_n": 1262
+    }
+  },
+  "dense_qa_accuracy": 0.2777777777777778,
   "dense_qa_accuracy_by_family": {
     "coreference": 0.0,
     "multi_entity": 0.8333333333333334,
     "multi_hop": 0.0
   },
-  "dense_qa_accuracy": 0.2777777777777778,
   "cliff": [
     {
       "method": "local_sink",
@@ -45,7 +145,7 @@
       "keep_frac": 0.0625,
       "acc": 0.1111111111111111,
       "flip": 0.2882996632996633,
-      "odrop": 0.2528981462656181,
+      "odrop": 0.252898146265618,
       "n": 18
     },
     {
@@ -53,7 +153,7 @@
       "keep_frac": 0.125,
       "acc": 0.1111111111111111,
       "flip": 0.17255892255892255,
-      "odrop": 0.14358097437541048,
+      "odrop": 0.14358097437541045,
       "n": 18
     },
     {
@@ -61,7 +161,7 @@
       "keep_frac": 0.25,
       "acc": 0.16666666666666666,
       "flip": 0.09444444444444444,
-      "odrop": 0.10034783885531834,
+      "odrop": 0.10034783885531831,
       "n": 18
     },
     {
@@ -69,7 +169,7 @@
       "keep_frac": 0.5,
       "acc": 0.2222222222222222,
       "flip": 0.06481481481481481,
-      "odrop": 0.06312149348409155,
+      "odrop": 0.06312149348409152,
       "n": 18
     },
     {
@@ -85,7 +185,7 @@
       "keep_frac": 0.0625,
       "acc": 0.1111111111111111,
       "flip": 0.2916666666666667,
-      "odrop": 0.2532043870165513,
+      "odrop": 0.25320438701655124,
       "n": 18
     },
     {
@@ -93,7 +193,7 @@
       "keep_frac": 0.125,
       "acc": 0.2222222222222222,
       "flip": 0.07407407407407407,
-      "odrop": 0.12809898742215198,
+      "odrop": 0.12809898742215195,
       "n": 18
     },
     {
@@ -101,7 +201,7 @@
       "keep_frac": 0.25,
       "acc": 0.2777777777777778,
       "flip": 0.0,
-      "odrop": 0.06715509607090132,
+      "odrop": 0.06715509607090128,
       "n": 18
     },
     {
@@ -109,7 +209,7 @@
       "keep_frac": 0.5,
       "acc": 0.2777777777777778,
       "flip": 0.0,
-      "odrop": 0.024230122579629768,
+      "odrop": 0.02423012257962973,
       "n": 18
     },
     {
@@ -125,7 +225,7 @@
       "keep_frac": 0.0625,
       "acc": 0.1111111111111111,
       "flip": 0.24537037037037038,
-      "odrop": 0.24432854718323163,
+      "odrop": 0.2443285471832316,
       "n": 18
     },
     {
@@ -133,7 +233,7 @@
       "keep_frac": 0.125,
       "acc": 0.2777777777777778,
       "flip": 0.05555555555555555,
-      "odrop": 0.11924248637094731,
+      "odrop": 0.11924248637094727,
       "n": 18
     },
     {
@@ -141,7 +241,7 @@
       "keep_frac": 0.25,
       "acc": 0.3333333333333333,
       "flip": 0.011111111111111112,
-      "odrop": 0.06695882926702595,
+      "odrop": 0.0669588292670259,
       "n": 18
     },
     {
@@ -149,20 +249,93 @@
       "keep_frac": 0.5,
       "acc": 0.2777777777777778,
       "flip": 0.0,
-      "odrop": 0.030387524800298032,
+      "odrop": 0.03038752480029798,
       "n": 18
     }
   ],
-  "h4": {
+  "h4_all_requests": {
     "spearman_flipfrac_correct": -0.30369047298078683,
     "spearman_meankl_correct": -0.23595569968256144,
     "spearman_estdrop_correct": -0.1668907642088607,
     "auc_flipfrac_incorrect": 0.6833646700689407,
-    "n_requests": 270
+    "auc_estdrop_incorrect": 0.6180504077094144,
+    "n_requests": 270,
+    "accuracy": 0.18888888888888888
+  },
+  "h4_answerable": {
+    "spearman_flipfrac_correct": -0.9768904907119639,
+    "spearman_meankl_correct": -0.8172262356751859,
+    "spearman_estdrop_correct": -0.6999568366898608,
+    "auc_flipfrac_incorrect": 1.0,
+    "auc_estdrop_incorrect": 0.9604989604989604,
+    "n_requests": 75,
+    "accuracy": 0.6666666666666666
+  },
+  "h4_answerable_within_budget": {
+    "per_budget": {
+      "keep=0.03125": {
+        "n": 15,
+        "accuracy": 0.4,
+        "spearman": -0.8885233166386386,
+        "auc": 1.0
+      },
+      "keep=0.0625": {
+        "n": 15,
+        "accuracy": 0.4,
+        "spearman": -0.8885233166386386,
+        "auc": 1.0
+      },
+      "keep=0.125": {
+        "n": 15,
+        "accuracy": 0.7333333333333333,
+        "spearman": -0.9910312089651149,
+        "auc": 1.0
+      },
+      "keep=0.25": {
+        "n": 15,
+        "accuracy": 0.8666666666666667,
+        "spearman": -1.0,
+        "auc": 1.0
+      },
+      "keep=0.5": {
+        "n": 15,
+        "accuracy": 0.9333333333333333,
+        "spearman": -0.9999999999999999,
+        "auc": 1.0
+      }
+    },
+    "weighted_mean_spearman": -0.9536155684484785,
+    "n_budgets_estimable": 5,
+    "n_requests": 75
+  },
+  "h4_by_family": {
+    "coreference": {
+      "n_requests": 90,
+      "note": "insufficient variation to estimate"
+    },
+    "multi_entity": {
+      "spearman_flipfrac_correct": -0.8692585982254908,
+      "spearman_meankl_correct": -0.8423528256823405,
+      "spearman_estdrop_correct": -0.5812001988905249,
+      "auc_flipfrac_incorrect": 0.9474610356963298,
+      "auc_estdrop_incorrect": 0.8480861244019138,
+      "n_requests": 90,
+      "accuracy": 0.5666666666666667
+    },
+    "multi_hop": {
+      "n_requests": 90,
+      "note": "insufficient variation to estimate"
+    }
+  },
+  "h4_floor_effect": {
+    "n_answerable": 75,
+    "n_dense_already_wrong": 195,
+    "sparse_accuracy_when_dense_wrong": 0.005128205128205128
   },
   "timing_ms": {
-    "probe_mean": 60.07643642695356,
-    "sparse_step_mean": 106.62407646402858,
-    "probe_over_step": 0.5634415642251435
+    "probe_mean": 60.07643642695352,
+    "paired_step_mean": 106.62407646402853,
+    "probe_over_paired_step": 0.5634415642251432,
+    "note": "the paired step computes dense AND sparse for measurement, so this ratio understates the cost of a probe relative to a production sparse step; see experiments/overhead_bench.py"
   }
 }
