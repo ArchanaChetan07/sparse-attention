@@ -1,0 +1,16 @@
+regime,estimator,anytime_miss_rate,final_miss_rate,target_alpha
+iid_rare(p=.03),fixed + Hoeffding,0.0,0.0,0.05
+iid_rare(p=.03),fixed + EmpBernstein,0.0,0.0,0.05
+iid_rare(p=.03),fixed + Betting,0.058333333333333334,0.025,0.05
+iid_rare(p=.03),adaptive + EmpBernstein,0.0,0.0,0.05
+iid_rare(p=.03),adaptive + Betting,0.43333333333333335,0.43333333333333335,0.05
+iid_moderate(p=.20),fixed + Hoeffding,0.0,0.0,0.05
+iid_moderate(p=.20),fixed + EmpBernstein,0.008333333333333333,0.0,0.05
+iid_moderate(p=.20),fixed + Betting,0.06666666666666667,0.016666666666666666,0.05
+iid_moderate(p=.20),adaptive + EmpBernstein,0.0,0.0,0.05
+iid_moderate(p=.20),adaptive + Betting,0.625,0.425,0.05
+bursty(.01/.35),fixed + Hoeffding,0.0,0.0,0.05
+bursty(.01/.35),fixed + EmpBernstein,0.0,0.0,0.05
+bursty(.01/.35),fixed + Betting,0.10833333333333334,0.075,0.05
+bursty(.01/.35),adaptive + EmpBernstein,0.0,0.0,0.05
+bursty(.01/.35),adaptive + Betting,0.9666666666666667,0.85,0.05

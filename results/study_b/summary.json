@@ -1,0 +1,278 @@
+{
+  "trace_steps": 2035,
+  "true_divergence": 0.21081081081081082,
+  "cost_ratio_probe_over_step": 0.545208913954905,
+  "cost_ratio_source": "paired-step ratio (UNDERSTATES r)",
+  "h2_targets_by_stream": {
+    "keep=0.03125": {
+      "+/-5% (w=0.10)": {
+        "reached": false,
+        "rejected_for_undercoverage": [],
+        "note": "no valid estimator reached this width"
+      },
+      "+/-2.5% (w=0.05)": {
+        "reached": false,
+        "rejected_for_undercoverage": [],
+        "note": "no valid estimator reached this width"
+      },
+      "+/-10% (w=0.20)": {
+        "estimator": "adaptive + Betting",
+        "probe_rate": 0.7965601965601966,
+        "width": 0.14687500000000003,
+        "coverage": 0.95,
+        "reached": true,
+        "cost_ratio": 0.545208913954905,
+        "overhead_frac": 0.43429171966629043,
+        "throughput_loss": 0.30279176384517853,
+        "rejected_for_undercoverage": [
+          {
+            "estimator": "fixed + Betting",
+            "best_coverage": 0.8
+          }
+        ]
+      }
+    },
+    "keep=0.0625": {
+      "+/-5% (w=0.10)": {
+        "reached": false,
+        "rejected_for_undercoverage": [
+          {
+            "estimator": "adaptive + Betting",
+            "best_coverage": 0.05
+          }
+        ],
+        "note": "no valid estimator reached this width"
+      },
+      "+/-2.5% (w=0.05)": {
+        "reached": false,
+        "rejected_for_undercoverage": [],
+        "note": "no valid estimator reached this width"
+      },
+      "+/-10% (w=0.20)": {
+        "estimator": "fixed + Betting",
+        "probe_rate": 0.3964373464373464,
+        "width": 0.15406250000000002,
+        "coverage": 0.9,
+        "reached": true,
+        "cost_ratio": 0.545208913954905,
+        "overhead_frac": 0.21614117510227007,
+        "throughput_loss": 0.1777270431486656,
+        "rejected_for_undercoverage": [
+          {
+            "estimator": "adaptive + Betting",
+            "best_coverage": 0.05
+          }
+        ]
+      }
+    },
+    "keep=0.125": {
+      "+/-5% (w=0.10)": {
+        "reached": false,
+        "rejected_for_undercoverage": [
+          {
+            "estimator": "adaptive + Betting",
+            "best_coverage": 0.0
+          },
+          {
+            "estimator": "fixed + Betting",
+            "best_coverage": 0.15
+          }
+        ],
+        "note": "no valid estimator reached this width"
+      },
+      "+/-2.5% (w=0.05)": {
+        "reached": false,
+        "rejected_for_undercoverage": [
+          {
+            "estimator": "adaptive + Betting",
+            "best_coverage": 0.0
+          }
+        ],
+        "note": "no valid estimator reached this width"
+      },
+      "+/-10% (w=0.20)": {
+        "estimator": "fixed + Betting",
+        "probe_rate": 0.19914004914004915,
+        "width": 0.18812499999999996,
+        "coverage": 0.9,
+        "reached": true,
+        "cost_ratio": 0.545208913954905,
+        "overhead_frac": 0.10857292991657261,
+        "throughput_loss": 0.09793936599619427,
+        "rejected_for_undercoverage": [
+          {
+            "estimator": "adaptive + Betting",
+            "best_coverage": 0.75
+          }
+        ]
+      }
+    },
+    "keep=0.25": {
+      "+/-5% (w=0.10)": {
+        "reached": false,
+        "rejected_for_undercoverage": [
+          {
+            "estimator": "adaptive + Betting",
+            "best_coverage": 0.05
+          },
+          {
+            "estimator": "fixed + Betting",
+            "best_coverage": 0.75
+          }
+        ],
+        "note": "no valid estimator reached this width"
+      },
+      "+/-2.5% (w=0.05)": {
+        "reached": false,
+        "rejected_for_undercoverage": [
+          {
+            "estimator": "fixed + Betting",
+            "best_coverage": 0.05
+          }
+        ],
+        "note": "no valid estimator reached this width"
+      },
+      "+/-10% (w=0.20)": {
+        "estimator": "fixed + EmpBernstein",
+        "probe_rate": 0.3964373464373464,
+        "width": 0.16995289798046365,
+        "coverage": 1.0,
+        "reached": true,
+        "cost_ratio": 0.545208913954905,
+        "overhead_frac": 0.21614117510227007,
+        "throughput_loss": 0.1777270431486656,
+        "rejected_for_undercoverage": [
+          {
+            "estimator": "adaptive + Betting",
+            "best_coverage": 0.6
+          },
+          {
+            "estimator": "fixed + Betting",
+            "best_coverage": 0.75
+          }
+        ]
+      }
+    },
+    "keep=0.5": {
+      "+/-5% (w=0.10)": {
+        "reached": false,
+        "rejected_for_undercoverage": [
+          {
+            "estimator": "adaptive + Betting",
+            "best_coverage": 0.55
+          },
+          {
+            "estimator": "fixed + Betting",
+            "best_coverage": 0.8
+          }
+        ],
+        "note": "no valid estimator reached this width"
+      },
+      "+/-2.5% (w=0.05)": {
+        "reached": false,
+        "rejected_for_undercoverage": [
+          {
+            "estimator": "fixed + Betting",
+            "best_coverage": 0.4
+          }
+        ],
+        "note": "no valid estimator reached this width"
+      },
+      "+/-10% (w=0.20)": {
+        "estimator": "fixed + EmpBernstein",
+        "probe_rate": 0.19914004914004915,
+        "width": 0.18698457916049163,
+        "coverage": 1.0,
+        "reached": true,
+        "cost_ratio": 0.545208913954905,
+        "overhead_frac": 0.10857292991657261,
+        "throughput_loss": 0.09793936599619427,
+        "rejected_for_undercoverage": [
+          {
+            "estimator": "fixed + Betting",
+            "best_coverage": 0.85
+          }
+        ]
+      }
+    },
+    "mixed": {
+      "+/-5% (w=0.10)": {
+        "reached": false,
+        "rejected_for_undercoverage": [],
+        "note": "no valid estimator reached this width"
+      },
+      "+/-2.5% (w=0.05)": {
+        "reached": false,
+        "rejected_for_undercoverage": [],
+        "note": "no valid estimator reached this width"
+      },
+      "+/-10% (w=0.20)": {
+        "estimator": "fixed + Hoeffding",
+        "probe_rate": 0.8011056511056511,
+        "width": 0.17047895084344994,
+        "coverage": 1.0,
+        "reached": true,
+        "cost_ratio": 0.545208913954905,
+        "overhead_frac": 0.4367699420024491,
+        "throughput_loss": 0.30399434817916354,
+        "rejected_for_undercoverage": [
+          {
+            "estimator": "adaptive + Betting",
+            "best_coverage": 0.65
+          },
+          {
+            "estimator": "adaptive + EmpBernstein",
+            "best_coverage": 0.85
+          },
+          {
+            "estimator": "fixed + Betting",
+            "best_coverage": 0.8
+          },
+          {
+            "estimator": "fixed + EmpBernstein",
+            "best_coverage": 0.5
+          }
+        ]
+      }
+    }
+  },
+  "h2_verdict_at_5pct_on_short_traces": "INCONCLUSIVE",
+  "h2_probes_needed_for_width": {
+    "fixed + Hoeffding": {
+      "0.2": 875,
+      "0.1": 4075,
+      "0.05": 18700
+    },
+    "fixed + EmpBernstein": {
+      "0.2": 225,
+      "0.1": 1050,
+      "0.05": 5325
+    },
+    "fixed + Betting": {
+      "0.2": 125,
+      "0.1": 487,
+      "0.05": 2312
+    }
+  },
+  "h2_verdict_scalefree": "NOT FALSIFIED at stream length >= 10000 steps (valid estimators only: fixed + Hoeffding, fixed + EmpBernstein)",
+  "coverage_valid_estimators": [
+    "fixed + Hoeffding",
+    "fixed + EmpBernstein"
+  ],
+  "best_valid_estimator": "fixed + EmpBernstein",
+  "width_scaling_exponent_beta": 0.42651062162439213,
+  "estimators_undercovering_on_replay": {
+    "adaptive + Betting": 0.0,
+    "adaptive + EmpBernstein": 0.1,
+    "fixed + Betting": 0.05,
+    "fixed + EmpBernstein": 0.0
+  },
+  "coverage_worst_anytime_miss": 0.9666666666666667,
+  "coverage_by_estimator_bursty": {
+    "fixed + Hoeffding": 0.0,
+    "fixed + EmpBernstein": 0.0,
+    "fixed + Betting": 0.10833333333333334,
+    "adaptive + EmpBernstein": 0.0,
+    "adaptive + Betting": 0.9666666666666667
+  }
+}
