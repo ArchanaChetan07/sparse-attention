@@ -1,0 +1,313 @@
+{
+  "fingerprint": {
+    "platform": "Windows-10-10.0.26200-SP0",
+    "python": "3.11.5",
+    "cpu": "Intel64 Family 6 Model 183 Stepping 1, GenuineIntel",
+    "torch": "2.6.0+cu124",
+    "gpu": "NVIDIA T1000 8GB",
+    "gpu_mem_gb": 8.0,
+    "cuda": "12.4",
+    "transformers": "5.12.1",
+    "driver": "596.51",
+    "power_limit": "50.00 W",
+    "pcie": "gen3 x16"
+  },
+  "auc_teacher_flip": {
+    "est dropped mass (mean)": 0.7924232264207357,
+    "est dropped mass (max)": 0.7894644790659734,
+    "eviction consensus": 0.7953957623945171,
+    "fully-dropped mass": 0.7866610351043726,
+    "sparse attn entropy": 0.48133020984826713,
+    "top1-top2 margin": 0.8496590582518353,
+    "cross-layer dropped-mass std": 0.7827436158693942,
+    "ORACLE dropped mass": 0.8286742315384906,
+    "ORACLE output cos-dist": 0.8206855411089533
+  },
+  "teacher_steps": 2035,
+  "teacher_flip_rate": 0.21081081081081082,
+  "auc_within_budget": {
+    "keep=0.03125": {
+      "est dropped mass (mean)": 0.6235938641344048,
+      "est dropped mass (max)": 0.6554784514243974,
+      "eviction consensus": 0.6235938641344048,
+      "fully-dropped mass": 0.6235938641344048,
+      "sparse attn entropy": 0.38424640857073294,
+      "top1-top2 margin": 0.756062819576333,
+      "cross-layer dropped-mass std": 0.5775018261504747,
+      "ORACLE dropped mass": 0.7220112003895787,
+      "ORACLE output cos-dist": 0.7321645970294619,
+      "_n": 407,
+      "_flip_rate": 0.45454545454545453
+    },
+    "keep=0.0625": {
+      "est dropped mass (mean)": 0.7157994534604872,
+      "est dropped mass (max)": 0.7075874184373432,
+      "eviction consensus": 0.7140427193129217,
+      "fully-dropped mass": 0.7140984886509396,
+      "sparse attn entropy": 0.39749595672299376,
+      "top1-top2 margin": 0.8085438625843512,
+      "cross-layer dropped-mass std": 0.691233060063577,
+      "ORACLE dropped mass": 0.7744409123863698,
+      "ORACLE output cos-dist": 0.7724889855557415,
+      "_n": 407,
+      "_flip_rate": 0.31695331695331697
+    },
+    "keep=0.125": {
+      "est dropped mass (mean)": 0.6460871170173496,
+      "est dropped mass (max)": 0.6448874123292727,
+      "eviction consensus": 0.6424418604651163,
+      "fully-dropped mass": 0.6484403839055002,
+      "sparse attn entropy": 0.6123108157991879,
+      "top1-top2 margin": 0.8713547434477666,
+      "cross-layer dropped-mass std": 0.6301679586563307,
+      "ORACLE dropped mass": 0.738187523071244,
+      "ORACLE output cos-dist": 0.7320044296788483,
+      "_n": 407,
+      "_flip_rate": 0.1547911547911548
+    },
+    "keep=0.25": {
+      "est dropped mass (mean)": 0.7004420866489832,
+      "est dropped mass (max)": 0.5847922192749779,
+      "eviction consensus": 0.7173297966401415,
+      "fully-dropped mass": 0.6439434129089301,
+      "sparse attn entropy": 0.6949602122015914,
+      "top1-top2 margin": 0.9197170645446509,
+      "cross-layer dropped-mass std": 0.6832891246684349,
+      "ORACLE dropped mass": 0.7812555260831124,
+      "ORACLE output cos-dist": 0.6863837312113175,
+      "_n": 407,
+      "_flip_rate": 0.07371007371007371
+    },
+    "keep=0.5": {
+      "est dropped mass (mean)": 0.6931523022432113,
+      "est dropped mass (max)": 0.5896103896103896,
+      "eviction consensus": 0.7258559622195987,
+      "fully-dropped mass": 0.5144037780401417,
+      "sparse attn entropy": 0.7510035419126329,
+      "top1-top2 margin": 0.9692443919716647,
+      "cross-layer dropped-mass std": 0.6684769775678866,
+      "ORACLE dropped mass": 0.7680047225501772,
+      "ORACLE output cos-dist": 0.6893742621015347,
+      "_n": 407,
+      "_flip_rate": 0.05405405405405406
+    }
+  },
+  "auc_free_by_method": {
+    "local_sink": {
+      "sparse attn entropy": 0.4478328895105397,
+      "top1-top2 margin": 0.8324591369215734,
+      "ORACLE dropped mass": 0.8203190144444146,
+      "ORACLE output cos-dist": 0.8214823681308336,
+      "_n": 1655
+    },
+    "mean_topk": {
+      "est dropped mass (mean)": 0.8397385192835731,
+      "est dropped mass (max)": 0.8312995944277907,
+      "eviction consensus": 0.8390180618182734,
+      "fully-dropped mass": 0.8356374537118674,
+      "sparse attn entropy": 0.4801496334735622,
+      "top1-top2 margin": 0.830945663400257,
+      "cross-layer dropped-mass std": 0.8107237322719603,
+      "ORACLE dropped mass": 0.8503816409300451,
+      "ORACLE output cos-dist": 0.8476610323198226,
+      "_n": 1763
+    },
+    "quest_topk": {
+      "est dropped mass (mean)": 0.7855060464649506,
+      "est dropped mass (max)": 0.7739324602338301,
+      "eviction consensus": 0.7860103366952682,
+      "fully-dropped mass": 0.779176075066486,
+      "sparse attn entropy": 0.5223217421847558,
+      "top1-top2 margin": 0.8404573736765517,
+      "cross-layer dropped-mass std": 0.7748155953635405,
+      "ORACLE dropped mass": 0.815903959054644,
+      "ORACLE output cos-dist": 0.8098600030106881,
+      "_n": 1657
+    }
+  },
+  "dense_qa_accuracy_by_family": {
+    "coreference": 0.25,
+    "multi_entity": 1.0,
+    "multi_hop": 0.0,
+    "reasoning": 0.5
+  },
+  "dense_qa_accuracy": 0.4375,
+  "cliff": [
+    {
+      "method": "local_sink",
+      "keep_frac": 0.03125,
+      "acc": 0.125,
+      "flip": 0.2587890625,
+      "odrop": 0.3517908636469912,
+      "n": 16
+    },
+    {
+      "method": "local_sink",
+      "keep_frac": 0.0625,
+      "acc": 0.125,
+      "flip": 0.19600015039260385,
+      "odrop": 0.2678024049852579,
+      "n": 16
+    },
+    {
+      "method": "local_sink",
+      "keep_frac": 0.125,
+      "acc": 0.125,
+      "flip": 0.1315817875445633,
+      "odrop": 0.1479414827456373,
+      "n": 16
+    },
+    {
+      "method": "local_sink",
+      "keep_frac": 0.25,
+      "acc": 0.1875,
+      "flip": 0.11010354662698413,
+      "odrop": 0.1013937990606255,
+      "n": 16
+    },
+    {
+      "method": "local_sink",
+      "keep_frac": 0.5,
+      "acc": 0.25,
+      "flip": 0.09523809523809523,
+      "odrop": 0.055257886038821764,
+      "n": 16
+    },
+    {
+      "method": "mean_topk",
+      "keep_frac": 0.03125,
+      "acc": 0.125,
+      "flip": 0.2587890625,
+      "odrop": 0.3517908636469912,
+      "n": 16
+    },
+    {
+      "method": "mean_topk",
+      "keep_frac": 0.0625,
+      "acc": 0.1875,
+      "flip": 0.16478613167828107,
+      "odrop": 0.26526555310254085,
+      "n": 16
+    },
+    {
+      "method": "mean_topk",
+      "keep_frac": 0.125,
+      "acc": 0.25,
+      "flip": 0.10421537136195942,
+      "odrop": 0.12698075114784146,
+      "n": 16
+    },
+    {
+      "method": "mean_topk",
+      "keep_frac": 0.25,
+      "acc": 0.375,
+      "flip": 0.041666666666666664,
+      "odrop": 0.06400205153273329,
+      "n": 16
+    },
+    {
+      "method": "mean_topk",
+      "keep_frac": 0.5,
+      "acc": 0.5,
+      "flip": 0.0022727272727272726,
+      "odrop": 0.023400570605064362,
+      "n": 16
+    },
+    {
+      "method": "quest_topk",
+      "keep_frac": 0.03125,
+      "acc": 0.125,
+      "flip": 0.2587890625,
+      "odrop": 0.3517908636469912,
+      "n": 16
+    },
+    {
+      "method": "quest_topk",
+      "keep_frac": 0.0625,
+      "acc": 0.1875,
+      "flip": 0.13839285714285715,
+      "odrop": 0.2630625825461875,
+      "n": 16
+    },
+    {
+      "method": "quest_topk",
+      "keep_frac": 0.125,
+      "acc": 0.375,
+      "flip": 0.05032469015816055,
+      "odrop": 0.1263610717186526,
+      "n": 16
+    },
+    {
+      "method": "quest_topk",
+      "keep_frac": 0.25,
+      "acc": 0.375,
+      "flip": 0.005364589778226915,
+      "odrop": 0.06875986775666532,
+      "n": 16
+    },
+    {
+      "method": "quest_topk",
+      "keep_frac": 0.5,
+      "acc": 0.4375,
+      "flip": 0.004552236556546902,
+      "odrop": 0.029489531809751078,
+      "n": 16
+    }
+  ],
+  "h4": {
+    "spearman_flipfrac_correct": -0.33453047042828243,
+    "spearman_meankl_correct": -0.14001069567000557,
+    "spearman_estdrop_correct": -0.244361042018182,
+    "auc_flipfrac_incorrect": 0.6947222222222222,
+    "auc_estdrop_incorrect": 0.654867256637168,
+    "n_requests": 240,
+    "base_accuracy": 0.25
+  },
+  "h4_answerable": {
+    "spearman_flipfrac_correct": -0.8984282438176521,
+    "spearman_meankl_correct": -0.7054090317674658,
+    "spearman_estdrop_correct": -0.5355842205313147,
+    "auc_flipfrac_incorrect": 0.9844663742690059,
+    "auc_estdrop_incorrect": 0.81993006993007,
+    "n_requests": 105,
+    "base_accuracy": 0.5428571428571428
+  },
+  "h4_by_family": {
+    "coreference": {
+      "spearman_flipfrac_correct": -0.13245323570650436,
+      "spearman_meankl_correct": 0.0767605425111868,
+      "spearman_estdrop_correct": -0.05002501876563868,
+      "auc_flipfrac_incorrect": 0.5333333333333333,
+      "auc_estdrop_incorrect": 0.5333333333333333,
+      "n_requests": 60,
+      "base_accuracy": 0.25
+    },
+    "multi_entity": {
+      "spearman_flipfrac_correct": -0.916172685502156,
+      "spearman_meankl_correct": -0.8317544689486918,
+      "spearman_estdrop_correct": -0.6220375665126314,
+      "auc_flipfrac_incorrect": 0.9814814814814815,
+      "auc_estdrop_incorrect": 0.8831908831908832,
+      "n_requests": 60,
+      "base_accuracy": 0.55
+    },
+    "multi_hop": {
+      "n_requests": 60,
+      "note": "insufficient variation"
+    },
+    "reasoning": {
+      "spearman_flipfrac_correct": -0.4273259526130958,
+      "spearman_meankl_correct": -0.4744886313450628,
+      "spearman_estdrop_correct": -0.4702351763970037,
+      "auc_flipfrac_incorrect": 0.8064236111111112,
+      "auc_estdrop_incorrect": 0.8133333333333334,
+      "n_requests": 60,
+      "base_accuracy": 0.2
+    }
+  },
+  "timing_ms": {
+    "probe_mean": 61.76682039322502,
+    "sparse_step_mean": 113.29018805868945,
+    "probe_over_step": 0.545208913954905
+  }
+}
