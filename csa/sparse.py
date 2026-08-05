@@ -49,19 +49,41 @@ def layer_keep_fracs(keep_frac: float, n_layers: int, schedule: str = "uniform",
       inv_pyramid - the reverse.
     """
     import numpy as np
-    if n_layers <= 1 or schedule == "uniform":
-        return np.full(max(n_layers, 1), float(keep_frac))
-    t = np.linspace(-1.0, 1.0, n_layers)
+    n = max(int(n_layers), 1)
+    kf = float(keep_frac)
+    if not (0.0 < kf <= 1.0):
+        raise ValueError(f"keep_frac must be in (0, 1], got {kf}")
+    if n <= 1 or schedule == "uniform":
+        return np.full(n, kf)
+    t = np.linspace(-1.0, 1.0, n)
     if schedule == "pyramid":
         w = 1.0 - strength * t
     elif schedule == "inv_pyramid":
         w = 1.0 + strength * t
     else:
         raise ValueError(f"unknown layer schedule: {schedule}")
-    fr = keep_frac * w
-    fr = np.clip(fr, 1e-6, 1.0)
-    fr *= keep_frac / fr.mean()          # restore the mean after clipping
-    return np.clip(fr, 1e-6, 1.0)
+    w = np.maximum(np.asarray(w, dtype=float), 1e-12)
+    # Exact mean before projection, then water-fill onto [eps, 1].
+    fr = kf * (w / w.mean())
+    lo, hi = 1e-6, 1.0
+    target_sum = kf * n
+    for _ in range(n + 5):
+        fr = np.clip(fr, lo, hi)
+        deficit = target_sum - fr.sum()
+        if abs(deficit) < 1e-12 * n:
+            break
+        free = (fr < hi - 1e-15) if deficit > 0 else (fr > lo + 1e-15)
+        if not free.any():
+            break
+        fr[free] += deficit / free.sum()
+    fr = np.clip(fr, lo, hi)
+    if abs(float(fr.mean()) - kf) > 1e-9:
+        raise ValueError(
+            f"infeasible layer schedule: mean keep_frac={kf} with "
+            f"schedule={schedule!r}, strength={strength}, n_layers={n} "
+            f"(achieved mean={fr.mean():.6f})"
+        )
+    return fr
 
 
 def n_blocks(kv_len: int, block_size: int) -> int:
@@ -293,5 +315,11 @@ def gather_sparse_attention(query, key, value, block_mask, block_size,
     if attn_bias is not None:
         bias = torch.gather(attn_bias.expand(B, Hq, kv_len), 2, tok_idx)
         logits = logits + bias.unsqueeze(2)
+    # All-masked rows (empty selection or bias forbidding every gathered
+    # token) make softmax(-inf) -> NaN. Emit zeros instead of poisoning
+    # the residual stream.
+    has_logit = torch.isfinite(logits).any(dim=-1, keepdim=True)
+    logits = logits.masked_fill(~has_logit, 0.0)
     probs = torch.softmax(logits, dim=-1)
+    probs = torch.nan_to_num(probs, nan=0.0).masked_fill(~has_logit, 0.0)
     return torch.matmul(probs, vg.float())

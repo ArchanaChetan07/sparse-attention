@@ -121,9 +121,10 @@ class EmpiricalBernsteinCS(ConfidenceSequence):
         self.S_l += lam
         self.S_v += v * self._psi_e(lam)
         self.n = t
+        # Predictable plug-in: accumulate sq-dev vs mu_hat_{t-1}, then update.
+        self.sum_sq_dev += (x - self.mu_prev) ** 2
         self.sum_x += x
         self.mu_prev = (0.5 + self.sum_x) / (t + 1.0)
-        self.sum_sq_dev += (x - self.mu_prev) ** 2
         self.var_prev = self.sum_sq_dev / (t + 1.0)
         if self.S_l <= 0:
             return self.lo, self.hi
@@ -171,9 +172,10 @@ class BettingCS(ConfidenceSequence):
         self.rejected |= (np.maximum(self.logK_plus, self.logK_minus)
                           >= self.thresh)
         self.n = t
+        # Predictable plug-in: accumulate sq-dev vs mu_hat_{t-1}, then update.
+        self.sum_sq_dev += (x - self.mu_prev) ** 2
         self.sum_x += x
         self.mu_prev = (0.5 + self.sum_x) / (t + 1.0)
-        self.sum_sq_dev += (x - self.mu_prev) ** 2
         self.var_prev = self.sum_sq_dev / (t + 1.0)
         alive = ~self.rejected
         if alive.any():

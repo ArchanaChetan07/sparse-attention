@@ -9,7 +9,9 @@ each task has a single-word gold answer for exact checking.
 
 from __future__ import annotations
 
+import hashlib
 import random
+import re
 from dataclasses import dataclass, field
 
 NAMES = ["Alice", "Bob", "Carla", "Deepak", "Elena", "Farid", "Grace", "Hiro",
@@ -47,7 +49,27 @@ class Task:
     meta: dict = field(default_factory=dict)
 
     def check(self, generated: str) -> bool:
-        return self.gold.lower() in generated.lower()
+        """Score a model completion against the gold answer.
+
+        Word answers use Unicode-aware word boundaries so short golds like
+        ``key`` do not match inside ``monkey``. Numeric golds (reasoning)
+        match the *last* integer in the completion — the usual final-answer
+        position — so restated intermediate counts cannot false-positive.
+        """
+        g = (self.gold or "").strip()
+        if not g or not generated:
+            return False
+        if re.fullmatch(r"-?\d+", g):
+            nums = re.findall(r"-?\d+", generated)
+            return bool(nums) and nums[-1] == g
+        return re.search(rf"(?i)\b{re.escape(g)}\b", generated) is not None
+
+
+def _stable_seed(*parts) -> int:
+    """Process-stable 32-bit seed (unlike Python's salted hash())."""
+    payload = "|".join(str(p) for p in parts).encode("utf-8")
+    digest = hashlib.blake2b(payload, digest_size=8).digest()
+    return int.from_bytes(digest, "big") & 0xFFFFFFFF
 
 
 def _filler_paragraph(rng: random.Random, n_sentences: int = 4) -> str:
@@ -181,7 +203,7 @@ def make_tasks(count_tokens, target_tokens: int, per_family: int = 3,
     tasks = []
     for fam in families:
         for i in range(per_family):
-            rng = random.Random(hash((seed, fam, i, target_tokens)) & 0xFFFFFFFF)
+            rng = random.Random(_stable_seed(seed, fam, i, target_tokens))
             t = FAMILIES[fam](rng, count_tokens, target_tokens,
                               task_id=f"{fam}-{target_tokens}-{i}")
             tasks.append(t)
