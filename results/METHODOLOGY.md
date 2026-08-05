@@ -144,3 +144,11 @@ that runs performed at different times are analysed by identical code; re-run
 it with `experiments/analyze_study_a.py`. Raw per-step attention tensors are
 never written — only online-aggregated per-step scalars — per the recording
 discipline the proposal specifies.
+
+**Run provenance.** Measurement runs are never silently replaced. When a
+harness change invalidates a run, the old directory stays in place with a
+`SUPERSEDED.md` naming the replacement and the code delta. Current authority:
+`results/study_a/` (first sweep, intermediate code) is superseded by
+`results/study_a_0.5b/` (final code); the direction-level agreement between
+the two (signal ranking, cliff shape, AUC 0.80 vs 0.85) is a robustness check
+on the methodology fixes themselves.
