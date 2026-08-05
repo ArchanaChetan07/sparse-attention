@@ -4,9 +4,13 @@
 [![PyTorch](https://img.shields.io/badge/PyTorch-2.2+-ee4c2c.svg)](https://pytorch.org/)
 [![Transformers](https://img.shields.io/badge/transformers-4.48+-yellow.svg)](https://huggingface.co/docs/transformers)
 [![Tests](https://img.shields.io/badge/tests-60%20passed-brightgreen.svg)](tests/)
-[![License](https://img.shields.io/badge/license-see%20repo-lightgrey.svg)](#)
+[![H1 Supported](https://img.shields.io/badge/H1%20detectability-supported-success.svg)](results/REPORT.md)
+[![H4 Supported](https://img.shields.io/badge/H4%20proxy%20validity-supported-success.svg)](results/REPORT.md)
+[![Phase L](https://img.shields.io/badge/phase-L%20smoke%20complete-blueviolet.svg)](results/REPORT.md)
 
 **Runtime-verified fidelity guarantees for long-context LLM serving.**
+
+`#sparse-attention` `#llm-serving` `#kv-cache` `#long-context` `#pytorch` `#confidence-sequences` `#systems-ml` `#huggingface`
 
 Sparse attention ships an accuracy claim it never checks at runtime. Fidelity loss under KV compression behaves like a **phase transition**, not a smooth slope — so offline operating points fail silently on a subset of live requests. This repository implements the full measurement and verification stack:
 
@@ -14,12 +18,12 @@ Sparse attention ships an accuracy claim it never checks at runtime. Fidelity lo
 "≤ 2% of decode steps diverged from dense execution, at 95% confidence, at ~6% throughput cost."
 ```
 
-| Artifact | Link |
-|---|---|
-| Verdicts (H1–H4) | [`results/REPORT.md`](results/REPORT.md) |
-| Generated tables | [`results/TABLES.md`](results/TABLES.md) |
-| Threats to validity | [`results/METHODOLOGY.md`](results/METHODOLOGY.md) |
-| Serving RFC draft | [`docs/RFC-runtime-fidelity-verification.md`](docs/RFC-runtime-fidelity-verification.md) |
+| Artifact | Description | Link |
+|---|---|---|
+| **REPORT** | Pre-committed H1–H4 verdicts with numbers | [`results/REPORT.md`](results/REPORT.md) |
+| **TABLES** | Auto-generated markdown tables (never hand-copied) | [`results/TABLES.md`](results/TABLES.md) |
+| **METHODOLOGY** | Threats to validity, written before interpreting results | [`results/METHODOLOGY.md`](results/METHODOLOGY.md) |
+| **RFC** | Serving-system integration design (vLLM path) | [`docs/RFC-runtime-fidelity-verification.md`](docs/RFC-runtime-fidelity-verification.md) |
 
 ---
 
@@ -27,12 +31,13 @@ Sparse attention ships an accuracy claim it never checks at runtime. Fidelity lo
 
 1. [System architecture](#system-architecture)
 2. [Headline results (smoke scale)](#headline-results-smoke-scale)
-3. [Figures](#figures)
-4. [Repository layout](#repository-layout)
-5. [Quick start](#quick-start)
-6. [Reproduce studies](#reproduce-studies)
-7. [Status and roadmap](#status-and-roadmap)
-8. [Citation](#citation)
+3. [Result catalog with tags](#result-catalog-with-tags)
+4. [Figures](#figures)
+5. [Repository layout](#repository-layout)
+6. [Quick start](#quick-start)
+7. [Reproduce studies](#reproduce-studies)
+8. [Status and roadmap](#status-and-roadmap)
+9. [Citation](#citation)
 
 ---
 
@@ -105,29 +110,58 @@ Measured on **NVIDIA T1000 8GB**, models `Qwen2.5-0.5B-Instruct` and `Qwen2.5-1.
 
 ---
 
+## Result catalog with tags
+
+Each run directory includes `*.meta.json` (machine fingerprint) and online-aggregated CSVs only — never raw attention tensors.
+
+| Directory | Tags | Description | Key result |
+|---|---|---|---|
+| [`results/study_a_0.5b/`](results/study_a_0.5b/) | `#study-a` `#h1` `#h4` `#qwen-0.5b` `#t1000` | Authoritative 0.5B paired dense/sparse sweep (teacher + free-running) | Best LF AUC **0.85** (margin); damage-aligned **0.79**; H4 Spearman **−0.90** |
+| [`results/study_a_1.5b/`](results/study_a_1.5b/) | `#study-a` `#h1` `#h4` `#qwen-1.5b` `#t1000` | 1.5B full Study A (Phase L); ROC / cliff / calibration / traces | Damage-aligned AUC **0.84**; combined CV **0.92**; H4 Spearman **−0.80** (within-budget **−0.75**) |
+| [`results/study_a/`](results/study_a/) | `#superseded` | First Study A run (intermediate code) | Kept for provenance; see `SUPERSEDED.md` |
+| [`results/study_b/`](results/study_b/) | `#study-b` `#h2` `#confidence-sequences` | Bound width vs probe cost; coverage audit under i.i.d. / bursty | Scale-free H2 **not falsified**; adaptive+Betting burst miss **0.97** |
+| [`results/study_c/`](results/study_c/) | `#study-c` `#h3` `#scheduler` `#simulation` | Elastic vs inline vs none under load | High-load P99 TPOT: elastic **17.5** vs inline **44** (none 19.5) |
+| [`results/ablations/`](results/ablations/) | `#ablations` `#transfer` `#detector` | Signals alone/combined; rate 0→100%; fixed vs adaptive; transfer | Cross-model transfer AUC **0.92** (0.5B→1.5B) |
+| [`results/ablation6/`](results/ablation6/) | `#ablation-6` `#layer-budget` `#pyramid` | Per-layer schedules at matched mean keep fraction | Detector CV AUC **0.87–0.93** within schedules; cross-schedule transfer ≥ **0.92** |
+| [`results/overhead/`](results/overhead/) | `#overhead` `#probe-cost` `#gather-path` | Production sparse vs dense wall-clock on T1000 | Speedup ≈ **1.0–1.12×**; r ≈ **1.0–1.12** (MLP-bound host) |
+| [`results/REPORT.md`](results/REPORT.md) | `#verdicts` `#phase-l` | Written verdicts against pre-committed gates | H1/H4 supported; H2 scale-free OK; H3 sim-only |
+| [`results/TABLES.md`](results/TABLES.md) | `#tables` | `make_tables.py` output | Paste-ready numbers for papers |
+
+**Hardware tag (all Phase L runs):** `#nvidia-t1000-8gb` · driver 596.51 · CUDA 12.4 · Windows smoke host.
+
+---
+
 ## Figures
 
 All plots are generated by the experiment drivers (never hand-drawn). Click through to the run directories for CSVs and fingerprints.
 
 ### Study A — detection, cliff, calibration, traces
 
-**ROC (1.5B, teacher-forced, all budgets pooled)** — label = greedy-token flip:
+`#h1` `#roc` `#qwen-1.5b`
+
+**ROC (1.5B, teacher-forced, budgets pooled)** — label = greedy-token flip. Dropped-mass / consensus track the oracle; margin is high-AUC but low damage correlation.
 
 ![ROC curves 1.5B](results/study_a_1.5b/figures/roc.png)
 
-**Fidelity cliff** — end-task accuracy and flip fraction vs keep budget:
+`#cliff` `#accuracy` `#flip-rate`
+
+**Fidelity cliff** — end-task accuracy and per-request flip fraction vs keep budget. Divergence stays well above 0.1% at tight budgets.
 
 ![Cliff 1.5B](results/study_a_1.5b/figures/cliff.png)
 
-**Detector calibration** — estimated dropped mass vs empirical flip rate:
+`#calibration` `#dropped-mass`
+
+**Detector calibration** — estimated dropped mass (label-free) vs empirical flip rate.
 
 ![Calibration 1.5B](results/study_a_1.5b/figures/calibration.png)
 
-**Divergence trace** — label-free vs oracle dropped mass; crimson = token flip:
+`#trace` `#oracle`
+
+**Divergence trace** — label-free vs oracle dropped mass over decode steps; crimson lines mark greedy-token flips.
 
 ![Trace 1.5B](results/study_a_1.5b/figures/trace.png)
 
-Same suite for 0.5B: [`results/study_a_0.5b/figures/`](results/study_a_0.5b/figures/).
+Same suite for 0.5B (`#qwen-0.5b`): [`results/study_a_0.5b/figures/`](results/study_a_0.5b/figures/).
 
 | 0.5B ROC | 0.5B cliff |
 |---|---|
@@ -135,25 +169,41 @@ Same suite for 0.5B: [`results/study_a_0.5b/figures/`](results/study_a_0.5b/figu
 
 ### Study B — bound width vs verification cost + coverage
 
+`#h2` `#hoeffding` `#empirical-bernstein` `#betting-cs`
+
+**Width vs cost** — anytime-valid bound width against probe rate / throughput cost. Coverage gates which estimators may support a verdict.
+
 ![Width vs cost](results/study_b/figures/width_vs_cost.png)
+
+**Coverage audit** — anytime miss rate by regime. Capital-process (betting) estimators fail under bursty drift; Hoeffding / EB remain valid.
 
 ![Coverage audit](results/study_b/figures/coverage.png)
 
 ### Study C — elastic scheduling (discrete-event simulation)
 
+`#h3` `#elastic` `#tpot` `#simulation`
+
+**Elastic vs inline vs none** — under load, elastic keeps TPOT near the no-verification baseline while the confidence bound widens; inline pays latency.
+
 ![Elastic vs inline](results/study_c/figures/elastic.png)
 
 ### Ablations
 
-| Verification rate 0→100% | Fixed vs adaptive sampling |
+`#ablation-2` `#verification-rate` · `#ablation-3` `#adaptive-sampling`
+
+| Verification rate 0→100% — recovers unverified sparse and full-dense endpoints | Fixed vs adaptive at equal probe cost — value of Mechanism 1 to Mechanism 2 |
 |---|---|
 | ![Ablation 2](results/ablations/figures/ablation2_rate.png) | ![Ablation 3](results/ablations/figures/ablation3_adaptive.png) |
 
-| Detector transfer by family | Detector transfer by budget |
+`#ablation-5` `#transfer` `#cross-model`
+
+| Detector transfer by task family | Detector transfer by keep budget |
 |---|---|
 | ![Family transfer](results/ablations/figures/ablation5_family.png) | ![Budget transfer](results/ablations/figures/ablation5_budget.png) |
 
-**Ablation 6 — per-layer budget schedules** (matched mean keep fraction):
+`#ablation-6` `#layer-schedule` `#pyramid`
+
+**Per-layer budget schedules** at matched mean keep fraction — fidelity differs by schedule; the label-free detector still transfers across allocators.
 
 ![Layer budget](results/ablation6/figures/layer_budget.png)
 
