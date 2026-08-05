@@ -1,0 +1,20 @@
+{
+  "primary_run": "1.5b",
+  "combined_detector_cv_auc": 0.9192623486942377,
+  "combined_detector_cv_auc_std": 0.007268218876101749,
+  "operating_point_at_10pct_fpr": {
+    "threshold": 0.37832808627879905,
+    "tpr": 0.7271341463414634,
+    "fpr": 0.09966530308664931
+  },
+  "runs": {
+    "0.5b": {
+      "steps": 2035,
+      "flip_rate": 0.21081081081081082
+    },
+    "1.5b": {
+      "steps": 3345,
+      "flip_rate": 0.1961136023916293
+    }
+  }
+}

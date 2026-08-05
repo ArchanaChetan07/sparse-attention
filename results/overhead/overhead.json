@@ -1,0 +1,71 @@
+{
+  "model": "Qwen/Qwen2.5-1.5B-Instruct",
+  "rows": [
+    {
+      "keep_frac": 0.5,
+      "context": 4096,
+      "dense_ms": 199.4942498859018,
+      "sparse_only_ms": 201.9714000634849,
+      "sparse_only_std": 7.6957049372737,
+      "paired_ms": 284.42635003011674,
+      "speedup_vs_dense": 0.9877351438035065,
+      "cost_ratio_r": 0.9877351438035065,
+      "loss_at_1pct": 0.009780743596209987,
+      "loss_at_5pct": 0.04706249326264863,
+      "loss_at_10pct": 0.08989433499045853
+    },
+    {
+      "keep_frac": 0.25,
+      "context": 4096,
+      "dense_ms": 199.4942498859018,
+      "sparse_only_ms": 177.74585005827248,
+      "sparse_only_std": 5.078149795048897,
+      "paired_ms": 316.7139500146732,
+      "speedup_vs_dense": 1.1223567234931184,
+      "cost_ratio_r": 1.1223567234931184,
+      "loss_at_1pct": 0.011098996897017219,
+      "loss_at_5pct": 0.05313596101919769,
+      "loss_at_10pct": 0.10090997361399393
+    },
+    {
+      "keep_frac": 0.125,
+      "context": 4096,
+      "dense_ms": 199.4942498859018,
+      "sparse_only_ms": 199.37679986469448,
+      "sparse_only_std": 5.783818219610139,
+      "paired_ms": 306.20334995910525,
+      "speedup_vs_dense": 1.0005890856974684,
+      "cost_ratio_r": 1.0005890856974684,
+      "loss_at_1pct": 0.009906764849148392,
+      "loss_at_5pct": 0.0476457627742892,
+      "loss_at_10pct": 0.09095777307038902
+    },
+    {
+      "keep_frac": 0.0625,
+      "context": 4096,
+      "dense_ms": 199.4942498859018,
+      "sparse_only_ms": 189.16250008624047,
+      "sparse_only_std": 10.145706578926767,
+      "paired_ms": 260.04250010009855,
+      "speedup_vs_dense": 1.0546183825808553,
+      "cost_ratio_r": 1.0546183825808553,
+      "loss_at_1pct": 0.010436122558874,
+      "loss_at_5pct": 0.05008964605377859,
+      "loss_at_10pct": 0.09540070458177496
+    }
+  ],
+  "fingerprint": {
+    "platform": "Windows-10-10.0.26200-SP0",
+    "python": "3.11.5",
+    "cpu": "Intel64 Family 6 Model 183 Stepping 1, GenuineIntel",
+    "torch": "2.6.0+cu124",
+    "gpu": "NVIDIA T1000 8GB",
+    "gpu_mem_gb": 8.0,
+    "cuda": "12.4",
+    "transformers": "5.12.1",
+    "driver": "596.51",
+    "power_limit": "50.00 W",
+    "pcie": "gen3 x16"
+  },
+  "caveat": "Small model on a small GPU: decode is launch/MLP-bound, not KV-bandwidth-bound. Measured sparsity speedup is a lower bound and r is an upper bound; the bandwidth-bound regime requires the rented-GPU phase."
+}
