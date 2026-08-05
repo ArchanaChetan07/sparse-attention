@@ -1,165 +1,255 @@
 # Certified Sparse Attention
 
-**Runtime-verified fidelity guarantees for long-context LLM serving** — a
-working implementation of all three mechanisms of the proposal, with a paired
-dense/sparse measurement harness, anytime-valid statistical verification, an
-elastic verification scheduler, and the ablations that answer the obvious
-reviewer objections.
+[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
+[![PyTorch](https://img.shields.io/badge/PyTorch-2.2+-ee4c2c.svg)](https://pytorch.org/)
+[![Transformers](https://img.shields.io/badge/transformers-4.48+-yellow.svg)](https://huggingface.co/docs/transformers)
+[![Tests](https://img.shields.io/badge/tests-60%20passed-brightgreen.svg)](tests/)
+[![License](https://img.shields.io/badge/license-see%20repo-lightgrey.svg)](#)
 
-Sparse attention ships an accuracy claim it never verifies at runtime. Because
-fidelity loss under KV compression behaves like a phase transition rather than
-a smooth slope, operating points chosen offline from benchmark averages are
-wrong for an unknown subset of live requests — silently. This repo implements
-the machinery to change that: a serving-time answer to *"is this response
-degraded?"*, with a measured confidence bound.
+**Runtime-verified fidelity guarantees for long-context LLM serving.**
 
-```
-"<= 2% of decode steps diverged from dense execution, at 95% confidence,
- at 6% throughput cost."
+Sparse attention ships an accuracy claim it never checks at runtime. Fidelity loss under KV compression behaves like a **phase transition**, not a smooth slope — so offline operating points fail silently on a subset of live requests. This repository implements the full measurement and verification stack:
+
+```text
+"≤ 2% of decode steps diverged from dense execution, at 95% confidence, at ~6% throughput cost."
 ```
 
-## The three mechanisms
+| Artifact | Link |
+|---|---|
+| Verdicts (H1–H4) | [`results/REPORT.md`](results/REPORT.md) |
+| Generated tables | [`results/TABLES.md`](results/TABLES.md) |
+| Threats to validity | [`results/METHODOLOGY.md`](results/METHODOLOGY.md) |
+| Serving RFC draft | [`docs/RFC-runtime-fidelity-verification.md`](docs/RFC-runtime-fidelity-verification.md) |
+
+---
+
+## Table of contents
+
+1. [System architecture](#system-architecture)
+2. [Headline results (smoke scale)](#headline-results-smoke-scale)
+3. [Figures](#figures)
+4. [Repository layout](#repository-layout)
+5. [Quick start](#quick-start)
+6. [Reproduce studies](#reproduce-studies)
+7. [Status and roadmap](#status-and-roadmap)
+8. [Citation](#citation)
+
+---
+
+## System architecture
+
+Three cooperating mechanisms turn an unverified sparse claim into a **runtime certificate**:
+
+```mermaid
+flowchart LR
+  subgraph M1["Mechanism 1 — Label-free detection"]
+    Q[Q / KV state] --> SEL[Block selection<br/>quest / mean / local]
+    SEL --> SIG[Dropped mass · consensus<br/>entropy · margin]
+    SIG --> DET[Logistic detector<br/>grouped CV]
+  end
+
+  subgraph M2["Mechanism 2 — Sampled dense verification"]
+    DET -->|adaptive p_t| SMP[Probe sampler]
+    SMP --> PRB[Dense probe on identical KV]
+    PRB --> CS[Anytime-valid CS<br/>Hoeffding / EB / Betting]
+    CS --> BND["Bound: μ ∈ [lo, hi]"]
+  end
+
+  subgraph M3["Mechanism 3 — Elastic work"]
+    BND --> SCH[Scheduler]
+    SCH -->|slack GPU| PRB
+    SCH -->|under load| WIDE[Widen bound<br/>protect TPOT]
+  end
+```
+
+**Paired measurement harness** (Study A substrate): dense and sparse attention share the same Q/KV; selection retains the full cache so the dense counterfactual is exact.
+
+```mermaid
+flowchart TB
+  PROMPT[Prompt + decode token] --> CACHE[(Full KV cache)]
+  CACHE --> DENSE[Dense attention]
+  CACHE --> SPARSE[Selection-based sparse]
+  DENSE --> DIV[Divergence labels<br/>greedy flip · logit KL]
+  SPARSE --> SIG2[Label-free signals]
+  DENSE --> OUT[Optional: return sparse output]
+  SPARSE --> OUT
+  DIV --> TRACE[steps.csv scalars only]
+  SIG2 --> TRACE
+```
 
 | Mechanism | Idea | Code |
 |---|---|---|
-| **1. Label-free detection** | Selection-based sparse attention already scores every KV block and discards the non-top-k scores. That discarded mass is a free estimate of what attention is throwing away; cross-head eviction consensus captures the "globally erased" failure mode the phase-transition literature identifies as causal. | [`csa/sparse.py`](csa/sparse.py), [`csa/signals.py`](csa/signals.py), [`csa/detector.py`](csa/detector.py) |
-| **2. Sampled dense verification** | Occasionally re-execute one decode step with dense attention on identical KV state (a *probe*), and feed the outcome into an anytime-valid confidence sequence — a bound legitimate at every step with no pre-committed sample size. Adaptive sampling steered by Mechanism 1 stays unbiased via Horvitz-Thompson weighting. | [`csa/verify.py`](csa/verify.py) |
-| **3. Verification as elastic work** | Probes are deferrable and batchable, so schedule them into slack GPU capacity. Under load the system widens its confidence interval instead of degrading latency or silently losing fidelity: contention degrades the *guarantee*, not the output. | [`csa/scheduler.py`](csa/scheduler.py) |
+| **1. Label-free detection** | Discarded block scores estimate omitted attention mass; cross-head eviction consensus catches globally erased content. | [`csa/sparse.py`](csa/sparse.py), [`csa/signals.py`](csa/signals.py), [`csa/detector.py`](csa/detector.py) |
+| **2. Sampled dense verification** | Dense probes on identical KV feed an anytime-valid confidence sequence; adaptive sampling uses Horvitz–Thompson weights. | [`csa/verify.py`](csa/verify.py) |
+| **3. Elastic verification work** | Probes consume slack capacity; under load the **bound widens** instead of latency or silent fidelity loss. | [`csa/scheduler.py`](csa/scheduler.py) |
 
-## The measurement substrate
+---
 
-[`csa/paired.py`](csa/paired.py) registers a custom attention function with HF
-Transformers (`AttentionInterface`), so any supported model runs with **paired
-dense/sparse execution**: at every decode step the dense output and the
-selection-based sparse output are computed from the *same* Q/KV state, along
-with per-layer signals and divergence. Selection (not eviction) keeps the full
-cache, so the dense counterfactual is exact — this is what makes the
-measurement clean, and it is why Study A is built on Transformers rather than
-vLLM.
+## Headline results (smoke scale)
 
-Two attention paths exist deliberately, and a test asserts they agree:
+Measured on **NVIDIA T1000 8GB**, models `Qwen2.5-0.5B-Instruct` and `Qwen2.5-1.5B-Instruct`, contexts 1K–2K. See [`REPORT.md`](results/REPORT.md) for full caveats.
 
-- **masking path** (`sparse` mode) — computes dense and sparse together for
-  measurement. Correct, but the full matmul still runs, so it says nothing
-  about cost.
-- **gather path** (`sparse_only` mode) — gathers only selected blocks, so work
-  is proportional to the budget. This is what gets timed.
-
-Dense probes run as a second forward of the same token followed by a cache
-crop, so they leave no trace on the trajectory — asserted by the smoke check,
-because if it were false every divergence number here would be invalid.
-
-Sparse methods (all selection-based, block granularity, per head):
-`quest_topk` (min/max key pooling, upper-bound block scores), `mean_topk`
-(mean-pooled block scores), `local_sink` (static sink+local pattern; produces
-no block scores, hence no label-free signal — included as the contrast case).
-Per-layer budget schedules (`uniform`, `pyramid`, `inv_pyramid`) are
-budget-matched by construction so a schedule comparison is never accidentally
-a budget comparison.
-
-## Studies and ablations
-
-| Study | Question | Driver |
+| Hypothesis | Question | Verdict |
 |---|---|---|
-| **A** | H1: is divergence detectable label-free? H4: does divergence predict end-task wrongness? | [`study_a_smoke.py`](experiments/study_a_smoke.py) |
-| **B** | H2: what bound width per unit of verification cost, and which estimator wins? | [`study_b_estimators.py`](experiments/study_b_estimators.py) |
-| **C** | H3: can verification be displaced under load without violating SLOs? | [`study_c_scheduler.py`](experiments/study_c_scheduler.py) |
-| **Ablations 1,2,3,5** | signals alone vs combined; verification rate 0→100%; fixed vs adaptive at equal cost; detector transfer | [`ablations.py`](experiments/ablations.py) |
-| **Ablation 6** | composition with per-layer budget allocators | [`ablation6_layer_budget.py`](experiments/ablation6_layer_budget.py) |
-| **Overhead** | the probe/step cost ratio H2 is actually stated in | [`overhead_bench.py`](experiments/overhead_bench.py) |
+| **H1** | Divergence detectable label-free? | **Supported** — damage-aligned AUC ≈ **0.84**; combined detector CV AUC **0.92** (kill bar &lt; 0.65) |
+| **H2** | Useful bound affordable? | **Not falsified (scale-free)**; short traces inconclusive. Betting CS **fails under bursty drift** |
+| **H3** | Elastic under load? | **Shape supported (simulation)** — elastic TPOT ≈ baseline; inline latency collapses |
+| **H4** | Divergence ↔ task wrongness? | **Supported** — Spearman **−0.90** (0.5B) / **−0.80** (1.5B) on answerable requests |
 
-Tasks are synthetic long-context probes with verifiable answers — multi-entity
-tracking, multi-hop chains, coreference, and multi-step reasoning — chosen
-because they exercise the failure modes the literature identifies, and
-deliberately not NIAH-style retrieval alone.
+**Methodological guards baked into analysis** ([`csa/analysis.py`](csa/analysis.py)):
 
-## Run it
+1. Within-budget AUC (pooled AUC is inflated by budget).
+2. H4 conditioned on dense-answerable requests.
+3. Grouped cross-validation by request (no i.i.d. leakage).
+4. Damage vs uncertainty: margin wins flip-AUC but fails damage correlation — dropped-mass / consensus are the fidelity signals.
 
-```bash
-python -m pip install -e .
+---
+
+## Figures
+
+All plots are generated by the experiment drivers (never hand-drawn). Click through to the run directories for CSVs and fingerprints.
+
+### Study A — detection, cliff, calibration, traces
+
+**ROC (1.5B, teacher-forced, all budgets pooled)** — label = greedy-token flip:
+
+![ROC curves 1.5B](results/study_a_1.5b/figures/roc.png)
+
+**Fidelity cliff** — end-task accuracy and flip fraction vs keep budget:
+
+![Cliff 1.5B](results/study_a_1.5b/figures/cliff.png)
+
+**Detector calibration** — estimated dropped mass vs empirical flip rate:
+
+![Calibration 1.5B](results/study_a_1.5b/figures/calibration.png)
+
+**Divergence trace** — label-free vs oracle dropped mass; crimson = token flip:
+
+![Trace 1.5B](results/study_a_1.5b/figures/trace.png)
+
+Same suite for 0.5B: [`results/study_a_0.5b/figures/`](results/study_a_0.5b/figures/).
+
+| 0.5B ROC | 0.5B cliff |
+|---|---|
+| ![ROC 0.5B](results/study_a_0.5b/figures/roc.png) | ![Cliff 0.5B](results/study_a_0.5b/figures/cliff.png) |
+
+### Study B — bound width vs verification cost + coverage
+
+![Width vs cost](results/study_b/figures/width_vs_cost.png)
+
+![Coverage audit](results/study_b/figures/coverage.png)
+
+### Study C — elastic scheduling (discrete-event simulation)
+
+![Elastic vs inline](results/study_c/figures/elastic.png)
+
+### Ablations
+
+| Verification rate 0→100% | Fixed vs adaptive sampling |
+|---|---|
+| ![Ablation 2](results/ablations/figures/ablation2_rate.png) | ![Ablation 3](results/ablations/figures/ablation3_adaptive.png) |
+
+| Detector transfer by family | Detector transfer by budget |
+|---|---|
+| ![Family transfer](results/ablations/figures/ablation5_family.png) | ![Budget transfer](results/ablations/figures/ablation5_budget.png) |
+
+**Ablation 6 — per-layer budget schedules** (matched mean keep fraction):
+
+![Layer budget](results/ablation6/figures/layer_budget.png)
+
+---
+
+## Repository layout
+
+```text
+csa/                  # Core library
+  sparse.py           # Block selection, gather path, schedules
+  signals.py          # Label-free + oracle signals
+  detector.py         # Combined logistic detector, grouped CV
+  verify.py           # Confidence sequences + HT sampling
+  scheduler.py        # Elastic verification simulator
+  paired.py           # HF AttentionInterface harness
+  analysis.py         # Shared Study A analysis (do not fork)
+  tasks.py            # Synthetic long-context tasks
+  recording.py        # Machine fingerprint + CSV discipline
+
+experiments/          # Study / ablation drivers
+tests/                # 60 unit tests (pytest)
+results/              # Fingerprinted runs, figures, REPORT
+docs/                 # Serving RFC draft
 ```
 
+**Recording discipline:** online-aggregated per-step scalars only — never raw attention tensors. Every run ships a machine fingerprint (GPU, driver, power limit, PCIe, library versions).
+
+---
+
+## Quick start
+
 ```bash
+python -m pip install -e ".[dev]"
 python -m pytest tests -q
-```
-
-```bash
 python experiments/smoke_check.py
 ```
 
-```bash
-powershell experiments/run_all_study_a.ps1
+Requirements: Python ≥ 3.10, PyTorch ≥ 2.2 with CUDA (CPU works for unit tests; sweeps need a GPU). Use `python -m pip` so installs land in the same interpreter that runs the code.
+
+---
+
+## Reproduce studies
+
+| Study | Command | Outputs |
+|---|---|---|
+| **A** (H1/H4) | `python experiments/study_a_smoke.py --model Qwen/Qwen2.5-1.5B-Instruct --out results/study_a_1.5b` | `steps.csv`, `requests.csv`, figures, `summary.json` |
+| **A analysis** | `python experiments/analyze_study_a.py results/study_a_0.5b results/study_a_1.5b` | Rewrites `summary.json` + figures |
+| **B** (H2) | `python experiments/study_b_estimators.py` | Width–cost curves, coverage audit |
+| **C** (H3) | `python experiments/study_c_scheduler.py` | Elastic vs inline load sweep |
+| **Ablations 1–5** | `python experiments/ablations.py` | Signal isolation, rate sweep, transfer |
+| **Ablation 6** | `python experiments/ablation6_layer_budget.py` | Layer-schedule composition |
+| **Overhead** | `python experiments/overhead_bench.py` | Probe/sparse cost ratio `r` |
+| **Tables** | `python experiments/make_tables.py > results/TABLES.md` | Paste-ready markdown tables |
+
+Sparse methods: `quest_topk`, `mean_topk`, `local_sink`. Layer schedules: `uniform`, `pyramid`, `inv_pyramid` (budget-matched by construction).
+
+Tasks: multi-entity tracking, multi-hop chains, coreference, multi-step reasoning, longform — chosen for known sparse-attention failure modes (not NIAH-only).
+
+---
+
+## Status and roadmap
+
+| Phase | Scope | Status |
+|---|---|---|
+| **L** — local smoke | 0.5B + 1.5B @ 1–2K on T1000; Studies A/B/C + ablations | **Done** — see [`REPORT.md`](results/REPORT.md) |
+| **R1** — Gate 1 | 8B @ 16K–128K on H100; scale transfer | Pending (rented GPU) |
+| **R2** — Gate 2 | Production probe-rate overhead on characterized host | Pending |
+| **R3** — Gate 3 | Elastic probes inside vLLM | Pending |
+| **F** — final | Full matrix, paper, upstream RFC → PR | Pending |
+
+Smoke-scale hardware is **not** the regime where sparse attention pays (KV-bandwidth-bound 8B+ at long context). Threats to validity are enumerated in [`METHODOLOGY.md`](results/METHODOLOGY.md) **before** results were interpreted.
+
+---
+
+## Skills and stack
+
+PyTorch · Hugging Face Transformers · selection-based sparse attention (Quest-style block scoring) · anytime-valid confidence sequences (Hoeffding, empirical-Bernstein, betting martingales) · Horvitz–Thompson inverse-propensity weighting · grouped cross-validation · discrete-event GPU scheduling · experimental methodology for LLM systems research.
+
+---
+
+## Citation
+
+If you use this code or the paired dense/sparse traces, please cite the repository and link the run fingerprint from the relevant `*.meta.json`.
+
+```bibtex
+@software{certified_sparse_attention,
+  title        = {Certified Sparse Attention: Runtime-Verified Fidelity for Sparse-Attention LLM Serving},
+  author       = {Archana Chetan},
+  year         = {2026},
+  url          = {https://github.com/ArchanaChetan07/sparse-attention},
+  note         = {Smoke-scale results on Qwen2.5-0.5B/1.5B; see results/REPORT.md}
+}
 ```
 
-```bash
-python experiments/analyze_study_a.py results/study_a_0.5b results/study_a_1.5b
-```
+---
 
-```bash
-python experiments/study_b_estimators.py
-```
+## License and contact
 
-```bash
-python experiments/study_c_scheduler.py
-```
-
-```bash
-python experiments/ablations.py
-```
-
-```bash
-python experiments/overhead_bench.py
-```
-
-```bash
-python experiments/make_tables.py > results/TABLES.md
-```
-
-Use `python -m pip`, not bare `pip`: on machines with more than one Python
-(an Anaconda `python` plus a store-installed `pip`, say) bare `pip` can install
-into a different interpreter than the one that runs the code.
-
-Default model is `Qwen/Qwen2.5-0.5B-Instruct`; pass `--model` to scale up.
-`--quick` runs a reduced Study A sweep. Results land in `results/<study>/` as
-CSV + `summary.json` + figures, each with a machine fingerprint (GPU, driver,
-power limit, PCIe link, library versions). Raw per-step attention tensors are
-never written — only online-aggregated scalars.
-
-Analysis is deliberately decoupled from the sweeps
-([`csa/analysis.py`](csa/analysis.py)): sweeps are expensive and run at
-different times, and cross-run comparisons only mean something if every run is
-analysed by identical code. Re-run it any time without re-running a sweep.
-
-## Results and how to read them
-
-- [`results/REPORT.md`](results/REPORT.md) — verdicts against the
-  pre-registered hypotheses H1–H4.
-- [`results/TABLES.md`](results/TABLES.md) — generated tables (never
-  hand-transcribed).
-- [`results/METHODOLOGY.md`](results/METHODOLOGY.md) — how the measurements
-  are constructed and the six ways they could mislead. **Read this before
-  quoting any number**; it was written before the results were interpreted.
-- [`docs/RFC-runtime-fidelity-verification.md`](docs/RFC-runtime-fidelity-verification.md)
-  — the serving-system integration design this implies.
-
-Three methodological corrections are applied rather than left to the reader,
-because each changes the conclusion:
-
-1. **AUC pooled across budgets is inflated** — budget predicts divergence and
-   a server knows its own budget, so the deployable number is within-budget.
-2. **H4 needs headroom** — on requests the dense model already fails, sparse
-   execution cannot degrade anything, so those rows are label noise.
-3. **Cross-validation must be grouped by request** — steps within a request
-   share a prompt and a KV trajectory; an i.i.d. split leaks and inflates.
-
-## Status vs the full proposal
-
-Implemented and measured here: the complete mechanism set, the measurement
-harness, Studies A/B/C at smoke scale, and the ablation suite.
-
-Still pending, and explicitly out of reach of this hardware: the rented-GPU
-phase — 8B–72B models at 16K–128K contexts, the full baseline grid, and the
-in-tree vLLM implementation of Study C. Every result here is on 0.5B–1.5B
-models at 1–2K contexts on an 8 GB T1000, which is *not* the regime where
-sparse attention pays; see the threats-to-validity section of
-[`METHODOLOGY.md`](results/METHODOLOGY.md).
+See the repository for license terms. Issues and discussion welcome via GitHub. Upstream serving integration design: [`docs/RFC-runtime-fidelity-verification.md`](docs/RFC-runtime-fidelity-verification.md).
