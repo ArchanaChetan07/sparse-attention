@@ -256,7 +256,7 @@ Requirements: Python ≥ 3.10, PyTorch ≥ 2.2 with CUDA (CPU works for unit tes
 | **Ablations 1–5** | `python experiments/ablations.py` | Signal isolation, rate sweep, transfer |
 | **Ablation 6** | `python experiments/ablation6_layer_budget.py` | Layer-schedule composition |
 | **Overhead** | `python experiments/overhead_bench.py` | Probe/sparse cost ratio `r` |
-| **Tables** | `python experiments/make_tables.py > results/TABLES.md` | Paste-ready markdown tables |
+| **Tables** | `python experiments/make_tables.py --out results/TABLES.md` | Paste-ready markdown tables |
 
 Sparse methods: `quest_topk`, `mean_topk`, `local_sink`. Layer schedules: `uniform`, `pyramid`, `inv_pyramid` (budget-matched by construction).
 

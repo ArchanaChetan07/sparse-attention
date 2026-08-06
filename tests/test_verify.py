@@ -133,6 +133,31 @@ def test_explicit_p_min_is_honoured_not_overridden():
     assert v.scale == 0.2
 
 
+def test_unscaled_bounds_never_invert():
+    """Regression: unscaling multiplies by 1/p_min, so a lo near the top of the
+    scaled range maps above 1 while hi is clipped to 1, giving lo > hi. An
+    inverted interval is a broken certificate, not a tight one.
+
+    Driven at the unit level because the inversion is only reachable when the
+    CS radius is small relative to p_min; an end-to-end run at a probe rate
+    low enough to invert has a radius that swamps it, so the end-to-end
+    assertion below guards the invariant but would not catch the regression.
+    """
+    from csa.verify import FixedRateSampler, HoeffdingCS, SampledVerifier
+    v = SampledVerifier(HoeffdingCS(ALPHA), FixedRateSampler(0.02, seed=0))
+    # pre-fix this returned (25.0, 1.0)
+    assert v._unscale(0.5, 0.9) == (1.0, 1.0)
+    for lo_s, hi_s in [(0.0, 1.0), (0.5, 0.9), (0.019, 0.021), (1.0, 1.0)]:
+        lo, hi = v._unscale(lo_s, hi_s)
+        assert 0.0 <= lo <= hi <= 1.0, (lo_s, hi_s, lo, hi)
+
+    for _ in range(500):                      # every probed step diverges
+        _, lo, hi = v.step(1, None)
+        assert 0.0 <= lo <= hi <= 1.0, (lo, hi)
+    r = v.report()
+    assert 0.0 <= r.lo <= r.hi <= 1.0
+
+
 def test_probe_rate_matches_target():
     v = make_estimator("hoeffding", ALPHA, p=0.15, seed=0)
     rng = np.random.default_rng(5)

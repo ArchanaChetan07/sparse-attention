@@ -273,6 +273,18 @@ class SampledVerifier:
         self.n_steps = 0
         self.n_probes = 0
 
+    def _unscale(self, lo_s: float, hi_s: float):
+        """Map a [0,1] bound on the scaled stream back to a bound on mu.
+
+        Both ends must be clipped to [0,1]: unscaling multiplies by 1/p_min,
+        so a bound near the top of the scaled range can push *lo* above 1 and
+        invert the interval. A certificate whose lo exceeds its hi is not a
+        tight bound, it is a broken one.
+        """
+        lo = min(max(lo_s / self.scale, 0.0), 1.0)
+        hi = min(max(hi_s / self.scale, 0.0), 1.0)
+        return (lo, hi) if lo <= hi else (hi, lo)
+
     def step(self, x_true: int, signal: float | None = None):
         p = self.sampler.prob(signal)
         probed = self.sampler.draw(p)
@@ -281,12 +293,11 @@ class SampledVerifier:
         lo_s, hi_s = self.cs.update(z_scaled)
         self.n_steps += 1
         self.n_probes += int(probed)
-        return probed, lo_s / self.scale, min(hi_s / self.scale, 1.0)
+        return (probed, *self._unscale(lo_s, hi_s))
 
     def report(self) -> VerifierReport:
-        return VerifierReport(self.n_steps, self.n_probes,
-                              self.cs.lo / self.scale,
-                              min(self.cs.hi / self.scale, 1.0),
+        lo, hi = self._unscale(self.cs.lo, self.cs.hi)
+        return VerifierReport(self.n_steps, self.n_probes, lo, hi,
                               bool(getattr(self.cs, "failed", False)))
 
 
