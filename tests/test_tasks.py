@@ -67,6 +67,38 @@ def test_task_seeds_stable_across_pythonhashseed():
     assert outs[0] == outs[1], outs
 
 
+def test_aliases_are_not_profession_shaped():
+    """A coreference alias must not be answerable as a profession.
+
+    Regression: aliases were agent nouns ("the archivist", "the navigator"),
+    so "what is the profession of the person known as the archivist?" had a
+    defensible wrong answer and the model gave it. That measures task
+    ambiguity, not retrieval.
+    """
+    from csa.tasks import ALIASES, PROFESSIONS
+    for a in ALIASES:
+        bare = a.removeprefix("the ").strip()
+        assert bare not in PROFESSIONS, f"alias {a!r} is itself a profession"
+        # agent-noun endings are what made the old set answerable-as-a-job
+        assert not bare.endswith(("ist", "er", "or", "ian", "-bearer")), (
+            f"alias {a!r} is occupation-shaped; pick a non-agentive nickname")
+
+
+def test_reasoning_answer_fits_in_the_long_decode_budget():
+    """The trace must REACH the total, or the family scores an intermediate
+    count. 4 of 6 dense traces previously truncated at a 64-token cap."""
+    from csa.tasks import LONG_DECODE_MIN_TOKENS
+    assert LONG_DECODE_MIN_TOKENS >= 96
+    t = FAMILIES["reasoning"](random.Random(4), count, 300)
+    # a terse but complete answer must both fit the budget and score
+    complete = ("Omar: 5. Hiro: 7. Kavya: 3. Total: %s" % t.gold)
+    assert count(complete) < LONG_DECODE_MIN_TOKENS
+    assert t.check(complete)
+    # a trace truncated before the total must NOT score as correct
+    truncated = "Omar brought 5 copies. Hiro brought 7 copies. Kavya brought 3"
+    assert not t.check(truncated), "truncated trace must not count as correct"
+
+
 def test_distinct_seeds_give_distinct_tasks():
     a = make_tasks(count, 300, per_family=1, seed=1)
     b = make_tasks(count, 300, per_family=1, seed=2)

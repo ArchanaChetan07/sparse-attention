@@ -22,8 +22,19 @@ PLACES = ["attic", "cellar", "garden", "harbor", "library", "market",
           "mill", "orchard", "station", "tower"]
 PROFESSIONS = ["architect", "baker", "chemist", "diver", "engineer",
                "florist", "geologist", "historian", "jeweler", "locksmith"]
-ALIASES = ["the falcon", "the compass", "the lantern-bearer", "the archivist",
-           "the navigator", "the cartographer"]
+# Aliases must NOT be occupation-shaped. Earlier versions used agent nouns
+# ("the archivist", "the navigator", "the cartographer", "the lantern-bearer"),
+# which read as professions -- so "what is the profession of the person known
+# as the archivist?" has a defensible wrong answer, and the model gave it
+# ("Archivist"). That measured task ambiguity, not retrieval. Enforced by
+# tests/test_tasks.py::test_aliases_are_not_profession_shaped.
+ALIASES = ["the falcon", "the compass", "the north star", "the old oak",
+           "the morning tide", "the grey lantern"]
+
+# Decode budget the long-trace families need to actually REACH their answer.
+# Below this, `reasoning` traces truncate mid-enumeration and the family scores
+# an intermediate count instead of the total.
+LONG_DECODE_MIN_TOKENS = 128
 
 _FILLER_SUBJECTS = ["The village council", "A visiting merchant", "The old ferry",
                     "The northern road", "The clock tower", "A summer storm",
@@ -182,8 +193,15 @@ def reasoning(rng: random.Random, count_tokens, target_tokens: int,
     question = (f"Work through it step by step, then state how many copies of "
                 f"the {item} were brought in total by {people[0]}, "
                 f"{people[1]}, and {people[2]}.")
+    # The trace must REACH the total inside the decode budget. With a discursive
+    # hint, 4 of 6 dense traces hit a 64-token cap mid-enumeration and never
+    # emitted the answer, so scoring the last integer picked up an intermediate
+    # count and the family measured decode budget rather than arithmetic. Keep
+    # the working (long traces are the point) but demand it be terse, and see
+    # LONG_DECODE_MIN_TOKENS for the budget this needs.
     prompt = _assemble(rng, facts, question, count_tokens, target_tokens,
-                       answer_hint="End with the total as a number.")
+                       answer_hint=("Be brief: one short line per person, then "
+                                    "a final line 'Total: <number>'."))
     return Task("reasoning", prompt, str(total), task_id,
                 {"counts": counts, "total": total})
 

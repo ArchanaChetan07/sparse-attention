@@ -28,7 +28,7 @@ from csa.analysis import LONG_DECODE, analyze
 from csa.paired import PairedModel
 from csa.recording import save_results
 from csa.sparse import SparseConfig
-from csa.tasks import make_tasks
+from csa.tasks import LONG_DECODE_MIN_TOKENS, make_tasks
 
 
 def main():
@@ -37,8 +37,11 @@ def main():
     ap.add_argument("--out", default="results/study_a")
     ap.add_argument("--quick", action="store_true")
     ap.add_argument("--per-family", type=int, default=None)
-    ap.add_argument("--max-new-long", type=int, default=64,
-                    help="decode steps for long-trace families (reasoning/longform)")
+    ap.add_argument("--max-new-long", type=int, default=LONG_DECODE_MIN_TOKENS,
+                    help="decode steps for long-trace families (reasoning/longform); "
+                         "below LONG_DECODE_MIN_TOKENS reasoning traces truncate "
+                         "before stating their total and the family scores an "
+                         "intermediate count instead of the answer")
     ap.add_argument("--contexts", type=int, nargs="+", default=None,
                     help="override context lengths (e.g. 16384 32768)")
     ap.add_argument("--budgets", type=float, nargs="+", default=None,
