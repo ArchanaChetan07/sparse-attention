@@ -130,9 +130,14 @@ def simulate(policy: str, arrival_rate: float, ticks: int = 4000,
             active.remove(r)
 
         if policy == "elastic" and cap > 0 and probe_queue:
-            # drop probes whose KV state is no longer retained
+            # Drop probes whose KV state is no longer retained: either the
+            # retention window expired, or the request completed and its
+            # blocks were freed. Executing a probe for a finished request
+            # would count verification the system could not actually have
+            # performed, and it inflates probe completion precisely at the
+            # low-load operating point where elastic is meant to look good.
             probe_queue = [(r, ct) for (r, ct) in probe_queue
-                           if t - ct <= retention_ticks]
+                           if t - ct <= retention_ticks and r.finish_tick < 0]
             # max-min tightness: widest current bound first; value-weighted
             # variant scales priority by remaining decode length
             def prio(item):

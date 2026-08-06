@@ -10,3 +10,5 @@ results/sweep.log
 results/sweep.err
 results/_validate*/
 .venv/
+results/*_v2.log
+results/*_run.log

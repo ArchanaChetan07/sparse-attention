@@ -63,6 +63,25 @@ def test_elastic_never_infeasible():
     assert r.tpot_p99 < 5.0, "latency must stay protected even at high probe cost"
 
 
+def test_probes_expire_when_their_request_completes():
+    """A probe is only valid while the request's KV prefix is resident.
+
+    Regression: finished requests were removed from the active set but their
+    queued probes stayed in the queue and could still execute, counting
+    verification the system could not have performed. The effect is largest at
+    low load -- exactly the operating point where elastic is meant to look
+    good -- so it flattered the advocated policy.
+    """
+    from csa.scheduler import Request, simulate
+    r = simulate("elastic", 0.04, ticks=4000, seed=1)
+    assert r.probe_completion <= 1.0
+    # at this load the queue drains, so completion is high but must not be
+    # inflated to ~1.0 by post-completion execution
+    assert r.probe_completion < 0.98, (
+        f"completion {r.probe_completion:.3f} suggests probes are still "
+        "executing for finished requests")
+
+
 def test_utilization_bounded():
     r = simulate("inline", 0.2, ticks=1000, seed=0)
     assert 0.0 < r.utilization <= 1.0

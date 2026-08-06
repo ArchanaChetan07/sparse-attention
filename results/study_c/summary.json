@@ -2,8 +2,8 @@
   "high_load": {
     "elastic": {
       "tpot_p99": 17.5,
-      "system_width": 0.6422837089511111,
-      "probe_completion": 0.01604377791636
+      "system_width": 0.6491907546556321,
+      "probe_completion": 0.01520060759595528
     },
     "inline": {
       "tpot_p99": 44.0,
@@ -18,9 +18,9 @@
   },
   "mid_load": {
     "elastic": {
-      "tpot_p99": 1.6666666666666667,
-      "system_width": 0.13581371391344763,
-      "probe_completion": 0.7940664972105552
+      "tpot_p99": 2.0,
+      "system_width": 0.15530762046404123,
+      "probe_completion": 0.5237163070103095
     },
     "inline": {
       "tpot_p99": 3.5,
@@ -35,22 +35,22 @@
   },
   "rq3_priority": {
     "elastic[maxmin]": {
-      "mean_width": 0.9992510874770144,
+      "mean_width": 0.9966519555017207,
       "p90_width": 1.0,
-      "system_width": 0.25872270769203626
+      "system_width": 0.2613978133642217
     },
     "elastic[value]": {
-      "mean_width": 0.995789823119922,
+      "mean_width": 0.9955550624585563,
       "p90_width": 1.0,
-      "system_width": 0.25872270769203626
+      "system_width": 0.26674847025243914
     }
   },
   "probe_cost_sensitivity": {
     "probe_cost=1.5": {
       "elastic": {
         "tpot_p99": 6.333333333333333,
-        "system_width": 0.26437083118081867,
-        "probe_completion": 0.3696220062077431,
+        "system_width": 0.29261096557764316,
+        "probe_completion": 0.2683300255084597,
         "unfinished": 142
       },
       "inline": {
@@ -69,8 +69,8 @@
     "probe_cost=3": {
       "elastic": {
         "tpot_p99": 6.333333333333333,
-        "system_width": 0.3506329552393255,
-        "probe_completion": 0.3283018473816015,
+        "system_width": 0.3726627560964739,
+        "probe_completion": 0.20936547164339822,
         "unfinished": 142
       },
       "inline": {
@@ -89,8 +89,8 @@
     "probe_cost=6": {
       "elastic": {
         "tpot_p99": 6.333333333333333,
-        "system_width": 0.7329338267235433,
-        "probe_completion": 0.10680086760855666,
+        "system_width": 0.761551605441333,
+        "probe_completion": 0.04780654855733127,
         "unfinished": 142
       },
       "inline": {

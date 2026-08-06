@@ -147,8 +147,30 @@ discipline the proposal specifies.
 
 **Run provenance.** Measurement runs are never silently replaced. When a
 harness change invalidates a run, the old directory stays in place with a
-`SUPERSEDED.md` naming the replacement and the code delta. Current authority:
-`results/study_a/` (first sweep, intermediate code) is superseded by
-`results/study_a_0.5b/` (final code); the direction-level agreement between
-the two (signal ranking, cliff shape, AUC 0.80 vs 0.85) is a robustness check
-on the methodology fixes themselves.
+`SUPERSEDED.md` naming the replacement and the code delta.
+
+**Seeding defect (found in audit; scope stated in full).** Every Study A run
+up to and including `results/study_a_0.5b/` and `results/study_a_1.5b/` was
+produced with task seeds derived from `hash((seed, fam, i, target_tokens))`.
+`hash()` on a tuple containing a `str` is salted by `PYTHONHASHSEED`, which
+CPython randomizes per process, so those runs drew their tasks — and therefore
+their gold answers — from an unrecorded random state. They are not
+reproducible even by checking out the commit that produced them. The same
+commit also scored answers by substring containment, so `key` matched inside
+`monkey`. Both are fixed (`blake2b` seeds; word-boundary and last-integer
+checks), and the seeding fix is guarded by a test that runs the generator
+under two values of `PYTHONHASHSEED` and asserts the output is identical.
+
+The blast radius is exactly the quantities computed from `correct`:
+`dense_qa_accuracy`, all `h4_*` blocks, and the `acc:*` columns of the cliff
+table. **H4 is a pre-committed gate criterion, so it must be regenerated
+before any gate decision.** Per-step divergence labels come from paired
+dense/sparse execution and never read the gold answer, so the H1 AUCs, the
+`flip:*` cliff columns, Studies B and C, and all six ablations are unaffected
+in substance — none of them calls `Task.check`. For those, the defect costs
+exact reproducibility, not validity: they were measured on a valid but
+unrecorded draw from the task distribution.
+
+The lesson generalizes beyond this repo: a seed that is not reproducible is
+not a seed, and a measurement pipeline should assert that property in a test
+rather than assume it.
