@@ -93,3 +93,38 @@ def test_within_budget_preserves_genuine_signal():
 def test_h4_block_handles_degenerate_input():
     d = _reqs(n_per_budget=1, budgets=(0.5,))
     assert "note" in _h4_block(d)
+
+
+def test_h4_reports_unmeasurable_rather_than_falsified_without_headroom():
+    """No answerable requests must yield "cannot estimate", not a correlation.
+
+    If the task suite is too hard for the model, every request has
+    dense_correct=False, sparse execution cannot degrade anything, and H4 is
+    UNTESTABLE. That is a different verdict from H4 being FALSIFIED, and the
+    two must not be confusable: one says the experiment failed to test the
+    hypothesis, the other says the hypothesis lost. A gate decision rests on
+    telling them apart.
+    """
+    d = _reqs(n_per_budget=20)
+    d["dense_correct"] = False
+    d["correct"] = False
+    answerable = d[d["dense_correct"] == True]  # noqa: E712
+    assert len(answerable) == 0
+
+    block = _h4_block(answerable)
+    assert "note" in block, "must decline to estimate, not emit a number"
+    assert block["n_requests"] == 0
+    assert "spearman_flipfrac_correct" not in block
+
+    within = _h4_within_budget(answerable)
+    assert within["n_budgets_estimable"] == 0
+    assert np.isnan(within["weighted_mean_spearman"])
+
+
+def test_h4_declines_when_every_answerable_request_is_correct():
+    """The mirror case: no variation in the label means no estimable rho."""
+    d = _reqs(n_per_budget=20)
+    d["correct"] = True
+    block = _h4_block(d)
+    assert "note" in block
+    assert "spearman_flipfrac_correct" not in block
