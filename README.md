@@ -3,9 +3,9 @@
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![PyTorch](https://img.shields.io/badge/PyTorch-2.2+-ee4c2c.svg)](https://pytorch.org/)
 [![Transformers](https://img.shields.io/badge/transformers-4.48+-yellow.svg)](https://huggingface.co/docs/transformers)
-[![Tests](https://img.shields.io/badge/tests-60%20passed-brightgreen.svg)](tests/)
+[![Tests](https://img.shields.io/badge/tests-70%20passed-brightgreen.svg)](tests/)
 [![H1 Supported](https://img.shields.io/badge/H1%20detectability-supported-success.svg)](results/REPORT.md)
-[![H4 Supported](https://img.shields.io/badge/H4%20proxy%20validity-supported-success.svg)](results/REPORT.md)
+[![H4 Regenerating](https://img.shields.io/badge/H4%20proxy%20validity-regenerating-orange.svg)](results/REPORT.md)
 [![Phase L](https://img.shields.io/badge/phase-L%20smoke%20complete-blueviolet.svg)](results/REPORT.md)
 
 **Runtime-verified fidelity guarantees for long-context LLM serving.**
@@ -99,7 +99,7 @@ Measured on **NVIDIA T1000 8GB**, models `Qwen2.5-0.5B-Instruct` and `Qwen2.5-1.
 | **H1** | Divergence detectable label-free? | **Supported** — damage-aligned AUC ≈ **0.84**; combined detector CV AUC **0.92** (kill bar &lt; 0.65) |
 | **H2** | Useful bound affordable? | **Not falsified (scale-free)**; short traces inconclusive. Betting CS **fails under bursty drift** |
 | **H3** | Elastic under load? | **Shape supported (simulation)** — elastic TPOT ≈ baseline; inline latency collapses |
-| **H4** | Divergence ↔ task wrongness? | **Supported** — Spearman **−0.90** (0.5B) / **−0.80** (1.5B) on answerable requests |
+| **H4** | Divergence ↔ task wrongness? | **Unresolved — regenerating.** The previously reported −0.90 / −0.80 were scored against unrecoverable gold answers and are [withdrawn](results/REPORT.md) |
 
 **Methodological guards baked into analysis** ([`csa/analysis.py`](csa/analysis.py)):
 
@@ -107,6 +107,18 @@ Measured on **NVIDIA T1000 8GB**, models `Qwen2.5-0.5B-Instruct` and `Qwen2.5-1.
 2. H4 conditioned on dense-answerable requests.
 3. Grouped cross-validation by request (no i.i.d. leakage).
 4. Damage vs uncertainty: margin wins flip-AUC but fails damage correlation — dropped-mass / consensus are the fidelity signals.
+
+**Known defect, stated rather than quietly fixed.** Study A runs before the
+current commit seeded tasks from `hash((seed, fam, i, target_tokens))`.
+`hash()` on a tuple containing a `str` is salted by `PYTHONHASHSEED`, which
+CPython randomizes per process, so those runs drew gold answers from a random
+state that cannot be reconstructed — re-running the same commit does not
+reproduce them. Everything computed from `correct` is therefore withdrawn,
+including H4, which is a pre-committed gate criterion. H1, H2, H3 and all six
+ablations never call `Task.check` and are unaffected. Fixed with `blake2b`
+seeds and guarded by a test that runs the generator under two values of
+`PYTHONHASHSEED` and asserts identical output. Details in
+[`METHODOLOGY.md`](results/METHODOLOGY.md#5-reproducibility).
 
 ---
 
@@ -116,15 +128,15 @@ Each run directory includes `*.meta.json` (machine fingerprint) and online-aggre
 
 | Directory | Tags | Description | Key result |
 |---|---|---|---|
-| [`results/study_a_0.5b/`](results/study_a_0.5b/) | `#study-a` `#h1` `#h4` `#qwen-0.5b` `#t1000` | Authoritative 0.5B paired dense/sparse sweep (teacher + free-running) | Best LF AUC **0.85** (margin); damage-aligned **0.79**; H4 Spearman **−0.90** |
-| [`results/study_a_1.5b/`](results/study_a_1.5b/) | `#study-a` `#h1` `#h4` `#qwen-1.5b` `#t1000` | 1.5B full Study A (Phase L); ROC / cliff / calibration / traces | Damage-aligned AUC **0.84**; combined CV **0.92**; H4 Spearman **−0.80** (within-budget **−0.75**) |
+| [`results/study_a_0.5b/`](results/study_a_0.5b/) | `#study-a` `#h1` `#superseded` `#qwen-0.5b` `#t1000` | 0.5B paired sweep — **SUPERSEDED**, retained for provenance | Best LF AUC **0.85** (margin); damage-aligned **0.79**. H4 figures withdrawn |
+| [`results/study_a_1.5b/`](results/study_a_1.5b/) | `#study-a` `#h1` `#superseded` `#qwen-1.5b` `#t1000` | 1.5B full Study A — **SUPERSEDED**, retained for provenance | Damage-aligned AUC **0.84**; combined CV **0.92**. H4 figures withdrawn |
 | [`results/study_a/`](results/study_a/) | `#superseded` | First Study A run (intermediate code) | Kept for provenance; see `SUPERSEDED.md` |
 | [`results/study_b/`](results/study_b/) | `#study-b` `#h2` `#confidence-sequences` | Bound width vs probe cost; coverage audit under i.i.d. / bursty | Scale-free H2 **not falsified**; adaptive+Betting burst miss **0.97** |
 | [`results/study_c/`](results/study_c/) | `#study-c` `#h3` `#scheduler` `#simulation` | Elastic vs inline vs none under load | High-load P99 TPOT: elastic **17.5** vs inline **44** (none 19.5) |
 | [`results/ablations/`](results/ablations/) | `#ablations` `#transfer` `#detector` | Signals alone/combined; rate 0→100%; fixed vs adaptive; transfer | Cross-model transfer AUC **0.92** (0.5B→1.5B) |
 | [`results/ablation6/`](results/ablation6/) | `#ablation-6` `#layer-budget` `#pyramid` | Per-layer schedules at matched mean keep fraction | Detector CV AUC **0.87–0.93** within schedules; cross-schedule transfer ≥ **0.92** |
 | [`results/overhead/`](results/overhead/) | `#overhead` `#probe-cost` `#gather-path` | Production sparse vs dense wall-clock on T1000 | Speedup ≈ **1.0–1.12×**; r ≈ **1.0–1.12** (MLP-bound host) |
-| [`results/REPORT.md`](results/REPORT.md) | `#verdicts` `#phase-l` | Written verdicts against pre-committed gates | H1/H4 supported; H2 scale-free OK; H3 sim-only |
+| [`results/REPORT.md`](results/REPORT.md) | `#verdicts` `#phase-l` | Written verdicts against pre-committed gates | H1 supported; H2 scale-free OK; H3 sim-only; H4 withdrawn pending regeneration |
 | [`results/TABLES.md`](results/TABLES.md) | `#tables` | `make_tables.py` output | Paste-ready numbers for papers |
 
 **Hardware tag (all Phase L runs):** `#nvidia-t1000-8gb` · driver 596.51 · CUDA 12.4 · Windows smoke host.
@@ -145,7 +157,7 @@ All plots are generated by the experiment drivers (never hand-drawn). Click thro
 
 `#cliff` `#accuracy` `#flip-rate`
 
-**Fidelity cliff** — end-task accuracy and per-request flip fraction vs keep budget. Divergence stays well above 0.1% at tight budgets.
+**Fidelity cliff** — end-task accuracy and per-request flip fraction vs keep budget. Divergence stays well above 0.1% at tight budgets. (The flip panel is gold-independent and stands; the accuracy panel is regenerating.)
 
 ![Cliff 1.5B](results/study_a_1.5b/figures/cliff.png)
 
