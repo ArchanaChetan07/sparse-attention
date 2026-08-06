@@ -43,9 +43,19 @@ def machine_fingerprint() -> dict:
              "--format=csv,noheader"],
             capture_output=True, text=True, timeout=10)
         if q.returncode == 0:
-            drv, plim, gen, width = [s.strip() for s in q.stdout.strip().split(",")]
-            fp.update({"driver": drv, "power_limit": plim,
-                       "pcie": f"gen{gen} x{width}"})
+            # One CSV line PER GPU. Splitting the whole output on "," gives
+            # 4*n fields on a multi-GPU host and the unpack raises, silently
+            # dropping driver/power/pcie from the fingerprint -- on exactly
+            # the multi-GPU machines Gate 1 rents, where those fields are the
+            # ones being acceptance-checked. Take GPU 0, the device used.
+            lines = [ln for ln in q.stdout.strip().splitlines() if ln.strip()]
+            parts = [s.strip() for s in lines[0].split(",")] if lines else []
+            if len(parts) == 4:
+                drv, plim, gen, width = parts
+                fp.update({"driver": drv, "power_limit": plim,
+                           "pcie": f"gen{gen} x{width}"})
+                if len(lines) > 1:
+                    fp["n_gpus_visible"] = len(lines)
     except Exception:
         pass
     return fp
