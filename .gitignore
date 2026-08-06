@@ -12,3 +12,4 @@ results/_validate*/
 .venv/
 results/*_v2.log
 results/*_run.log
+results/chain_*.log
