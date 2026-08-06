@@ -39,24 +39,50 @@ def main():
     ap.add_argument("--per-family", type=int, default=None)
     ap.add_argument("--max-new-long", type=int, default=64,
                     help="decode steps for long-trace families (reasoning/longform)")
+    ap.add_argument("--contexts", type=int, nargs="+", default=None,
+                    help="override context lengths (e.g. 16384 32768)")
+    ap.add_argument("--budgets", type=float, nargs="+", default=None,
+                    help="override keep_frac budgets")
+    ap.add_argument("--methods", nargs="+", default=None,
+                    help="override sparse methods")
+    ap.add_argument("--families", nargs="+", default=None,
+                    help="task families (default: all); put reasoning first for Gate 1")
+    ap.add_argument("--device", default=None,
+                    help="torch device (default: cuda if available)")
+    ap.add_argument("--max-new-qa", type=int, default=16,
+                    help="decode steps for short-answer QA families")
     args = ap.parse_args()
 
-    contexts = [1024] if args.quick else [1024, 2048]
-    budgets = [0.25, 0.0625] if args.quick else [0.5, 0.25, 0.125, 0.0625, 0.03125]
-    methods = ["quest_topk"] if args.quick else ["quest_topk", "mean_topk", "local_sink"]
-    per_family = args.per_family or (2 if args.quick else 3)
-    max_new_qa, max_new_lf = 16, args.max_new_long
+    if args.quick:
+        contexts = args.contexts or [1024]
+        budgets = args.budgets or [0.25, 0.0625]
+        methods = args.methods or ["quest_topk"]
+        per_family = args.per_family or 2
+    else:
+        contexts = args.contexts or [1024, 2048]
+        budgets = args.budgets or [0.5, 0.25, 0.125, 0.0625, 0.03125]
+        methods = args.methods or ["quest_topk", "mean_topk", "local_sink"]
+        per_family = args.per_family or 3
+    max_new_qa, max_new_lf = args.max_new_qa, args.max_new_long
 
-    device = "cuda" if torch.cuda.is_available() else "cpu"
+    device = args.device or ("cuda" if torch.cuda.is_available() else "cpu")
     pm = PairedModel(args.model, device=device)
     count_tokens = lambda s: len(pm.tokenizer(s).input_ids)
 
+    families = args.families
+    if families is None and any(c >= 8192 for c in contexts):
+        # Gate-1 default: reasoning traces first (decide outcome earliest).
+        from csa.tasks import FAMILIES
+        families = ["reasoning"] + [f for f in FAMILIES if f != "reasoning"]
     tasks = []
     for ctx in contexts:
         tasks += [(ctx, t) for t in make_tasks(count_tokens, ctx,
-                                               per_family=per_family, seed=17)]
+                                               per_family=per_family,
+                                               families=families, seed=17)]
     print(f"{len(tasks)} tasks x {len(methods)} methods x {len(budgets)} budgets "
           f"(+ teacher-forced quest runs)")
+    print(f"model={args.model} device={device} contexts={contexts} "
+          f"methods={methods} families={families or 'all'}")
 
     step_rows, req_rows = [], []
     t_start = time.time()

@@ -94,12 +94,29 @@ def test_gather_respects_attention_bias():
     assert torch.isfinite(out).all(), "masked-out positions must not produce NaN"
 
 
+def test_gather_empty_selection_is_finite_zeros():
+    q, k, v = rand_qkv(T=64)
+    mask = torch.zeros(1, 4, sp.n_blocks(64, 32), dtype=torch.bool)
+    out = sp.gather_sparse_attention(q, k, v, mask, 32, 0.25, 2)
+    assert torch.isfinite(out).all()
+    assert torch.count_nonzero(out) == 0
+
+
+def test_gather_all_bias_masked_is_finite():
+    q, k, v = rand_qkv(T=64)
+    mask, _, _ = sp.compute_selection(
+        SparseConfig(keep_frac=0.25, block_size=32), q, k, 0.25, 2)
+    bias = torch.full((1, 1, 64), float("-inf"))
+    out = sp.gather_sparse_attention(q, k, v, mask, 32, 0.25, 2, attn_bias=bias)
+    assert torch.isfinite(out).all()
+
+
 # ------------------------------------------------------------ layer schedules
 def test_schedules_are_budget_matched():
-    for n in (4, 24, 28):
-        for kf in (0.5, 0.125, 0.03125):
+    for n in (4, 24, 28, 32):
+        for kf in (0.5, 0.125, 0.03125, 0.9):
             for sch in ("uniform", "pyramid", "inv_pyramid"):
-                fr = layer_keep_fracs(kf, n, sch)
+                fr = layer_keep_fracs(kf, n, sch, strength=0.9)
                 assert len(fr) == n
                 assert abs(float(fr.mean()) - kf) < 1e-9, (sch, n, kf, fr.mean())
                 assert (fr > 0).all() and (fr <= 1.0).all()

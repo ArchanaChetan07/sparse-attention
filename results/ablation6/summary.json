@@ -1,0 +1,85 @@
+{
+  "n_layers": 28,
+  "model": "Qwen/Qwen2.5-1.5B-Instruct",
+  "fidelity_by_schedule": [
+    {
+      "keep_frac": 0.0625,
+      "schedule": "inv_pyramid",
+      "flip_rate": 0.05357142857142857,
+      "oracle_dropped": 0.20658766037867077,
+      "out_cos": 0.09111035815287319,
+      "n": 56
+    },
+    {
+      "keep_frac": 0.0625,
+      "schedule": "pyramid",
+      "flip_rate": 0.21428571428571427,
+      "oracle_dropped": 0.19855506557048233,
+      "out_cos": 0.07553978896158484,
+      "n": 56
+    },
+    {
+      "keep_frac": 0.0625,
+      "schedule": "uniform",
+      "flip_rate": 0.05357142857142857,
+      "oracle_dropped": 0.16389254475202786,
+      "out_cos": 0.05206849494968259,
+      "n": 56
+    },
+    {
+      "keep_frac": 0.125,
+      "schedule": "inv_pyramid",
+      "flip_rate": 0.017857142857142856,
+      "oracle_dropped": 0.09147962571712144,
+      "out_cos": 0.01991605224458371,
+      "n": 56
+    },
+    {
+      "keep_frac": 0.125,
+      "schedule": "pyramid",
+      "flip_rate": 0.03571428571428571,
+      "oracle_dropped": 0.10108740007764973,
+      "out_cos": 0.022324543893768006,
+      "n": 56
+    },
+    {
+      "keep_frac": 0.125,
+      "schedule": "uniform",
+      "flip_rate": 0.017857142857142856,
+      "oracle_dropped": 0.08874430766059514,
+      "out_cos": 0.01796724226301339,
+      "n": 56
+    }
+  ],
+  "detector_within_schedule": {
+    "inv_pyramid": {
+      "cv_auc": 0.9271336553945251,
+      "cv_auc_std": 0.035829307568437996,
+      "dropped_mass_auc": 0.4097222222222222,
+      "n": 112
+    },
+    "pyramid": {
+      "cv_auc": 0.9348803827751196,
+      "cv_auc_std": 0.014880382775119605,
+      "dropped_mass_auc": 0.6311953352769679,
+      "n": 112
+    },
+    "uniform": {
+      "cv_auc": 0.8695652173913044,
+      "cv_auc_std": 0.13043478260869562,
+      "dropped_mass_auc": 0.4537037037037037,
+      "n": 112
+    }
+  },
+  "detector_transfer_across_schedules": {
+    "inv_pyramid->inv_pyramid": 0.9930555555555556,
+    "inv_pyramid->pyramid": 0.9293002915451896,
+    "inv_pyramid->uniform": 0.9398148148148149,
+    "pyramid->inv_pyramid": 0.9583333333333333,
+    "pyramid->pyramid": 0.9562682215743441,
+    "pyramid->uniform": 0.9699074074074074,
+    "uniform->inv_pyramid": 0.9675925925925926,
+    "uniform->pyramid": 0.9176384839650146,
+    "uniform->uniform": 0.9837962962962964
+  }
+}

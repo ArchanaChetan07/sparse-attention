@@ -131,37 +131,71 @@ def study_b():
     s = load(R / "study_b/summary.json")
     if not s:
         return
-    h("H2 — bound width vs verification cost (per-budget streams)")
+    h("H2 — bound width vs verification cost")
+    # Prefer per-stream targets (current Study B schema); fall back to legacy.
+    targets = s.get("h2_targets")
+    by_stream = s.get("h2_targets_by_stream")
     rows = []
-    for stream, targets in s.get("h2_targets_by_stream", {}).items():
+    if by_stream:
+        for stream, block in by_stream.items():
+            for target, v in block.items():
+                if not v.get("reached"):
+                    rows.append([stream, target, "not reached", "—", "—",
+                                 "—", v.get("note", "")])
+                else:
+                    rows.append([
+                        stream, target, v["estimator"],
+                        f"{v['probe_rate']*100:.1f}%",
+                        f"{v['throughput_loss']*100:.1f}%",
+                        fmt(v.get("coverage"), 2), ""])
+        table(rows, ["stream", "target bound width", "cheapest valid estimator",
+                     "probes / 100 steps", "throughput loss", "coverage", "note"])
+    elif targets:
         for target, v in targets.items():
             if not v.get("reached"):
-                rows.append([stream, target, "not reached", "—", "—", "—"])
+                rows.append([target, "not reached", "—", "—", "—"])
             else:
-                rows.append([stream, target, v["estimator"],
-                             f"{v['probe_rate']*100:.1f}%",
+                rows.append([target, v["estimator"], f"{v['probe_rate']*100:.1f}%",
                              f"{v['throughput_loss']*100:.1f}%",
                              fmt(v["coverage"], 2)])
-    table(rows, ["stream", "target width", "cheapest VALID estimator",
-                 "probes / 100 steps", "throughput loss", "coverage"])
-    print(f"\nMeasured probe/step cost ratio r = "
-          f"{fmt(s['cost_ratio_probe_over_step'], 2)} "
-          f"[{s.get('cost_ratio_source', 'unknown source')}]. "
-          f"H2 falsification: a +/-5% bound costing >15% throughput.")
-    print(f"\n- Short-trace verdict: **{s['h2_verdict_at_5pct_on_short_traces']}**"
-          f"\n- Scale-free verdict: **{s['h2_verdict_scalefree']}**")
+        table(rows, ["target bound width", "cheapest estimator",
+                     "probes / 100 steps", "throughput loss", "coverage"])
 
-    h("H2 — probes needed per target width (scale-free)")
-    need = s.get("h2_probes_needed_for_width", {})
-    widths = sorted({w for t in need.values() for w in t}, reverse=True)
-    table([[est] + [fmt(t.get(w)) for w in widths] for est, t in need.items()],
-          ["estimator"] + [f"width {w}" for w in widths])
-    print(f"\nCoverage-valid estimators: "
-          f"{', '.join(s.get('coverage_valid_estimators', []))} — "
-          f"best: {s.get('best_valid_estimator')}. "
-          f"Width scaling exponent beta = "
-          f"{fmt(s['width_scaling_exponent_beta'], 3)} "
-          f"(width ~ p^-beta; 0.5 is the sqrt-n rate).")
+    verdict = (s.get("h2_verdict_scalefree")
+               or s.get("h2_verdict_at_5pct_on_short_traces")
+               or s.get("h2_verdict_at_5pct")
+               or "n/a")
+    short = s.get("h2_verdict_at_5pct_on_short_traces")
+    print(f"\nMeasured probe/step cost ratio r = {fmt(s['cost_ratio_probe_over_step'], 2)} "
+          f"({s.get('cost_ratio_source', 'paired-step')}). "
+          f"H2 falsification: a +/-5% bound costing >15% throughput.")
+    if short:
+        print(f"Short-trace verdict: **{short}**.")
+    print(f"Scale-free / primary verdict: **{verdict}**.")
+    print(f"Coverage-valid estimators: {s.get('coverage_valid_estimators', '—')}; "
+          f"best valid: {s.get('best_valid_estimator', '—')}.")
+    if "h2_probes_needed_for_width" in s:
+        h("Probes needed for target width (scale-free, valid estimators)")
+        need = s["h2_probes_needed_for_width"]
+        widths = sorted({w for est in need.values() for w in est},
+                        key=lambda x: float(x), reverse=True)
+        rows = []
+        for est, m in need.items():
+            rows.append([est] + [m.get(w, "—") for w in widths])
+        table(rows, ["estimator"] + [f"w={w}" for w in widths])
+    print(f"\nWidth scaling exponent beta = {fmt(s['width_scaling_exponent_beta'], 3)} "
+          f"(width ~ p^-beta; 0.5 is the sqrt-n rate, so cost grows "
+          f"{'sub' if s.get('width_scaling_exponent_beta', 0) >= 0.5 else 'super'}"
+          f"linearly in guarantee strength).")
+
+    bursty = s.get("coverage_by_estimator_bursty")
+    if bursty:
+        h("Bursty-regime anytime miss rate (target alpha = 0.05)")
+        rows = [[est, fmt(miss, 3)] for est, miss in bursty.items()]
+        table(rows, ["estimator", "anytime miss rate"])
+        print("\nBetting / capital-process estimators that lock under drift are "
+              "rejected for serving use; Hoeffding and empirical-Bernstein "
+              "remain coverage-valid.")
 
     cov = pd.read_csv(R / "study_b/coverage.csv") if (R / "study_b/coverage.csv").exists() else None
     if cov is not None:

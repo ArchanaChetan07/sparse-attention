@@ -1,0 +1,459 @@
+{
+  "fingerprint": {
+    "platform": "Windows-10-10.0.26200-SP0",
+    "python": "3.11.5",
+    "cpu": "Intel64 Family 6 Model 183 Stepping 1, GenuineIntel",
+    "torch": "2.6.0+cu124",
+    "gpu": "NVIDIA T1000 8GB",
+    "gpu_mem_gb": 8.0,
+    "cuda": "12.4",
+    "transformers": "5.12.1",
+    "driver": "596.51",
+    "power_limit": "50.00 W",
+    "pcie": "gen3 x16"
+  },
+  "teacher_steps": 3345,
+  "teacher_flip_rate": 0.1961136023916293,
+  "auc_teacher_flip": {
+    "est dropped mass (mean)": 0.8359055410933431,
+    "est dropped mass (max)": 0.8192888937768142,
+    "eviction consensus": 0.8322813585610754,
+    "fully-dropped mass": 0.8318726246950086,
+    "sparse attn entropy": 0.44662876760786946,
+    "top1-top2 margin": 0.8717080200273926,
+    "cross-layer dropped-mass std": 0.828073270505855,
+    "ORACLE dropped mass": 0.8544709022304057,
+    "ORACLE output cos-dist": 0.8552526553528829
+  },
+  "auc_within_budget": {
+    "keep=0.03125": {
+      "est dropped mass (mean)": 0.618946763829558,
+      "est dropped mass (max)": 0.5546900240514054,
+      "eviction consensus": 0.618946763829558,
+      "fully-dropped mass": 0.618946763829558,
+      "sparse attn entropy": 0.3358491582008113,
+      "top1-top2 margin": 0.8152663603403094,
+      "cross-layer dropped-mass std": 0.5728093477402448,
+      "ORACLE dropped mass": 0.7116254442330473,
+      "ORACLE output cos-dist": 0.7437268909071328,
+      "_n": 669,
+      "_flip_rate": 0.4678624813153961
+    },
+    "keep=0.0625": {
+      "est dropped mass (mean)": 0.7841603416562719,
+      "est dropped mass (max)": 0.7716072221400029,
+      "eviction consensus": 0.7708513922070234,
+      "fully-dropped mass": 0.7861265565868201,
+      "sparse attn entropy": 0.36257637582189894,
+      "top1-top2 margin": 0.8589927905452547,
+      "cross-layer dropped-mass std": 0.7772997314953805,
+      "ORACLE dropped mass": 0.8026068204401785,
+      "ORACLE output cos-dist": 0.8157572041692215,
+      "_n": 669,
+      "_flip_rate": 0.3034379671150972
+    },
+    "keep=0.125": {
+      "est dropped mass (mean)": 0.7383389450056116,
+      "est dropped mass (max)": 0.7520314253647586,
+      "eviction consensus": 0.7212570145903481,
+      "fully-dropped mass": 0.7444668911335578,
+      "sparse attn entropy": 0.7270033670033671,
+      "top1-top2 margin": 0.865679012345679,
+      "cross-layer dropped-mass std": 0.7487542087542087,
+      "ORACLE dropped mass": 0.7678338945005612,
+      "ORACLE output cos-dist": 0.7439955106621774,
+      "_n": 669,
+      "_flip_rate": 0.11210762331838565
+    },
+    "keep=0.25": {
+      "est dropped mass (mean)": 0.7575345657915178,
+      "est dropped mass (max)": 0.7708559888146651,
+      "eviction consensus": 0.7256485940655585,
+      "fully-dropped mass": 0.7655351871990058,
+      "sparse attn entropy": 0.779749883486096,
+      "top1-top2 margin": 0.9320723939723474,
+      "cross-layer dropped-mass std": 0.7890321578375019,
+      "ORACLE dropped mass": 0.7729144011185334,
+      "ORACLE output cos-dist": 0.7928382787012583,
+      "_n": 669,
+      "_flip_rate": 0.061285500747384154
+    },
+    "keep=0.5": {
+      "est dropped mass (mean)": 0.6828811369509045,
+      "est dropped mass (max)": 0.6961886304909561,
+      "eviction consensus": 0.6542635658914728,
+      "fully-dropped mass": 0.6859173126614988,
+      "sparse attn entropy": 0.7458656330749354,
+      "top1-top2 margin": 0.9414728682170542,
+      "cross-layer dropped-mass std": 0.6907622739018088,
+      "ORACLE dropped mass": 0.7286821705426356,
+      "ORACLE output cos-dist": 0.7310723514211886,
+      "_n": 669,
+      "_flip_rate": 0.03587443946188341
+    }
+  },
+  "signal_vs_damage": {
+    "est dropped mass (mean)": {
+      "auc_for_flip": 0.8359055410933431,
+      "rho_with_oracle_dropped_mass": 0.9711202193183774,
+      "rho_with_output_divergence": 0.9686966897403761,
+      "rho_with_damage_within_budget": 0.8886762743838339
+    },
+    "est dropped mass (max)": {
+      "auc_for_flip": 0.8192888937768142,
+      "rho_with_oracle_dropped_mass": 0.910240151763088,
+      "rho_with_output_divergence": 0.9392520087872832,
+      "rho_with_damage_within_budget": 0.6151752087525539
+    },
+    "eviction consensus": {
+      "auc_for_flip": 0.8322813585610754,
+      "rho_with_oracle_dropped_mass": 0.9705272823465162,
+      "rho_with_output_divergence": 0.9514986258690847,
+      "rho_with_damage_within_budget": 0.8760108322275201
+    },
+    "fully-dropped mass": {
+      "auc_for_flip": 0.8318726246950086,
+      "rho_with_oracle_dropped_mass": 0.9539813322776547,
+      "rho_with_output_divergence": 0.9684685997681184,
+      "rho_with_damage_within_budget": 0.8706725014598338
+    },
+    "sparse attn entropy": {
+      "auc_for_flip": 0.44662876760786946,
+      "rho_with_oracle_dropped_mass": 0.1573088442838428,
+      "rho_with_output_divergence": 0.09463123811539141,
+      "rho_with_damage_within_budget": 0.21863939880095243
+    },
+    "top1-top2 margin": {
+      "auc_for_flip": 0.8717080200273926,
+      "rho_with_oracle_dropped_mass": 0.4671275593383352,
+      "rho_with_output_divergence": 0.45857924610360273,
+      "rho_with_damage_within_budget": 0.3718461778048344
+    },
+    "cross-layer dropped-mass std": {
+      "auc_for_flip": 0.828073270505855,
+      "rho_with_oracle_dropped_mass": 0.9441649564144274,
+      "rho_with_output_divergence": 0.9571871467946449,
+      "rho_with_damage_within_budget": 0.7742748383161392
+    }
+  },
+  "auc_free_by_method": {
+    "local_sink": {
+      "sparse attn entropy": 0.45754672774360494,
+      "top1-top2 margin": 0.8710149697929739,
+      "ORACLE dropped mass": 0.7309216476448881,
+      "ORACLE output cos-dist": 0.7343069375203342,
+      "_n": 3164
+    },
+    "mean_topk": {
+      "est dropped mass (mean)": 0.7511284665620319,
+      "est dropped mass (max)": 0.7324393153617477,
+      "eviction consensus": 0.7533316741163062,
+      "fully-dropped mass": 0.7441312850880778,
+      "sparse attn entropy": 0.5150105568448672,
+      "top1-top2 margin": 0.8731736750218346,
+      "cross-layer dropped-mass std": 0.7376722776978273,
+      "ORACLE dropped mass": 0.7589356643189664,
+      "ORACLE output cos-dist": 0.7628369672329127,
+      "_n": 3252
+    },
+    "quest_topk": {
+      "est dropped mass (mean)": 0.7150616575119035,
+      "est dropped mass (max)": 0.7187356004476203,
+      "eviction consensus": 0.7094618315864925,
+      "fully-dropped mass": 0.7106796223020267,
+      "sparse attn entropy": 0.5179907550302436,
+      "top1-top2 margin": 0.8845192469445521,
+      "cross-layer dropped-mass std": 0.7175630654681363,
+      "ORACLE dropped mass": 0.746743415518969,
+      "ORACLE output cos-dist": 0.750214850464077,
+      "_n": 3285
+    }
+  },
+  "dense_qa_accuracy": 0.5,
+  "dense_qa_accuracy_by_family": {
+    "coreference": 0.3333333333333333,
+    "multi_entity": 0.8333333333333334,
+    "multi_hop": 0.0,
+    "reasoning": 0.8333333333333334
+  },
+  "cliff": [
+    {
+      "method": "local_sink",
+      "keep_frac": 0.03125,
+      "acc": 0.20833333333333334,
+      "flip": 0.30326473577235774,
+      "odrop": 0.35600077609702546,
+      "n": 24
+    },
+    {
+      "method": "local_sink",
+      "keep_frac": 0.0625,
+      "acc": 0.20833333333333334,
+      "flip": 0.1859588645602365,
+      "odrop": 0.258880405789891,
+      "n": 24
+    },
+    {
+      "method": "local_sink",
+      "keep_frac": 0.125,
+      "acc": 0.2916666666666667,
+      "flip": 0.057942708333333336,
+      "odrop": 0.14366971622715963,
+      "n": 24
+    },
+    {
+      "method": "local_sink",
+      "keep_frac": 0.25,
+      "acc": 0.2916666666666667,
+      "flip": 0.05554058908045977,
+      "odrop": 0.09822327796372533,
+      "n": 24
+    },
+    {
+      "method": "local_sink",
+      "keep_frac": 0.5,
+      "acc": 0.2916666666666667,
+      "flip": 0.013822115384615384,
+      "odrop": 0.06067706843710679,
+      "n": 24
+    },
+    {
+      "method": "mean_topk",
+      "keep_frac": 0.03125,
+      "acc": 0.20833333333333334,
+      "flip": 0.30326473577235774,
+      "odrop": 0.35600077609702546,
+      "n": 24
+    },
+    {
+      "method": "mean_topk",
+      "keep_frac": 0.0625,
+      "acc": 0.25,
+      "flip": 0.15808244410569106,
+      "odrop": 0.25295158608270046,
+      "n": 24
+    },
+    {
+      "method": "mean_topk",
+      "keep_frac": 0.125,
+      "acc": 0.375,
+      "flip": 0.013350340136054422,
+      "odrop": 0.11745000462418576,
+      "n": 24
+    },
+    {
+      "method": "mean_topk",
+      "keep_frac": 0.25,
+      "acc": 0.4166666666666667,
+      "flip": 0.0020461309523809525,
+      "odrop": 0.05806387777152172,
+      "n": 24
+    },
+    {
+      "method": "mean_topk",
+      "keep_frac": 0.5,
+      "acc": 0.4583333333333333,
+      "flip": 0.0032552083333333335,
+      "odrop": 0.022019205321100854,
+      "n": 24
+    },
+    {
+      "method": "quest_topk",
+      "keep_frac": 0.03125,
+      "acc": 0.20833333333333334,
+      "flip": 0.30326473577235774,
+      "odrop": 0.35600077609702546,
+      "n": 24
+    },
+    {
+      "method": "quest_topk",
+      "keep_frac": 0.0625,
+      "acc": 0.25,
+      "flip": 0.15506836231556761,
+      "odrop": 0.25178310398416204,
+      "n": 24
+    },
+    {
+      "method": "quest_topk",
+      "keep_frac": 0.125,
+      "acc": 0.3333333333333333,
+      "flip": 0.010416666666666666,
+      "odrop": 0.1183455061063821,
+      "n": 24
+    },
+    {
+      "method": "quest_topk",
+      "keep_frac": 0.25,
+      "acc": 0.4583333333333333,
+      "flip": 0.005208333333333333,
+      "odrop": 0.06362902018452411,
+      "n": 24
+    },
+    {
+      "method": "quest_topk",
+      "keep_frac": 0.5,
+      "acc": 0.4583333333333333,
+      "flip": 0.005208333333333333,
+      "odrop": 0.027377112398256433,
+      "n": 24
+    }
+  ],
+  "effective_keep_fraction": [
+    {
+      "ctx": 1024,
+      "keep_frac": 0.03125,
+      "keep_tokens_frac_Lmean": 0.0429810198763404
+    },
+    {
+      "ctx": 1024,
+      "keep_frac": 0.0625,
+      "keep_tokens_frac_Lmean": 0.0429810198763404
+    },
+    {
+      "ctx": 1024,
+      "keep_frac": 0.125,
+      "keep_tokens_frac_Lmean": 0.10105564286986182
+    },
+    {
+      "ctx": 1024,
+      "keep_frac": 0.25,
+      "keep_tokens_frac_Lmean": 0.24167476084196207
+    },
+    {
+      "ctx": 1024,
+      "keep_frac": 0.5,
+      "keep_tokens_frac_Lmean": 0.5011685077995515
+    },
+    {
+      "ctx": 2048,
+      "keep_frac": 0.03125,
+      "keep_tokens_frac_Lmean": 0.02275442018816327
+    },
+    {
+      "ctx": 2048,
+      "keep_frac": 0.0625,
+      "keep_tokens_frac_Lmean": 0.052866634030162896
+    },
+    {
+      "ctx": 2048,
+      "keep_frac": 0.125,
+      "keep_tokens_frac_Lmean": 0.11344171141972766
+    },
+    {
+      "ctx": 2048,
+      "keep_frac": 0.25,
+      "keep_tokens_frac_Lmean": 0.24495578706937235
+    },
+    {
+      "ctx": 2048,
+      "keep_frac": 0.5,
+      "keep_tokens_frac_Lmean": 0.4999332268340085
+    }
+  ],
+  "budgets_clamped_by_sink_local_floor": [
+    {
+      "ctx": 1024,
+      "keep_frac": 0.03125,
+      "keep_tokens_frac_Lmean": 0.0429810198763404
+    }
+  ],
+  "h4_all_requests": {
+    "spearman_flipfrac_correct": -0.30202867419860563,
+    "spearman_meankl_correct": -0.16009650360093622,
+    "spearman_estdrop_correct": -0.18704321721302156,
+    "auc_flipfrac_incorrect": 0.6603489663573502,
+    "auc_estdrop_incorrect": 0.6138468663167644,
+    "n_requests": 360,
+    "accuracy": 0.3138888888888889
+  },
+  "h4_answerable": {
+    "spearman_flipfrac_correct": -0.8048915635999612,
+    "spearman_meankl_correct": -0.5672404457415083,
+    "spearman_estdrop_correct": -0.3969299652537957,
+    "auc_flipfrac_incorrect": 0.9375324675324676,
+    "auc_estdrop_incorrect": 0.7415869095399815,
+    "n_requests": 180,
+    "accuracy": 0.6111111111111112
+  },
+  "h4_answerable_within_budget": {
+    "per_budget": {
+      "keep=0.03125": {
+        "n": 36,
+        "accuracy": 0.4166666666666667,
+        "spearman": -0.5243177385031819,
+        "auc": 0.8
+      },
+      "keep=0.0625": {
+        "n": 36,
+        "accuracy": 0.4444444444444444,
+        "spearman": -0.5354951862684587,
+        "auc": 0.8046875
+      },
+      "keep=0.125": {
+        "n": 36,
+        "accuracy": 0.6666666666666666,
+        "spearman": -0.8857347227002131,
+        "auc": 0.9756944444444444
+      },
+      "keep=0.25": {
+        "n": 36,
+        "accuracy": 0.75,
+        "spearman": -0.9238294351917863,
+        "auc": 0.98559670781893
+      },
+      "keep=0.5": {
+        "n": 36,
+        "accuracy": 0.7777777777777778,
+        "spearman": -0.8843085160679954,
+        "auc": 1.0
+      }
+    },
+    "weighted_mean_spearman": -0.7507371197463272,
+    "n_budgets_estimable": 5,
+    "n_requests": 180
+  },
+  "h4_by_family": {
+    "coreference": {
+      "spearman_flipfrac_correct": -0.29943907710356976,
+      "spearman_meankl_correct": 0.009676238543165691,
+      "spearman_estdrop_correct": -0.030470361736265918,
+      "auc_flipfrac_incorrect": 0.6363636363636364,
+      "auc_estdrop_incorrect": 0.5198863636363636,
+      "n_requests": 90,
+      "accuracy": 0.26666666666666666
+    },
+    "multi_entity": {
+      "spearman_flipfrac_correct": -0.2158329236508578,
+      "spearman_meankl_correct": -0.3232368193357553,
+      "spearman_estdrop_correct": -0.3049283253603525,
+      "auc_flipfrac_incorrect": 0.5869565217391304,
+      "auc_estdrop_incorrect": 0.7080745341614907,
+      "n_requests": 90,
+      "accuracy": 0.7666666666666667
+    },
+    "multi_hop": {
+      "n_requests": 90,
+      "note": "insufficient variation to estimate"
+    },
+    "reasoning": {
+      "spearman_flipfrac_correct": -0.6060300134850389,
+      "spearman_meankl_correct": -0.594905488209898,
+      "spearman_estdrop_correct": -0.5635078787300496,
+      "auc_flipfrac_incorrect": 0.9185714285714286,
+      "auc_estdrop_incorrect": 0.845,
+      "n_requests": 90,
+      "accuracy": 0.2222222222222222
+    }
+  },
+  "h4_floor_effect": {
+    "n_answerable": 180,
+    "n_dense_already_wrong": 180,
+    "sparse_accuracy_when_dense_wrong": 0.016666666666666666
+  },
+  "timing_ms": {
+    "probe_mean": 139.57442181379704,
+    "paired_step_mean": 210.44580368024572,
+    "probe_over_paired_step": 0.6632321451553786,
+    "note": "the paired step computes dense AND sparse for measurement, so this ratio understates the cost of a probe relative to a production sparse step; see experiments/overhead_bench.py"
+  }
+}
