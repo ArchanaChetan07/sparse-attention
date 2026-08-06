@@ -166,22 +166,48 @@ def _ensure_registered():
         _REGISTERED = True
 
 
+def _cache_len(cache):
+    """Current KV length, or None if the layout is unrecognized."""
+    layers = getattr(cache, "layers", None)
+    if layers:
+        k = getattr(layers[0], "keys", None)
+        return None if k is None else int(k.shape[-2])
+    kc = getattr(cache, "key_cache", None)
+    if kc:
+        return int(kc[0].shape[-2])
+    return None
+
+
 def crop_cache(cache, length: int):
-    """Trim a DynamicCache back to `length` tokens (removes probe pollution)."""
+    """Trim a DynamicCache back to `length` tokens (removes probe pollution).
+
+    The post-condition is checked because a silently ineffective crop is the
+    single worst failure mode in this harness: the dense probe would leave its
+    KV behind, every subsequent step would attend to polluted state, and the
+    divergence numbers would still look entirely plausible. A crop that does
+    not crop must fail loudly. (Notably, on layouts where `key_cache` is a
+    property rebuilding a list per access, assigning into it is a no-op.)
+    """
     if hasattr(cache, "crop"):
         cache.crop(length)
-        return
-    if hasattr(cache, "key_cache"):  # older layout
+    elif getattr(cache, "key_cache", None) is not None:  # older layout
         for i in range(len(cache.key_cache)):
             cache.key_cache[i] = cache.key_cache[i][..., :length, :]
             cache.value_cache[i] = cache.value_cache[i][..., :length, :]
-        return
-    if hasattr(cache, "layers"):  # transformers v5 layout
+    elif getattr(cache, "layers", None) is not None:  # transformers v5 layout
         for layer in cache.layers:
             layer.keys = layer.keys[..., :length, :]
             layer.values = layer.values[..., :length, :]
-        return
-    raise RuntimeError("don't know how to crop this cache type")
+    else:
+        raise RuntimeError("don't know how to crop this cache type")
+
+    got = _cache_len(cache)
+    if got is not None and got != length:
+        raise RuntimeError(
+            f"crop_cache was ineffective: asked for {length} tokens, cache "
+            f"still holds {got}. Dense-probe KV would pollute every "
+            f"subsequent step and silently invalidate all divergence "
+            f"measurements.")
 
 
 @dataclass
