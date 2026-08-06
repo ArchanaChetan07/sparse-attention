@@ -1,9 +1,32 @@
 # Certified Sparse Attention — Phase L report (smoke scale)
 
 **Status:** local smoke-scale measurement complete on NVIDIA T1000 8GB.  
-**Authority:** `results/study_a_0.5b/`, `results/study_a_1.5b/` (supersedes `results/study_a/`).  
 **Numbers:** generated tables in [`TABLES.md`](TABLES.md); methodology caveats in [`METHODOLOGY.md`](METHODOLOGY.md).  
 **Do not quote a number that is not in TABLES.md or a `summary.json`.**
+
+> ### ⚠ Accuracy-derived numbers below are being regenerated
+>
+> An audit found that every Study A run to date seeded its tasks from
+> `hash((seed, fam, i, target_tokens))`. `hash()` on a tuple containing a `str`
+> is salted by `PYTHONHASHSEED`, which CPython randomizes per process, so those
+> runs drew their gold answers from an unrecorded random state that **cannot be
+> reconstructed** — re-running the same commit does not reproduce them. The same
+> commit also scored answers by substring containment (`key` matched inside
+> `monkey`).
+>
+> **Invalid until regenerated:** every H4 number, `dense_qa_accuracy`, and the
+> accuracy column of the cliff. **H4 is a pre-committed gate criterion, so no
+> gate decision may be taken on the figures in this document.**
+>
+> **Unaffected:** H1, H2, H3, the cliff's flip columns, and all six ablations.
+> None of them calls `Task.check` — per-step divergence labels come from paired
+> dense/sparse execution and never read a gold answer. For those the defect
+> costs exact reproducibility, not validity.
+>
+> Both defects are fixed (`blake2b` seeds, word-boundary and last-integer
+> checks) and guarded by a test that runs the generator under two values of
+> `PYTHONHASHSEED`. `results/study_a_0.5b/` and `results/study_a_1.5b/` carry
+> `SUPERSEDED.md`; regenerated runs land in `*_v2/`.
 
 ---
 
@@ -14,7 +37,7 @@
 | **H1** | Is per-step divergence detectable label-free? | **Supported.** Best damage-aligned label-free AUC ≈ 0.84 (1.5B est. dropped mass); combined detector CV AUC 0.92. Falsification bar was AUC &lt; 0.65. |
 | **H2** | Can a useful bound be afforded? | **Not falsified (scale-free), inconclusive on short traces.** Valid estimators (Hoeffding, empirical-Bernstein) reach ±10% width at long streams; ±5% not reached on Study A–length traces. Betting CS **fails under bursty drift** and is rejected for serving. |
 | **H3** | Can verification be elastic under load? | **Shape supported (simulation only).** Under overload, elastic TPOT tracks `none` while inline latency collapses; the bound widens instead. Not yet a vLLM result. |
-| **H4** | Does divergence predict end-task wrongness? | **Supported on answerable requests.** Spearman(flip frac, correct) = **−0.90** (0.5B) / **−0.80** (1.5B); within-budget (1.5B) **−0.75**. Falsification bar was \|ρ\| &lt; 0.5. |
+| **H4** | Does divergence predict end-task wrongness? | **WITHDRAWN pending regeneration.** The previously reported ρ = −0.90 (0.5B) / −0.80 (1.5B) were computed against gold answers that cannot be reconstructed (see banner above), so they are not evidence either way. Falsification bar remains \|ρ\| &lt; 0.5. |
 
 Negative / limiting findings that are also deliverables:
 
@@ -67,7 +90,19 @@ Study C is a discrete-event GPU scheduler with probes as deferrable work. At hig
 | elastic | **17.5** | **0.64** | 0.016 |
 | inline | **44.0** | 0.10 | 1.00 |
 
-Elastic preserves latency near the no-verification baseline; contention widens the guarantee. Mid-load shows the same shape with higher probe completion (~0.79). **Caveat (METHODOLOGY §4.6):** this is not vLLM. Gate 3 is the real-system test.
+Elastic preserves latency near the no-verification baseline; contention widens the guarantee. Mid-load shows the same shape with higher probe completion (**0.52**).
+
+These figures are post-fix. The simulator previously let queued probes execute
+for requests that had already completed, although the RFC specifies a probe is
+only valid while its request's KV prefix is resident. That counted verification
+the system could not have performed, and it flattered *this* policy: at arrival
+rate 0.04 elastic probe completion was reported as 0.999 where the honest figure
+is 0.854. The bias is largest at low load — exactly where elastic is meant to
+look good — and vanishes at high load, where retention expiry already dominates.
+The high-load table above is unchanged; mid-load completion fell from ~0.79 to
+0.52. **H3's shape survives on honest numbers.**
+
+**Caveat (METHODOLOGY §4.6):** this is not vLLM. Gate 3 is the real-system test.
 
 ---
 
@@ -75,18 +110,26 @@ Elastic preserves latency near the no-verification baseline; contention widens t
 
 Conditioning on dense-answerable requests is required: where the dense model already fails, sparse cannot add label-relevant damage.
 
-| Run | Dense QA acc | Answerable n | ρ(flip, correct) answerable | ρ within budget |
-|---|---|---|---|---|
-| 0.5B | 0.438 | 105 | **−0.898** | (see summary; small per-budget n) |
-| 1.5B | 0.500 | 180 | **−0.805** | **−0.751** |
+**This section is withdrawn pending regeneration.** The figures previously
+reported here — dense QA accuracy 0.438/0.500, ρ(flip, correct) −0.898 (0.5B)
+and −0.805 (1.5B), within-budget −0.751 — were computed against gold answers
+drawn from an unrecoverable random state and scored by substring containment.
+They are not evidence for H4, and they are not evidence against it either.
 
-\|ρ\| ≫ 0.5 on both models → H4 **not** falsified. Direction is as hypothesized: more step-level divergence predicts lower end-task accuracy. Floor-effect counts are in each run’s `summary.json` / TABLES.md.
+The methodological structure of the test is unchanged and still correct:
+condition on `dense_correct == True` for headroom, then hold budget fixed so
+budget cannot act as a common cause of both divergence and error. Only the
+inputs were bad.
+
+Regenerated runs (`results/study_a_*_v2/`) will restate this table against the
+\|ρ\| < 0.5 falsification bar. Until then **H4 is unresolved**, and it gates
+Phase R1.
 
 ---
 
 ## Cliff analysis
 
-Flip fraction and oracle dropped mass fall monotonically as `keep_frac` increases; end-task accuracy recovers. At the tightest budgets (0.03125) teacher flip rates are ~45–47%; at 0.5 they are ~3–5%. **Divergence is far above 0.1% at budgets that would need to buy real speedup** — the premise that sparse can silently degrade is intact at smoke scale. Sink+local clamping makes some nominal budgets identical in effective keep fraction; TABLES.md / `effective_keep_fraction` report the actual fraction.
+Flip fraction and oracle dropped mass fall monotonically as `keep_frac` increases. At the tightest budgets (0.03125) teacher flip rates are ~45–47%; at 0.5 they are ~3–5%. **Divergence is far above 0.1% at budgets that would need to buy real speedup** — the premise that sparse can silently degrade is intact at smoke scale. (The companion claim that end-task *accuracy* recovers with budget rests on the withdrawn accuracy scoring and is restated only after regeneration; the divergence half of the cliff is gold-independent and stands.) Sink+local clamping makes some nominal budgets identical in effective keep fraction; TABLES.md / `effective_keep_fraction` report the actual fraction.
 
 ---
 
@@ -117,7 +160,7 @@ Honest caveat (also in `overhead.json`): this host is not KV-bandwidth-bound. Ga
 
 1. Scale: 0.5B/1.5B, 1–2K context, T1000 8GB — not the proposal regime.
 2. Synthetic tasks with single-token / short answers; not production traffic.
-3. Small answerable subsets for some families (e.g. multi_hop dense accuracy 0 on 1.5B).
+3. Small answerable subsets for some families — to be re-quantified from the regenerated runs, since per-family accuracy is one of the withdrawn quantities.
 4. H3 is simulation; H2 wall-clock is an upper bound on cost.
 5. Greedy flip label is a proxy; logit KL is recorded alongside.
 
@@ -125,11 +168,24 @@ Honest caveat (also in `overhead.json`): this host is not KV-bandwidth-bound. Ga
 
 ## What is done / what is next
 
-**Phase L complete** with artifacts:
+**Phase L complete except for the Study A regeneration**, with artifacts:
 
-- `results/study_a_0.5b/`, `results/study_a_1.5b/`
-- `results/study_b/`, `results/study_c/`
+- `results/study_a_0.5b/`, `results/study_a_1.5b/` — **SUPERSEDED**, retained for provenance
+- `results/study_a_0.5b_v2/`, `results/study_a_1.5b_v2/` — regenerated, authoritative
+- `results/study_b/` (re-point at the regenerated 1.5B stream), `results/study_c/`
 - `results/ablations/`, `results/ablation6/`, `results/overhead/`
 - `results/TABLES.md`, this `REPORT.md`
 
-**Next phase is R1 (Gate 1)** on a rented H100 — human action required (see session stop note). Do not proceed to preprint (Phase P) until Gate 1 passes its pre-committed criteria.
+**Next phase is R1 (Gate 1)** on a rented H100 — human action required.
+
+Two blockers before renting, in order:
+
+1. **H4 must be restated from the regenerated runs.** It is a pre-committed
+   gate criterion and is currently unresolved, so a Gate 1 decision taken today
+   would rest on withdrawn numbers.
+2. Study B re-pointed at the regenerated stream (its H2 conclusions are not
+   expected to move — the divergence stream it consumes is gold-independent —
+   but the provenance chain should not run through a superseded directory).
+
+Do not proceed to preprint (Phase P) until Gate 1 passes its pre-committed
+criteria.
