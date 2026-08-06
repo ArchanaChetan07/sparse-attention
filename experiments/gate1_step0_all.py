@@ -76,7 +76,13 @@ def main():
         b.copy_(a)
     torch.cuda.synchronize()
     dt = time.perf_counter() - t0
-    tbps = (nbytes * iters) / dt / 1e12
+    # A device-to-device copy READS nbytes from `a` and WRITES nbytes to `b`,
+    # so DRAM traffic is 2*nbytes per iteration -- the same convention STREAM
+    # uses for its copy kernel, and the convention the vendor peak figures
+    # below are quoted in. Counting one direction only would report half the
+    # achieved bandwidth: a healthy H100 SXM sustaining ~2.8 TB/s would come
+    # out at ~1.4 and trip the 2.0 hard gate, rejecting a good machine.
+    tbps = (2 * nbytes * iters) / dt / 1e12
     # SXM expect >=2.7; NVL similar. Soften: fail only if < 2.0 (clearly broken)
     hard = 2.0
     soft = 2.7
@@ -99,6 +105,8 @@ def main():
         d.copy_(h, non_blocking=True)
     torch.cuda.synchronize()
     dt = time.perf_counter() - t0
+    # Host-to-device crosses PCIe exactly once, so nbytes is counted once here
+    # -- deliberately NOT the 2x used for the D2D copy above.
     h2d = (nbytes * iters) / dt / 1e9
     print(f"H2D_GBps={h2d:.1f} threshold=20 -> {'PASS' if h2d >= 20 else 'FAIL'}")
     if h2d < 20:
@@ -109,21 +117,29 @@ def main():
     section("NETWORK")
     url = ("https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct/"
            "resolve/main/model.safetensors")
+    # A network error must be recorded as a failed check, not crash STEP 0 --
+    # the point of this script is to produce a verdict on the rented machine,
+    # and an unhandled traceback here would discard the checks already passed.
     t0 = time.perf_counter()
     n = 0
-    with urlopen(url, timeout=120) as r:
-        while n < 64 * 1024 * 1024:
-            chunk = r.read(8 * 1024 * 1024)
-            if not chunk:
-                break
-            n += len(chunk)
-    dt = time.perf_counter() - t0
-    gbit = (n * 8 / dt) / 1e9 if dt > 0 else 0.0
-    print(f"sampled_MB={n/1e6:.1f} sec={dt:.2f} Gbit_s={gbit:.3f} "
-          f"threshold=0.5 -> {'PASS' if gbit >= 0.5 else 'FAIL'}")
-    # listing had ~0.5 Gbit; require >=0.5 so HF is usable
-    if gbit < 0.5:
-        fails.append(f"network {gbit:.3f} Gbit/s < 0.5")
+    try:
+        with urlopen(url, timeout=120) as r:
+            while n < 64 * 1024 * 1024:
+                chunk = r.read(8 * 1024 * 1024)
+                if not chunk:
+                    break
+                n += len(chunk)
+        dt = time.perf_counter() - t0
+        gbit = (n * 8 / dt) / 1e9 if dt > 0 else 0.0
+        print(f"sampled_MB={n/1e6:.1f} sec={dt:.2f} Gbit_s={gbit:.3f} "
+              f"threshold=0.5 -> {'PASS' if gbit >= 0.5 else 'FAIL'}")
+        # listing had ~0.5 Gbit; require >=0.5 so HF is usable
+        if gbit < 0.5:
+            fails.append(f"network {gbit:.3f} Gbit/s < 0.5")
+    except Exception as e:
+        gbit = 0.0
+        print(f"network check FAILED: {type(e).__name__}: {e}")
+        fails.append(f"network check could not complete: {type(e).__name__}: {e}")
 
     section("DISK")
     print(sh("df -h / /workspace 2>/dev/null || df -h /").strip())
