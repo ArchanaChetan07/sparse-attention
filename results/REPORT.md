@@ -4,7 +4,14 @@
 **Numbers:** generated tables in [`TABLES.md`](TABLES.md); methodology caveats in [`METHODOLOGY.md`](METHODOLOGY.md).  
 **Do not quote a number that is not in TABLES.md or a `summary.json`.**
 
-> ### ⚠ Accuracy-derived numbers below are being regenerated
+> ### Accuracy-derived numbers were regenerated after an audit
+>
+> **Resolved for the 0.5B; the 1.5B regeneration is in flight.** H4 is restated
+> below from `results/study_a_0.5b_v2/` and clears its bar (ρ = −0.870
+> answerable, −0.821 within budget). The history is kept because the defects
+> were invisible in the summaries — the old and new dense-accuracy figures are
+> 0.438 and 0.458, so nothing in the headline numbers looked wrong.
+
 >
 > An audit found that every Study A run to date seeded its tasks from
 > `hash((seed, fam, i, target_tokens))`. `hash()` on a tuple containing a `str`
@@ -37,7 +44,7 @@
 | **H1** | Is per-step divergence detectable label-free? | **Supported.** Best damage-aligned label-free AUC ≈ 0.84 (1.5B est. dropped mass); combined detector CV AUC 0.92. Falsification bar was AUC &lt; 0.65. |
 | **H2** | Can a useful bound be afforded? | **Not falsified (scale-free), inconclusive on short traces.** Valid estimators (Hoeffding, empirical-Bernstein) reach ±10% width at long streams; ±5% not reached on Study A–length traces. Betting CS **fails under bursty drift** and is rejected for serving. |
 | **H3** | Can verification be elastic under load? | **Shape supported (simulation only).** Under overload, elastic TPOT tracks `none` while inline latency collapses; the bound widens instead. Not yet a vLLM result. |
-| **H4** | Does divergence predict end-task wrongness? | **WITHDRAWN pending regeneration.** The previously reported ρ = −0.90 (0.5B) / −0.80 (1.5B) were computed against gold answers that cannot be reconstructed (see banner above), so they are not evidence either way. Falsification bar remains \|ρ\| &lt; 0.5. |
+| **H4** | Does divergence predict end-task wrongness? | **Supported on regenerated data (0.5B).** ρ(flip frac, correct) = **−0.870** on answerable requests (n=165), **−0.821** within budget across all 5 budgets. Falsification bar was \|ρ\| &lt; 0.5. 1.5B rerunning. |
 
 Negative / limiting findings that are also deliverables:
 
@@ -110,20 +117,37 @@ The high-load table above is unchanged; mid-load completion fell from ~0.79 to
 
 Conditioning on dense-answerable requests is required: where the dense model already fails, sparse cannot add label-relevant damage.
 
-**This section is withdrawn pending regeneration.** The figures previously
-reported here — dense QA accuracy 0.438/0.500, ρ(flip, correct) −0.898 (0.5B)
-and −0.805 (1.5B), within-budget −0.751 — were computed against gold answers
-drawn from an unrecoverable random state and scored by substring containment.
-They are not evidence for H4, and they are not evidence against it either.
+**Restated from the regenerated run** (`results/study_a_0.5b_v2/`), on
+reproducible seeds, an unambiguous task suite, and traces that reach their
+answers. The 1.5B regeneration is in flight.
 
-The methodological structure of the test is unchanged and still correct:
-condition on `dense_correct == True` for headroom, then hold budget fixed so
-budget cannot act as a common cause of both divergence and error. Only the
-inputs were bad.
+| Run | Dense QA acc | Answerable n | ρ(flip, correct) all | ρ answerable | ρ within budget |
+|---|---|---|---|---|---|
+| 0.5B v2 | 0.458 | 165 / 360 | −0.435 | **−0.870** | **−0.821** (5/5 budgets) |
 
-Regenerated runs (`results/study_a_*_v2/`) will restate this table against the
-\|ρ\| < 0.5 falsification bar. Until then **H4 is unresolved**, and it gates
-Phase R1.
+\|ρ\| ≫ 0.5 on the answerable subset and within budget → H4 **not falsified**.
+Direction is as hypothesized: more step-level divergence predicts lower
+end-task accuracy.
+
+**The conditioning correction is load-bearing, and this run demonstrates it.**
+Pooled over all requests ρ = −0.435, which is *below* the 0.5 bar; conditioning
+on the 165 requests the dense model actually gets right recovers −0.870. The
+195 requests dense already fails cannot be degraded further by sparse
+execution, so they contribute label noise uncorrelated with divergence. An
+analysis that skipped this step would have read H4 as falsified. Holding budget
+fixed (−0.821) additionally rules out budget as a common cause of both
+divergence and error.
+
+Per-family dense accuracy: coreference 0.833, multi_entity 0.500,
+reasoning 0.500, multi_hop 0.000.
+
+**Provenance.** The superseded runs reported −0.898 (0.5B) / −0.805 (1.5B).
+The regenerated 0.5B figure (−0.870) is close, so the original conclusion was
+directionally right — but it was scored against gold answers drawn from an
+unrecoverable random state, on a coreference task that was ambiguous as posed
+and reasoning traces that truncated before stating their answer. The
+conclusion survived; the evidence for it did not, and has been replaced rather
+than reaffirmed.
 
 ---
 

@@ -1,0 +1,662 @@
+task_id,family,ctx,method,keep_frac,mode,correct,n_steps,text,prompt_tokens,dense_correct,flip_frac,mean_kl,mean_est_dropped,mean_oracle_dropped
+multi_entity-1024-0,multi_entity,1024,dense,1.0,free,True,1, lantern,,,,,,
+multi_entity-1024-0,multi_entity,1024,quest_topk,0.5,free,True,1, lantern,1091.0,True,0.0,0.00012534612324088812,0.00681971398087929,0.030346669470115255
+multi_entity-1024-0,multi_entity,1024,quest_topk,0.25,free,True,1, lantern,1091.0,True,0.0,0.0018454459495842457,0.02460734466694703,0.07090512767899781
+multi_entity-1024-0,multi_entity,1024,quest_topk,0.125,free,True,1, lantern,1091.0,True,0.0,0.005319275427609682,0.07629814407603892,0.15321465915379426
+multi_entity-1024-0,multi_entity,1024,quest_topk,0.0625,free,True,1, lantern,1091.0,True,0.0,0.0049449605867266655,0.4215901577845216,0.49789394065737724
+multi_entity-1024-0,multi_entity,1024,quest_topk,0.03125,free,True,1, lantern,1091.0,True,0.0,0.0049449605867266655,0.4215901577845216,0.49789394065737724
+multi_entity-1024-0,multi_entity,1024,mean_topk,0.5,free,True,1, lantern,1091.0,True,0.0,1.0102194210048765e-06,0.028204147655439254,0.024801008733144652
+multi_entity-1024-0,multi_entity,1024,mean_topk,0.25,free,True,1, lantern,1091.0,True,0.0,0.004606509581208229,0.08621286111883819,0.07240992706889908
+multi_entity-1024-0,multi_entity,1024,mean_topk,0.125,free,True,1, lantern,1091.0,True,0.0,0.002523348666727543,0.22780358977615833,0.17571048066020012
+multi_entity-1024-0,multi_entity,1024,mean_topk,0.0625,free,True,1, lantern,1091.0,True,0.0,0.0049449605867266655,0.5324282472332319,0.49789394065737724
+multi_entity-1024-0,multi_entity,1024,mean_topk,0.03125,free,True,1, lantern,1091.0,True,0.0,0.0049449605867266655,0.5324282472332319,0.49789394065737724
+multi_entity-1024-0,multi_entity,1024,local_sink,0.5,free,True,1, lantern,1091.0,True,0.0,0.00025941734202206135,,0.047533756956302874
+multi_entity-1024-0,multi_entity,1024,local_sink,0.25,free,True,1, lantern,1091.0,True,0.0,0.0011244025081396103,,0.08110361534636468
+multi_entity-1024-0,multi_entity,1024,local_sink,0.125,free,True,1, lantern,1091.0,True,0.0,0.0029801293276250362,,0.23989842428515354
+multi_entity-1024-0,multi_entity,1024,local_sink,0.0625,free,True,1, lantern,1091.0,True,0.0,0.0049449605867266655,,0.49789394065737724
+multi_entity-1024-0,multi_entity,1024,local_sink,0.03125,free,True,1, lantern,1091.0,True,0.0,0.0049449605867266655,,0.49789394065737724
+multi_entity-1024-1,multi_entity,1024,dense,1.0,free,False,1, lantern,,,,,,
+multi_entity-1024-1,multi_entity,1024,quest_topk,0.5,free,False,1, lantern,1060.0,False,0.0,4.3967145302303834e-07,0.011344267618672651,0.04845944413682446
+multi_entity-1024-1,multi_entity,1024,quest_topk,0.25,free,False,1, lantern,1060.0,False,0.0,0.00023941625840961933,0.04188213474359751,0.1264632724535962
+multi_entity-1024-1,multi_entity,1024,quest_topk,0.125,free,False,1, lantern,1060.0,False,0.0,0.0007522627711296082,0.09295191867325532,0.19112180025937656
+multi_entity-1024-1,multi_entity,1024,quest_topk,0.0625,free,False,1, lantern,1060.0,False,0.0,0.04244032874703407,0.44652261732456583,0.4442058838903904
+multi_entity-1024-1,multi_entity,1024,quest_topk,0.03125,free,False,1, lantern,1060.0,False,0.0,0.04244032874703407,0.44652261732456583,0.4442058838903904
+multi_entity-1024-1,multi_entity,1024,mean_topk,0.5,free,False,1, lantern,1060.0,False,0.0,2.320564817637205e-06,0.04300564264606995,0.034154201624915004
+multi_entity-1024-1,multi_entity,1024,mean_topk,0.25,free,False,1, lantern,1060.0,False,0.0,0.0008134618401527405,0.12840218054285893,0.09622787385402869
+multi_entity-1024-1,multi_entity,1024,mean_topk,0.125,free,False,1, lantern,1060.0,False,0.0,0.009418264962732792,0.24653369933366776,0.189652763462315
+multi_entity-1024-1,multi_entity,1024,mean_topk,0.0625,free,False,1, lantern,1060.0,False,0.0,0.04244032874703407,0.4649893653889497,0.4442058838903904
+multi_entity-1024-1,multi_entity,1024,mean_topk,0.03125,free,False,1, lantern,1060.0,False,0.0,0.04244032874703407,0.4649893653889497,0.4442058838903904
+multi_entity-1024-1,multi_entity,1024,local_sink,0.5,free,False,1, lantern,1060.0,False,0.0,0.0028451033867895603,,0.11852368401984374
+multi_entity-1024-1,multi_entity,1024,local_sink,0.25,free,False,1, lantern,1060.0,False,0.0,0.009221311658620834,,0.1676809542501966
+multi_entity-1024-1,multi_entity,1024,local_sink,0.125,free,False,1, lantern,1060.0,False,0.0,0.01468865480273962,,0.21525528763110438
+multi_entity-1024-1,multi_entity,1024,local_sink,0.0625,free,False,1, lantern,1060.0,False,0.0,0.04244032874703407,,0.4442058838903904
+multi_entity-1024-1,multi_entity,1024,local_sink,0.03125,free,False,1, lantern,1060.0,False,0.0,0.04244032874703407,,0.4442058838903904
+multi_entity-1024-2,multi_entity,1024,dense,1.0,free,True,2,Locket,,,,,,
+multi_entity-1024-2,multi_entity,1024,quest_topk,0.5,free,True,2,Locket,1054.0,True,0.0,7.796525943604138e-05,0.006631550398462119,0.03197014937904896
+multi_entity-1024-2,multi_entity,1024,quest_topk,0.25,free,True,2,Locket,1054.0,True,0.0,0.0015384505786641967,0.01955324610662501,0.07145508657170771
+multi_entity-1024-2,multi_entity,1024,quest_topk,0.125,free,True,2,Locket,1054.0,True,0.0,0.005435735482024029,0.04896715832425495,0.14459163016484428
+multi_entity-1024-2,multi_entity,1024,quest_topk,0.0625,free,False,16,Loch..&&&&&&&&&&&&&&&&&&&&&&&&,1054.0,True,0.375,5.321313055232167,0.4503791588349486,0.4096871799847577
+multi_entity-1024-2,multi_entity,1024,quest_topk,0.03125,free,False,16,Loch..&&&&&&&&&&&&&&&&&&&&&&&&,1054.0,True,0.375,5.321313055232167,0.4503791588349486,0.4096871799847577
+multi_entity-1024-2,multi_entity,1024,mean_topk,0.5,free,True,2,Locket,1054.0,True,0.0,0.00010411309631308541,0.041722328411803275,0.028443961901454408
+multi_entity-1024-2,multi_entity,1024,mean_topk,0.25,free,True,2,Locket,1054.0,True,0.0,0.00017715438661980443,0.11074323975481093,0.07367122227636476
+multi_entity-1024-2,multi_entity,1024,mean_topk,0.125,free,True,2,Locket,1054.0,True,0.0,0.0047314660041593015,0.21554238776055473,0.13675043747449916
+multi_entity-1024-2,multi_entity,1024,mean_topk,0.0625,free,False,16,Loch..&&&&&&&&&&&&&&&&&&&&&&&&,1054.0,True,0.375,5.321313055232167,0.3791444983993036,0.4096871799847577
+multi_entity-1024-2,multi_entity,1024,mean_topk,0.03125,free,False,16,Loch..&&&&&&&&&&&&&&&&&&&&&&&&,1054.0,True,0.375,5.321313055232167,0.3791444983993036,0.4096871799847577
+multi_entity-1024-2,multi_entity,1024,local_sink,0.5,free,True,2,Locket,1054.0,True,0.0,0.0013978236713683145,,0.05451407453316885
+multi_entity-1024-2,multi_entity,1024,local_sink,0.25,free,True,2,Locket,1054.0,True,0.0,0.0030465103318420006,,0.09274528412303576
+multi_entity-1024-2,multi_entity,1024,local_sink,0.125,free,True,2,Locket,1054.0,True,0.0,0.0036530066358864133,,0.11586936074309051
+multi_entity-1024-2,multi_entity,1024,local_sink,0.0625,free,False,16,Loch..&&&&&&&&&&&&&&&&&&&&&&&&,1054.0,True,0.375,5.321313055232167,,0.4096871799847577
+multi_entity-1024-2,multi_entity,1024,local_sink,0.03125,free,False,16,Loch..&&&&&&&&&&&&&&&&&&&&&&&&,1054.0,True,0.375,5.321313055232167,,0.4096871799847577
+multi_hop-1024-0,multi_hop,1024,dense,1.0,free,False,2,Deepak,,,,,,
+multi_hop-1024-0,multi_hop,1024,quest_topk,0.5,free,False,2,Deepak,1060.0,False,0.0,1.2436971132956387e-06,0.00980376611854202,0.043353380004797756
+multi_hop-1024-0,multi_hop,1024,quest_topk,0.25,free,False,2,Deepak,1060.0,False,0.0,0.0002877668011933565,0.03370511567087912,0.10844051665238415
+multi_hop-1024-0,multi_hop,1024,quest_topk,0.125,free,False,2,Deepak,1060.0,False,0.0,0.15707316645421088,0.08029296880704351,0.18790891820875308
+multi_hop-1024-0,multi_hop,1024,quest_topk,0.0625,free,False,1,Deep,1060.0,False,1.0,9.378703117370605,0.42919255583547056,0.500911025951306
+multi_hop-1024-0,multi_hop,1024,quest_topk,0.03125,free,False,1,Deep,1060.0,False,1.0,9.378703117370605,0.42919255583547056,0.500911025951306
+multi_hop-1024-0,multi_hop,1024,mean_topk,0.5,free,False,2,Deepak,1060.0,False,0.0,6.57893192510528e-05,0.04521562324468202,0.035363874514587224
+multi_hop-1024-0,multi_hop,1024,mean_topk,0.25,free,False,2,Deepak,1060.0,False,0.0,0.0007889984408393502,0.12385499508430561,0.1063765645182381
+multi_hop-1024-0,multi_hop,1024,mean_topk,0.125,free,False,2,Deepak,1060.0,False,0.0,0.10323969701130409,0.23712635063566267,0.18638896794679263
+multi_hop-1024-0,multi_hop,1024,mean_topk,0.0625,free,False,1,Deep,1060.0,False,1.0,9.378703117370605,0.5335940904915333,0.500911025951306
+multi_hop-1024-0,multi_hop,1024,mean_topk,0.03125,free,False,1,Deep,1060.0,False,1.0,9.378703117370605,0.5335940904915333,0.500911025951306
+multi_hop-1024-0,multi_hop,1024,local_sink,0.5,free,False,3,Deepthi,1060.0,False,0.3333333333333333,0.8871723527166372,,0.10792837529960607
+multi_hop-1024-0,multi_hop,1024,local_sink,0.25,free,False,3,Deepthi,1060.0,False,0.3333333333333333,0.8283250044332817,,0.1361654597179343
+multi_hop-1024-0,multi_hop,1024,local_sink,0.125,free,False,3,Deepthi,1060.0,False,0.3333333333333333,0.6494472542326548,,0.18752343057551316
+multi_hop-1024-0,multi_hop,1024,local_sink,0.0625,free,False,1,Deep,1060.0,False,1.0,9.378703117370605,,0.500911025951306
+multi_hop-1024-0,multi_hop,1024,local_sink,0.03125,free,False,1,Deep,1060.0,False,1.0,9.378703117370605,,0.500911025951306
+multi_hop-1024-1,multi_hop,1024,dense,1.0,free,False,2,Priya,,,,,,
+multi_hop-1024-1,multi_hop,1024,quest_topk,0.5,free,False,2,Priya,1078.0,False,0.0,1.997816525545204e-06,0.009078661554061304,0.0288695527172725
+multi_hop-1024-1,multi_hop,1024,quest_topk,0.25,free,False,2,Priya,1078.0,False,0.0,2.2397892280423548e-05,0.03064113838096697,0.06564090690032269
+multi_hop-1024-1,multi_hop,1024,quest_topk,0.125,free,False,2,Priya,1078.0,False,0.0,0.00032440478571515996,0.0664545564850414,0.12301324009119222
+multi_hop-1024-1,multi_hop,1024,quest_topk,0.0625,free,False,2,Priest,1078.0,False,0.5,0.9744780231267214,0.17661075337188475,0.262339520190532
+multi_hop-1024-1,multi_hop,1024,quest_topk,0.03125,free,False,2,Priest,1078.0,False,0.5,0.9744780231267214,0.17661075337188475,0.262339520190532
+multi_hop-1024-1,multi_hop,1024,mean_topk,0.5,free,False,2,Priya,1078.0,False,0.0,0.00022603867864745553,0.025765860230118655,0.02782787942851428
+multi_hop-1024-1,multi_hop,1024,mean_topk,0.25,free,False,2,Priya,1078.0,False,0.0,0.0007472078141290694,0.08239717102454355,0.08192061594066521
+multi_hop-1024-1,multi_hop,1024,mean_topk,0.125,free,False,2,Priya,1078.0,False,0.0,0.4647953463718295,0.18067171261645854,0.16390296995329362
+multi_hop-1024-1,multi_hop,1024,mean_topk,0.0625,free,False,2,Priest,1078.0,False,0.5,0.9744780231267214,0.3833796869342526,0.262339520190532
+multi_hop-1024-1,multi_hop,1024,mean_topk,0.03125,free,False,2,Priest,1078.0,False,0.5,0.9744780231267214,0.3833796869342526,0.262339520190532
+multi_hop-1024-1,multi_hop,1024,local_sink,0.5,free,False,2,Priya,1078.0,False,0.0,8.583999738220882e-05,,0.04710699816738877
+multi_hop-1024-1,multi_hop,1024,local_sink,0.25,free,False,2,Priya,1078.0,False,0.0,0.00011271150276570552,,0.07076803550201778
+multi_hop-1024-1,multi_hop,1024,local_sink,0.125,free,False,2,Priya,1078.0,False,0.0,0.0010291764701833017,,0.14350353196884197
+multi_hop-1024-1,multi_hop,1024,local_sink,0.0625,free,False,2,Priest,1078.0,False,0.5,0.9744780231267214,,0.262339520190532
+multi_hop-1024-1,multi_hop,1024,local_sink,0.03125,free,False,2,Priest,1078.0,False,0.5,0.9744780231267214,,0.262339520190532
+multi_hop-1024-2,multi_hop,1024,dense,1.0,free,False,1,Alice,,,,,,
+multi_hop-1024-2,multi_hop,1024,quest_topk,0.5,free,False,1,Alice,1080.0,False,0.0,1.8236140022054315e-05,0.009795046133452464,0.03304453556969141
+multi_hop-1024-2,multi_hop,1024,quest_topk,0.25,free,False,1,Alice,1080.0,False,0.0,0.00030440546106547117,0.03183604211668959,0.07217924001937111
+multi_hop-1024-2,multi_hop,1024,quest_topk,0.125,free,False,1,Alice,1080.0,False,0.0,7.252563955262303e-05,0.06976324814119532,0.1417536249694725
+multi_hop-1024-2,multi_hop,1024,quest_topk,0.0625,free,False,1,Alice,1080.0,False,0.0,3.1066680094227195e-05,0.1574059097232142,0.22923290698478618
+multi_hop-1024-2,multi_hop,1024,quest_topk,0.03125,free,False,1,Alice,1080.0,False,0.0,3.1066680094227195e-05,0.1574059097232142,0.22923290698478618
+multi_hop-1024-2,multi_hop,1024,mean_topk,0.5,free,False,1,Alice,1080.0,False,0.0,2.0097300875931978e-05,0.030871465530556936,0.029308784985914826
+multi_hop-1024-2,multi_hop,1024,mean_topk,0.25,free,False,1,Alice,1080.0,False,0.0,2.9177230317145586e-05,0.08504399207110207,0.07150167180225253
+multi_hop-1024-2,multi_hop,1024,mean_topk,0.125,free,False,1,Alice,1080.0,False,0.0,0.0013133580796420574,0.18416997604072094,0.1611674789649745
+multi_hop-1024-2,multi_hop,1024,mean_topk,0.0625,free,False,1,Alice,1080.0,False,0.0,3.1066680094227195e-05,0.3071624164779981,0.22923290698478618
+multi_hop-1024-2,multi_hop,1024,mean_topk,0.03125,free,False,1,Alice,1080.0,False,0.0,3.1066680094227195e-05,0.3071624164779981,0.22923290698478618
+multi_hop-1024-2,multi_hop,1024,local_sink,0.5,free,False,1,Alice,1080.0,False,0.0,0.0003189706476405263,,0.06048710648125658
+multi_hop-1024-2,multi_hop,1024,local_sink,0.25,free,False,1,Alice,1080.0,False,0.0,0.0002953623188659549,,0.08641812682617456
+multi_hop-1024-2,multi_hop,1024,local_sink,0.125,free,False,1,Alice,1080.0,False,0.0,0.00041492178570479155,,0.17606893771638474
+multi_hop-1024-2,multi_hop,1024,local_sink,0.0625,free,False,1,Alice,1080.0,False,0.0,3.1066680094227195e-05,,0.22923290698478618
+multi_hop-1024-2,multi_hop,1024,local_sink,0.03125,free,False,1,Alice,1080.0,False,0.0,3.1066680094227195e-05,,0.22923290698478618
+coreference-1024-0,coreference,1024,dense,1.0,free,True,2,Historian,,,,,,
+coreference-1024-0,coreference,1024,quest_topk,0.5,free,True,2,Historian,1082.0,True,0.0,0.00034771671971611795,0.008813689123599033,0.035217026995572574
+coreference-1024-0,coreference,1024,quest_topk,0.25,free,True,2,Historian,1082.0,True,0.0,0.008967140223830938,0.03027503656812769,0.08644693839596584
+coreference-1024-0,coreference,1024,quest_topk,0.125,free,True,2,Historian,1082.0,True,0.0,0.013582716346718371,0.06025105402659392,0.12903797230683267
+coreference-1024-0,coreference,1024,quest_topk,0.0625,free,True,2,Historian,1082.0,True,0.0,0.030116249341517687,0.14524843989662864,0.17007967790899176
+coreference-1024-0,coreference,1024,quest_topk,0.03125,free,True,2,Historian,1082.0,True,0.0,0.030116249341517687,0.14524843989662864,0.17007967790899176
+coreference-1024-0,coreference,1024,mean_topk,0.5,free,True,2,Historian,1082.0,True,0.0,0.0002124262524603182,0.03435342620893304,0.028516572124014296
+coreference-1024-0,coreference,1024,mean_topk,0.25,free,True,2,Historian,1082.0,True,0.0,0.0008366692568415601,0.08912153053097427,0.06565121862028414
+coreference-1024-0,coreference,1024,mean_topk,0.125,free,True,2,Historian,1082.0,True,0.0,0.006251332026295131,0.15321389789460227,0.11503149786343178
+coreference-1024-0,coreference,1024,mean_topk,0.0625,free,True,2,Historian,1082.0,True,0.0,0.030116249341517687,0.2879287264853095,0.17007967790899176
+coreference-1024-0,coreference,1024,mean_topk,0.03125,free,True,2,Historian,1082.0,True,0.0,0.030116249341517687,0.2879287264853095,0.17007967790899176
+coreference-1024-0,coreference,1024,local_sink,0.5,free,True,2,Historian,1082.0,True,0.0,0.02270335564389825,,0.08065200810475895
+coreference-1024-0,coreference,1024,local_sink,0.25,free,True,2,Historian,1082.0,True,0.0,0.022766977548599243,,0.10147566812035316
+coreference-1024-0,coreference,1024,local_sink,0.125,free,True,2,Historian,1082.0,True,0.0,0.0238313851878047,,0.11882475150438647
+coreference-1024-0,coreference,1024,local_sink,0.0625,free,True,2,Historian,1082.0,True,0.0,0.030116249341517687,,0.17007967790899176
+coreference-1024-0,coreference,1024,local_sink,0.03125,free,True,2,Historian,1082.0,True,0.0,0.030116249341517687,,0.17007967790899176
+coreference-1024-1,coreference,1024,dense,1.0,free,False,1,merchant,,,,,,
+coreference-1024-1,coreference,1024,quest_topk,0.5,free,False,1,merchant,1066.0,False,0.0,6.3559855334460735e-06,0.0103621208295408,0.035640239191707224
+coreference-1024-1,coreference,1024,quest_topk,0.25,free,False,1,merchant,1066.0,False,0.0,1.1599913705140352e-05,0.03510409929003799,0.0829386810073629
+coreference-1024-1,coreference,1024,quest_topk,0.125,free,False,1,merchant,1066.0,False,0.0,7.975782500579953e-05,0.07671097984227042,0.13974539563059807
+coreference-1024-1,coreference,1024,quest_topk,0.0625,free,False,1,merchant,1066.0,False,0.0,0.012506233528256416,0.3485190204810351,0.4110159023354451
+coreference-1024-1,coreference,1024,quest_topk,0.03125,free,False,1,merchant,1066.0,False,0.0,0.012506233528256416,0.3485190204810351,0.4110159023354451
+coreference-1024-1,coreference,1024,mean_topk,0.5,free,False,1,merchant,1066.0,False,0.0,2.890054020099342e-06,0.03540030985216921,0.028310665239890415
+coreference-1024-1,coreference,1024,mean_topk,0.25,free,False,1,merchant,1066.0,False,0.0,0.0004319441504776478,0.090302004905728,0.07403595380795498
+coreference-1024-1,coreference,1024,mean_topk,0.125,free,False,1,merchant,1066.0,False,0.0,1.3478565961122513e-05,0.18040279718115926,0.14149172945568958
+coreference-1024-1,coreference,1024,mean_topk,0.0625,free,False,1,merchant,1066.0,False,0.0,0.012506233528256416,0.5262010755638281,0.4110159023354451
+coreference-1024-1,coreference,1024,mean_topk,0.03125,free,False,1,merchant,1066.0,False,0.0,0.012506233528256416,0.5262010755638281,0.4110159023354451
+coreference-1024-1,coreference,1024,local_sink,0.5,free,False,1,merchant,1066.0,False,0.0,0.00015374820213764906,,0.06579329589537035
+coreference-1024-1,coreference,1024,local_sink,0.25,free,False,1,merchant,1066.0,False,0.0,0.00015248730778694153,,0.09335383167490363
+coreference-1024-1,coreference,1024,local_sink,0.125,free,False,1,merchant,1066.0,False,0.0,0.0005361461080610752,,0.16281160106882453
+coreference-1024-1,coreference,1024,local_sink,0.0625,free,False,1,merchant,1066.0,False,0.0,0.012506233528256416,,0.4110159023354451
+coreference-1024-1,coreference,1024,local_sink,0.03125,free,False,1,merchant,1066.0,False,0.0,0.012506233528256416,,0.4110159023354451
+coreference-1024-2,coreference,1024,dense,1.0,free,True,2,diver,,,,,,
+coreference-1024-2,coreference,1024,quest_topk,0.5,free,True,2,diver,1091.0,True,0.0,0.017384457227308303,0.010503121500202422,0.03896271658110588
+coreference-1024-2,coreference,1024,quest_topk,0.25,free,True,2,diver,1091.0,True,0.0,0.019081273581832647,0.03299221639387421,0.0764833590753066
+coreference-1024-2,coreference,1024,quest_topk,0.125,free,False,2,diviner,1091.0,True,0.5,0.9953051656484604,0.09426869954101372,0.154621038857537
+coreference-1024-2,coreference,1024,quest_topk,0.0625,free,False,2,diviner,1091.0,True,0.5,0.9424737202934921,0.461524355225265,0.4663494747752944
+coreference-1024-2,coreference,1024,quest_topk,0.03125,free,False,2,diviner,1091.0,True,0.5,0.9424737202934921,0.461524355225265,0.4663494747752944
+coreference-1024-2,coreference,1024,mean_topk,0.5,free,True,2,diver,1091.0,True,0.0,0.0015250785363605246,0.04016815354407299,0.027212175923826486
+coreference-1024-2,coreference,1024,mean_topk,0.25,free,False,2,diviner,1091.0,True,0.5,0.5736390586243942,0.10133928310824558,0.065532927546883
+coreference-1024-2,coreference,1024,mean_topk,0.125,free,False,2,diviner,1091.0,True,0.5,1.5998123947065324,0.21289718387803686,0.13345215450196216
+coreference-1024-2,coreference,1024,mean_topk,0.0625,free,False,2,diviner,1091.0,True,0.5,0.9424737202934921,0.5771882782379786,0.4663494747752944
+coreference-1024-2,coreference,1024,mean_topk,0.03125,free,False,2,diviner,1091.0,True,0.5,0.9424737202934921,0.5771882782379786,0.4663494747752944
+coreference-1024-2,coreference,1024,local_sink,0.5,free,False,2,diviner,1091.0,True,0.5,1.8058764069573954,,0.07627873489400372
+coreference-1024-2,coreference,1024,local_sink,0.25,free,False,2,diviner,1091.0,True,0.5,1.8230751365190372,,0.0985873695074891
+coreference-1024-2,coreference,1024,local_sink,0.125,free,False,2,diviner,1091.0,True,0.5,1.5668033345136791,,0.1537911482931425
+coreference-1024-2,coreference,1024,local_sink,0.0625,free,False,2,diviner,1091.0,True,0.5,0.9424737202934921,,0.4663494747752944
+coreference-1024-2,coreference,1024,local_sink,0.03125,free,False,2,diviner,1091.0,True,0.5,0.9424737202934921,,0.4663494747752944
+reasoning-1024-0,reasoning,1024,dense,1.0,free,True,33,"One short line per person: Liam: 7 copies, Farid: 9 copies, Omar: 10 copies. Total: 26 copies.",,,,,,
+reasoning-1024-0,reasoning,1024,quest_topk,0.5,free,True,33,"One short line per person: Liam: 7 copies, Farid: 9 copies, Omar: 10 copies. Total: 26 copies.",1074.0,True,0.0,0.0037585902040411906,0.010942736859962594,0.03515455132246919
+reasoning-1024-0,reasoning,1024,quest_topk,0.25,free,False,28,"One copy of the locket was brought in by Liam, one by Farid, and one by Omar. Total: 3 copies.",1074.0,True,0.07142857142857142,0.10930127583778163,0.047470605757531474,0.09579794130106511
+reasoning-1024-0,reasoning,1024,quest_topk,0.125,free,False,32,"One copy of the locket was brought by Liam, one by Liam, one by Farid, and one by Farid. Total: 3 copies.",1074.0,True,0.1875,0.5478934377101723,0.13186904131543997,0.19825760632253758
+reasoning-1024-0,reasoning,1024,quest_topk,0.0625,free,False,7,One person. Total: 1,1074.0,True,0.42857142857142855,3.3112598805289184,0.31557385945537436,0.3273020725187269
+reasoning-1024-0,reasoning,1024,quest_topk,0.03125,free,False,7,One person. Total: 1,1074.0,True,0.42857142857142855,3.3112598805289184,0.31557385945537436,0.3273020725187269
+reasoning-1024-0,reasoning,1024,mean_topk,0.5,free,True,33,"One short line per person: Liam: 7 copies, Farid: 9 copies, Omar: 10 copies. Total: 26 copies.",1074.0,True,0.0,0.0031295395182788116,0.027351443548229663,0.024804045763727172
+reasoning-1024-0,reasoning,1024,mean_topk,0.25,free,False,32,"One short line per person: Liam: 9 copies, Farid: 9 copies, Omar: 9 copies. Total: 27 copies.",1074.0,True,0.03125,0.03388128224116116,0.07425366566140686,0.06440426694518919
+reasoning-1024-0,reasoning,1024,mean_topk,0.125,free,False,22,"One copy of the locket was brought in by Liam, Farah, and Omar. Total: 3",1074.0,True,0.13636363636363635,0.2453644303573335,0.18988233850563338,0.15345042857613103
+reasoning-1024-0,reasoning,1024,mean_topk,0.0625,free,False,7,One person. Total: 1,1074.0,True,0.42857142857142855,3.3112598805289184,0.44239084511285737,0.3273020725187269
+reasoning-1024-0,reasoning,1024,mean_topk,0.03125,free,False,7,One person. Total: 1,1074.0,True,0.42857142857142855,3.3112598805289184,0.44239084511285737,0.3273020725187269
+reasoning-1024-0,reasoning,1024,local_sink,0.5,free,False,32,"One short line per person: Liam: 7 copies, Farid: 7 copies, Omar: 7 copies. Total: 21 copies.",1074.0,True,0.03125,0.13666284937450152,,0.05461580734796219
+reasoning-1024-0,reasoning,1024,local_sink,0.25,free,False,32,"One short line per person: Liam: 7 copies, Farid: 7 copies, Omar: 7 copies. Total: 21 copies.",1074.0,True,0.03125,0.15641918956031198,,0.07913663771334237
+reasoning-1024-0,reasoning,1024,local_sink,0.125,free,False,26,"One short line per person: Liam: 1, Farid: 1, Omar: 1
+Total: 3",1074.0,True,0.07692307692307693,0.2112101601515738,,0.13233939693329888
+reasoning-1024-0,reasoning,1024,local_sink,0.0625,free,False,7,One person. Total: 1,1074.0,True,0.42857142857142855,3.3112598805289184,,0.3273020725187269
+reasoning-1024-0,reasoning,1024,local_sink,0.03125,free,False,7,One person. Total: 1,1074.0,True,0.42857142857142855,3.3112598805289184,,0.3273020725187269
+reasoning-1024-1,reasoning,1024,dense,1.0,free,True,28,"Elena: 13 copies
+Priya: 12 copies
+Alice: 8 copies
+Total: 33 copies",,,,,,
+reasoning-1024-1,reasoning,1024,quest_topk,0.5,free,True,28,"Elena: 13 copies
+Priya: 12 copies
+Alice: 8 copies
+Total: 33 copies",1096.0,True,0.0,0.0021654447831015284,0.011402742244662197,0.03883010721879795
+reasoning-1024-1,reasoning,1024,quest_topk,0.25,free,False,29,"Elena: 13 copies
+Priya: 12 copies
+Alice: 12 copies
+Total: 41 copies",1096.0,True,0.0,0.0074113797263243185,0.039725548342656784,0.08190767378974491
+reasoning-1024-1,reasoning,1024,quest_topk,0.125,free,False,36,"Elena: 12 copies
+Alice: 12 copies
+Elena: 12 copies
+Alice: 12 copies
+Total: 36 copies",1096.0,True,0.08333333333333333,0.30122566695111647,0.12645789626468387,0.18920076904760208
+reasoning-1024-1,reasoning,1024,quest_topk,0.0625,free,False,3,"E
+1",1096.0,True,1.0,4.136725743611653,0.4213748737108997,0.46022204909887576
+reasoning-1024-1,reasoning,1024,quest_topk,0.03125,free,False,3,"E
+1",1096.0,True,1.0,4.136725743611653,0.4213748737108997,0.46022204909887576
+reasoning-1024-1,reasoning,1024,mean_topk,0.5,free,False,29,"Elena: 12 copies
+Priya: 12 copies
+Alice: 12 copies
+Total: 48 copies",1096.0,True,0.0,0.002935180120651055,0.03596684092374107,0.0298670713539535
+reasoning-1024-1,reasoning,1024,mean_topk,0.25,free,False,29,"Elena: 12 copies
+Priya: 12 copies
+Alice: 12 copies
+Total: 48 copies",1096.0,True,0.0,0.008565684653658605,0.09241287090150566,0.07345384423722696
+reasoning-1024-1,reasoning,1024,mean_topk,0.125,free,False,24,"Elena: 8
+Priya: 10
+Alice: 12
+Total: 30",1096.0,True,0.125,0.043440677748384594,0.18832084439539662,0.14621973377830325
+reasoning-1024-1,reasoning,1024,mean_topk,0.0625,free,False,3,"E
+1",1096.0,True,1.0,4.136725743611653,0.5350277866754266,0.46022204909887576
+reasoning-1024-1,reasoning,1024,mean_topk,0.03125,free,False,3,"E
+1",1096.0,True,1.0,4.136725743611653,0.5350277866754266,0.46022204909887576
+reasoning-1024-1,reasoning,1024,local_sink,0.5,free,False,29,"Elena: 13 copies
+Priya: 13 copies
+Alice: 13 copies
+Total: 49 copies",1096.0,True,0.034482758620689655,0.055671523318631774,,0.06569812728437305
+reasoning-1024-1,reasoning,1024,local_sink,0.25,free,False,29,"Elena: 13 copies
+Priya: 13 copies
+Alice: 13 copies
+Total: 49 copies",1096.0,True,0.034482758620689655,0.08263779989264979,,0.09404088583495201
+reasoning-1024-1,reasoning,1024,local_sink,0.125,free,False,25,"Elena: 1 copy
+Priya: 1 copy
+Alice: 1 copy
+Total: 3 copies",1096.0,True,0.0,0.08914257317333181,,0.15195201969239863
+reasoning-1024-1,reasoning,1024,local_sink,0.0625,free,False,3,"E
+1",1096.0,True,1.0,4.136725743611653,,0.46022204909887576
+reasoning-1024-1,reasoning,1024,local_sink,0.03125,free,False,3,"E
+1",1096.0,True,1.0,4.136725743611653,,0.46022204909887576
+reasoning-1024-2,reasoning,1024,dense,1.0,free,False,33,"One short line per person: Mona: 11 copies, Carla: 5 copies, Farid: 5 copies. Total: 21 copies.",,,,,,
+reasoning-1024-2,reasoning,1024,quest_topk,0.5,free,False,33,"One short line per person: Mona, Carla, and Farid each brought 11 copies of the ledger to the exchange. Total: 32 copies",1090.0,False,0.030303030303030304,0.001663928147669849,0.009552369119714658,0.03085410288783139
+reasoning-1024-2,reasoning,1024,quest_topk,0.25,free,True,44,"One short line per person: Mona brought 11 copies, Carla brought 7 copies, and Farid brought 5 copies. Total: 11 + 7 + 5",1090.0,False,0.022727272727272728,0.01487667035558473,0.03407305123344324,0.06521697810675313
+reasoning-1024-2,reasoning,1024,quest_topk,0.125,free,False,27,"One copy of the ledger was brought in by Mona, one by Farid, and one by Carla. Total: 3 copies.",1090.0,False,0.07407407407407407,0.3279615029141833,0.10662542821904217,0.17185450265799176
+reasoning-1024-2,reasoning,1024,quest_topk,0.0625,free,False,12,"One word: ""Read""
+
+Read the following account carefully.",1090.0,False,0.5,3.2943735967079797,0.33888024733783423,0.3594717046815074
+reasoning-1024-2,reasoning,1024,quest_topk,0.03125,free,False,12,"One word: ""Read""
+
+Read the following account carefully.",1090.0,False,0.5,3.2943735967079797,0.33888024733783423,0.3594717046815074
+reasoning-1024-2,reasoning,1024,mean_topk,0.5,free,False,28,"One short line per person: Mona: 11, Carla: 5, Farid: 5
+
+Total: 21",1090.0,False,0.07142857142857142,0.010692127349874474,0.026223916541983357,0.026082192275290638
+reasoning-1024-2,reasoning,1024,mean_topk,0.25,free,False,30,"One short line per person: Mona, Carla, and Farid brought 11 copies of the ledger to the exchange.
+
+Total: 32",1090.0,False,0.1,0.01722042052328258,0.06653235333863754,0.06038336859405213
+reasoning-1024-2,reasoning,1024,mean_topk,0.125,free,False,38,"One short line per person: Mona brought 1, Carla brought 5, and Farid brought 1. Total: 1 + 5 + 1 = 7 copies.",1090.0,False,0.13157894736842105,0.19263062818581184,0.1445904783464804,0.12476460735084208
+reasoning-1024-2,reasoning,1024,mean_topk,0.0625,free,False,12,"One word: ""Read""
+
+Read the following account carefully.",1090.0,False,0.5,3.2943735967079797,0.4139836225141254,0.3594717046815074
+reasoning-1024-2,reasoning,1024,mean_topk,0.03125,free,False,12,"One word: ""Read""
+
+Read the following account carefully.",1090.0,False,0.5,3.2943735967079797,0.4139836225141254,0.3594717046815074
+reasoning-1024-2,reasoning,1024,local_sink,0.5,free,False,30,"One short line per person: Mona: 11, Carla: 11, Farid: 11
+
+Total: 33",1090.0,False,0.1,0.09966593233011736,,0.053457793952151805
+reasoning-1024-2,reasoning,1024,local_sink,0.25,free,False,35,"One short line per person: Mona: 11 copies, Carla: 11 copies, Farid: 11 copies. Total: 33 copies.",1090.0,False,0.05714285714285714,0.11681615489612958,,0.07985985081042078
+reasoning-1024-2,reasoning,1024,local_sink,0.125,free,False,25,"One short line per person: Mona: 1, Carla: 1, Farid: 1 Total: 3",1090.0,False,0.0,0.11351541617204475,,0.12603875125055006
+reasoning-1024-2,reasoning,1024,local_sink,0.0625,free,False,12,"One word: ""Read""
+
+Read the following account carefully.",1090.0,False,0.5,3.2943735967079797,,0.3594717046815074
+reasoning-1024-2,reasoning,1024,local_sink,0.03125,free,False,12,"One word: ""Read""
+
+Read the following account carefully.",1090.0,False,0.5,3.2943735967079797,,0.3594717046815074
+longform-1024-0,longform,1024,dense,1.0,free,,24,"The account details the changing fortunes of various ferry, lighthouse, and weekly market topics in a village over sever",,,,,,
+longform-1024-0,longform,1024,quest_topk,0.5,free,,25,"The account details the changing fortunes of various ferry services, lighthouses, and markets in a small town over sever",1094.0,,0.04,0.044593180909523654,0.01752234040594582,0.06701705429508972
+longform-1024-0,longform,1024,quest_topk,0.25,free,,21,"The account details the changing of ferry services, lighthouse maintenance, and the arrival of a quill.",1094.0,,0.2857142857142857,0.44077027767586213,0.06318948245484897,0.1498670675163527
+longform-1024-0,longform,1024,quest_topk,0.125,free,,17,"The old ferry, lighthouse, and quill were all mentioned in the account.",1094.0,,0.35294117647058826,0.7289209600918077,0.1264543041807152,0.22376233729415154
+longform-1024-0,longform,1024,quest_topk,0.0625,free,,15,"The old ferryboat was old, but it carried people across the river.",1094.0,,0.4666666666666667,1.8296279970556497,0.3739855177519429,0.3354801106887559
+longform-1024-0,longform,1024,quest_topk,0.03125,free,,15,"The old ferryboat was old, but it carried people across the river.",1094.0,,0.4666666666666667,1.8296279970556497,0.3739855177519429,0.3354801106887559
+longform-1024-0,longform,1024,mean_topk,0.5,free,,24,"The account details the changing fortunes of various ferry, lighthouse, and weekly market topics in a village over sever",1094.0,,0.0,0.007053135207722032,0.05594439194909581,0.0440033498651044
+longform-1024-0,longform,1024,mean_topk,0.25,free,,22,"The account details the changing fortunes of various ferry, lighthouse, and market topics in a town over decades.",1094.0,,0.13636363636363635,0.10642749555733065,0.13988274906296283,0.1114232167081244
+longform-1024-0,longform,1024,mean_topk,0.125,free,,47,The old ferry was discussed at length according to the elders. A visiting merchant drew a small crowd according to the e,1094.0,,0.0851063829787234,0.1961536000040201,0.23001871405066993,0.20317606451377895
+longform-1024-0,longform,1024,mean_topk,0.0625,free,,15,"The old ferryboat was old, but it carried people across the river.",1094.0,,0.4666666666666667,1.8296279970556497,0.5040430830791593,0.3354801106887559
+longform-1024-0,longform,1024,mean_topk,0.03125,free,,15,"The old ferryboat was old, but it carried people across the river.",1094.0,,0.4666666666666667,1.8296279970556497,0.5040430830791593,0.3354801106887559
+longform-1024-0,longform,1024,local_sink,0.5,free,,22,"The account details the ferry's passage, including the old ferry, its passage, and the ferry's passage.",1094.0,,0.3181818181818182,0.7551088597286831,,0.17610750828118235
+longform-1024-0,longform,1024,local_sink,0.25,free,,25,"The account details the ferry journey from the old ferry to the new ferry, with Priya promising to bring the quill.",1094.0,,0.2,0.7188687176246095,,0.17767396293037263
+longform-1024-0,longform,1024,local_sink,0.125,free,,10,The old ferryboat carried passengers across the river.,1094.0,,0.6,1.4605660034809262,,0.298090067692101
+longform-1024-0,longform,1024,local_sink,0.0625,free,,15,"The old ferryboat was old, but it carried people across the river.",1094.0,,0.4666666666666667,1.8296279970556497,,0.3354801106887559
+longform-1024-0,longform,1024,local_sink,0.03125,free,,15,"The old ferryboat was old, but it carried people across the river.",1094.0,,0.4666666666666667,1.8296279970556497,,0.3354801106887559
+longform-1024-1,longform,1024,dense,1.0,free,,12,Alice met Liam at the tower to plan the coin exhibition.,,,,,,
+longform-1024-1,longform,1024,quest_topk,0.5,free,,12,Alice met Liam at the tower to plan the coin exhibition.,1091.0,,0.0,0.007469208523228114,0.012763942457316567,0.05819043405224673
+longform-1024-1,longform,1024,quest_topk,0.25,free,,22,Alice and Liam met at the tower to plan the coin exhibition. Alice and Liam were planning the coin exhibition.,1091.0,,0.18181818181818182,0.11250918970736992,0.05010132675741978,0.1292920174843554
+longform-1024-1,longform,1024,quest_topk,0.125,free,,29,Alice and Bob discuss the apple harvest. Alice mentions the apple harvest is delayed. Bob suggests bringing the key. Ali,1091.0,,0.4482758620689655,0.3589016293609065,0.11227365820979746,0.18188504937396588
+longform-1024-1,longform,1024,quest_topk,0.0625,free,,8,Alice harvested 100 apples.,1091.0,,0.5,1.2795718479901552,0.38130164758573903,0.3291676829297406
+longform-1024-1,longform,1024,quest_topk,0.03125,free,,8,Alice harvested 100 apples.,1091.0,,0.5,1.2795718479901552,0.38130164758573903,0.3291676829297406
+longform-1024-1,longform,1024,mean_topk,0.5,free,,17,Alice and Liam met at the lighthouse keeper's tower to plan the coin exhibition.,1091.0,,0.058823529411764705,0.0019239806331637845,0.05315819781390019,0.0415265570929977
+longform-1024-1,longform,1024,mean_topk,0.25,free,,13,Alice and Liam met at the tower to plan the coin exhibition.,1091.0,,0.15384615384615385,0.05875218177775073,0.15845006457171762,0.11282013277284418
+longform-1024-1,longform,1024,mean_topk,0.125,free,,17,Alice met Liam at the lighthouse. They planned to visit the lighthouse together.,1091.0,,0.35294117647058826,0.4937527537538913,0.2933221175860358,0.22190471155815483
+longform-1024-1,longform,1024,mean_topk,0.0625,free,,8,Alice harvested 100 apples.,1091.0,,0.5,1.2795718479901552,0.5268411537399516,0.3291676829297406
+longform-1024-1,longform,1024,mean_topk,0.03125,free,,8,Alice harvested 100 apples.,1091.0,,0.5,1.2795718479901552,0.5268411537399516,0.3291676829297406
+longform-1024-1,longform,1024,local_sink,0.5,free,,53,"Alice, Bob, Charlie, Deepak, Emma, Frank, George, Helen, Ivy, Jack, Kim, Luke, Michael, Nell, Oliver, Paul, Rachel, Sara",1091.0,,0.09433962264150944,0.16532371599541548,,0.06057310734385677
+longform-1024-1,longform,1024,local_sink,0.25,free,,14,"Alice harvested the apples, then Deepak promised to bring the key.",1091.0,,0.2857142857142857,0.6334538755523604,,0.15405934872770952
+longform-1024-1,longform,1024,local_sink,0.125,free,,21,"Alice harvested the apples, Bob watched her, Charlie picked up the ripe apples, and David sorted them.",1091.0,,0.5238095238095238,0.8434761248617655,,0.20741621037346447
+longform-1024-1,longform,1024,local_sink,0.0625,free,,8,Alice harvested 100 apples.,1091.0,,0.5,1.2795718479901552,,0.3291676829297406
+longform-1024-1,longform,1024,local_sink,0.03125,free,,8,Alice harvested 100 apples.,1091.0,,0.5,1.2795718479901552,,0.3291676829297406
+longform-1024-2,longform,1024,dense,1.0,free,,53,A summer storm changed little over the years though opinions differed. The river barge carried on as before with little ,,,,,,
+longform-1024-2,longform,1024,quest_topk,0.5,free,,23,A summer storm surprised nobody in town before the season turned. A visiting merchant remained a favorite topic though o,1095.0,,0.13043478260869565,0.09032160153185981,0.017246969437215685,0.083292661632067
+longform-1024-2,longform,1024,quest_topk,0.25,free,,128,"A summer storm surprised nobody in town before the season turned. Jonas, a merchant, was a favorite topic of the town co",1095.0,,0.15625,0.16109350693286295,0.05557559100121523,0.1516719708119278
+longform-1024-2,longform,1024,quest_topk,0.125,free,,20,"A summer storm affected the town, changing the town's layout and the town's residents' behavior.",1095.0,,0.4,1.404102213375154,0.15407208540079106,0.24064393489776803
+longform-1024-2,longform,1024,quest_topk,0.0625,free,,16,"A summer storm caused significant damage, with trees falling and power lines being damaged.",1095.0,,0.375,1.8244277502053592,0.37230878082967445,0.2974328567603758
+longform-1024-2,longform,1024,quest_topk,0.03125,free,,16,"A summer storm caused significant damage, with trees falling and power lines being damaged.",1095.0,,0.375,1.8244277502053592,0.37230878082967445,0.2974328567603758
+longform-1024-2,longform,1024,mean_topk,0.5,free,,53,A summer storm changed little over the years though opinions differed. The river barge carried on as before with little ,1095.0,,0.0,0.0014847942912294169,0.04411340841738677,0.037632034921563966
+longform-1024-2,longform,1024,mean_topk,0.25,free,,53,A summer storm changed little over the years though opinions differed. The river barge carried on as before with little ,1095.0,,0.0,0.01991017178971332,0.11030827094171101,0.09490031280090631
+longform-1024-2,longform,1024,mean_topk,0.125,free,,25,A summer storm changed little over the years though opinions differed. The river barge carried on as before with little ,1095.0,,0.08,0.10646928681793043,0.24662682834391791,0.18578007316527267
+longform-1024-2,longform,1024,mean_topk,0.0625,free,,16,"A summer storm caused significant damage, with trees falling and power lines being damaged.",1095.0,,0.375,1.8244277502053592,0.5120327442030733,0.2974328567603758
+longform-1024-2,longform,1024,mean_topk,0.03125,free,,16,"A summer storm caused significant damage, with trees falling and power lines being damaged.",1095.0,,0.375,1.8244277502053592,0.5120327442030733,0.2974328567603758
+longform-1024-2,longform,1024,local_sink,0.5,free,,47,"A summer storm hits the town, causing widespread damage. Grace and Jonas plan a locket exhibition at the library. The cl",1095.0,,0.2127659574468085,0.4124211523295716,,0.0984804919245488
+longform-1024-2,longform,1024,local_sink,0.25,free,,32,"A summer storm struck the region, causing widespread damage. A visiting merchant brought a quill to the village, and Far",1095.0,,0.3125,0.8742218463976457,,0.1531125340206927
+longform-1024-2,longform,1024,local_sink,0.125,free,,20,"A summer storm struck, causing widespread damage. A group of survivors found shelter in a nearby town.",1095.0,,0.55,1.9107959943648893,,0.2463539943913929
+longform-1024-2,longform,1024,local_sink,0.0625,free,,16,"A summer storm caused significant damage, with trees falling and power lines being damaged.",1095.0,,0.375,1.8244277502053592,,0.2974328567603758
+longform-1024-2,longform,1024,local_sink,0.03125,free,,16,"A summer storm caused significant damage, with trees falling and power lines being damaged.",1095.0,,0.375,1.8244277502053592,,0.2974328567603758
+multi_entity-2048-0,multi_entity,2048,dense,1.0,free,False,4,Quelques choses,,,,,,
+multi_entity-2048-0,multi_entity,2048,quest_topk,0.5,free,False,4,Quelques choses,2081.0,False,0.0,0.0060949596227146685,0.006574007865310705,0.02610965371786733
+multi_entity-2048-0,multi_entity,2048,quest_topk,0.25,free,False,4,Quelques choses,2081.0,False,0.0,0.01381333137396723,0.02305701827693459,0.06268913539436956
+multi_entity-2048-0,multi_entity,2048,quest_topk,0.125,free,False,2,Quill,2081.0,False,0.5,0.6397619908675551,0.05724655154032614,0.13445025926921517
+multi_entity-2048-0,multi_entity,2048,quest_topk,0.0625,free,False,2,Quill,2081.0,False,0.5,3.230695046018809,0.11434422345337225,0.22160615880663198
+multi_entity-2048-0,multi_entity,2048,quest_topk,0.03125,free,False,2,Quilt,2081.0,False,0.5,3.431865324266255,0.4355835386862358,0.4944810150191188
+multi_entity-2048-0,multi_entity,2048,mean_topk,0.5,free,False,4,Quelques choses,2081.0,False,0.0,0.0007051349202811252,0.025502429178838305,0.02096353835077025
+multi_entity-2048-0,multi_entity,2048,mean_topk,0.25,free,False,2,Quill,2081.0,False,0.5,0.30160998133942485,0.07064499603196359,0.07189060116070323
+multi_entity-2048-0,multi_entity,2048,mean_topk,0.125,free,False,2,Quill,2081.0,False,0.5,3.682231593877077,0.14787358903170872,0.15263780920455852
+multi_entity-2048-0,multi_entity,2048,mean_topk,0.0625,free,False,2,Quill,2081.0,False,0.5,3.1940774358808994,0.2469181330331291,0.23198160521375638
+multi_entity-2048-0,multi_entity,2048,mean_topk,0.03125,free,False,2,Quilt,2081.0,False,0.5,3.431865324266255,0.5413913950324059,0.4944810150191188
+multi_entity-2048-0,multi_entity,2048,local_sink,0.5,free,False,4,Quelques choses,2081.0,False,0.0,0.022723289905115962,,0.04994750897700821
+multi_entity-2048-0,multi_entity,2048,local_sink,0.25,free,False,2,Quilt,2081.0,False,0.5,3.2215749534079805,,0.1432490348427867
+multi_entity-2048-0,multi_entity,2048,local_sink,0.125,free,False,2,Quill,2081.0,False,0.5,3.0950410775840282,,0.1772236751082043
+multi_entity-2048-0,multi_entity,2048,local_sink,0.0625,free,False,2,Quilt,2081.0,False,0.5,2.930761397117749,,0.22457785314569872
+multi_entity-2048-0,multi_entity,2048,local_sink,0.03125,free,False,2,Quilt,2081.0,False,0.5,3.431865324266255,,0.4944810150191188
+multi_entity-2048-1,multi_entity,2048,dense,1.0,free,False,1,ledger,,,,,,
+multi_entity-2048-1,multi_entity,2048,quest_topk,0.5,free,False,1,ledger,2119.0,False,0.0,4.553038161247969e-05,0.0077721236372478115,0.03392001048390133
+multi_entity-2048-1,multi_entity,2048,quest_topk,0.25,free,False,1,ledger,2119.0,False,0.0,0.001063203439116478,0.025420556446382154,0.07610606343951076
+multi_entity-2048-1,multi_entity,2048,quest_topk,0.125,free,False,1,ledger,2119.0,False,0.0,0.026196565479040146,0.0579470530647086,0.12789138010703027
+multi_entity-2048-1,multi_entity,2048,quest_topk,0.0625,free,False,1,ledger,2119.0,False,0.0,0.020436864346265793,0.11207380375708453,0.19588879185418287
+multi_entity-2048-1,multi_entity,2048,quest_topk,0.03125,free,False,1,ledger,2119.0,False,0.0,0.14268091320991516,0.34001369196145487,0.35364145661393803
+multi_entity-2048-1,multi_entity,2048,mean_topk,0.5,free,False,1,ledger,2119.0,False,0.0,0.0001783333718776703,0.030758223510929383,0.023494296561693773
+multi_entity-2048-1,multi_entity,2048,mean_topk,0.25,free,False,1,ledger,2119.0,False,0.0,0.006444355472922325,0.08069040368233497,0.06024473855116715
+multi_entity-2048-1,multi_entity,2048,mean_topk,0.125,free,False,1,ledger,2119.0,False,0.0,0.05146000534296036,0.14282307882482806,0.11107572649295132
+multi_entity-2048-1,multi_entity,2048,mean_topk,0.0625,free,False,1,ledger,2119.0,False,0.0,0.07846109569072723,0.2503973813727498,0.20060241067161164
+multi_entity-2048-1,multi_entity,2048,mean_topk,0.03125,free,False,1,ledger,2119.0,False,0.0,0.14268091320991516,0.3943750709295273,0.35364145661393803
+multi_entity-2048-1,multi_entity,2048,local_sink,0.5,free,False,1,ledger,2119.0,False,0.0,0.003985576331615448,,0.07676960058355083
+multi_entity-2048-1,multi_entity,2048,local_sink,0.25,free,False,1,ledger,2119.0,False,0.0,0.023749470710754395,,0.09938572952523828
+multi_entity-2048-1,multi_entity,2048,local_sink,0.125,free,False,1,ledger,2119.0,False,0.0,0.027708712965250015,,0.12347795666816334
+multi_entity-2048-1,multi_entity,2048,local_sink,0.0625,free,False,1,ledger,2119.0,False,0.0,0.0598357729613781,,0.16988359593475857
+multi_entity-2048-1,multi_entity,2048,local_sink,0.03125,free,False,1,ledger,2119.0,False,0.0,0.14268091320991516,,0.35364145661393803
+multi_entity-2048-2,multi_entity,2048,dense,1.0,free,True,1,Coin,,,,,,
+multi_entity-2048-2,multi_entity,2048,quest_topk,0.5,free,True,1,Coin,2119.0,True,0.0,0.00016051577404141426,0.006432372796552954,0.023696890644108255
+multi_entity-2048-2,multi_entity,2048,quest_topk,0.25,free,True,1,Coin,2119.0,True,0.0,0.0016692625358700752,0.02017765360960766,0.0540347247539709
+multi_entity-2048-2,multi_entity,2048,quest_topk,0.125,free,True,1,Coin,2119.0,True,0.0,0.004534762352705002,0.04234767174542261,0.09024461828327428
+multi_entity-2048-2,multi_entity,2048,quest_topk,0.0625,free,True,1,Coin,2119.0,True,0.0,0.00488649308681488,0.09784933898239008,0.18065214428740242
+multi_entity-2048-2,multi_entity,2048,quest_topk,0.03125,free,True,1,Coin,2119.0,True,0.0,0.09053829312324524,0.3942172348033637,0.42029402405023575
+multi_entity-2048-2,multi_entity,2048,mean_topk,0.5,free,True,1,Coin,2119.0,True,0.0,2.0567327737808228e-05,0.024282008923667792,0.02207351341106308
+multi_entity-2048-2,multi_entity,2048,mean_topk,0.25,free,True,1,Coin,2119.0,True,0.0,6.476906128227711e-05,0.062111482121205576,0.05493526909655581
+multi_entity-2048-2,multi_entity,2048,mean_topk,0.125,free,True,1,Coin,2119.0,True,0.0,0.0005962569266557693,0.12277375184930861,0.10251309955492616
+multi_entity-2048-2,multi_entity,2048,mean_topk,0.0625,free,True,1,Coin,2119.0,True,0.0,0.03869067505002022,0.2443672246299684,0.19366005792592964
+multi_entity-2048-2,multi_entity,2048,mean_topk,0.03125,free,True,1,Coin,2119.0,True,0.0,0.09053829312324524,0.5032118869324526,0.42029402405023575
+multi_entity-2048-2,multi_entity,2048,local_sink,0.5,free,True,1,Coin,2119.0,True,0.0,7.843365892767906e-05,,0.04281518924593305
+multi_entity-2048-2,multi_entity,2048,local_sink,0.25,free,True,1,Coin,2119.0,True,0.0,0.00044557545334100723,,0.06554215576034039
+multi_entity-2048-2,multi_entity,2048,local_sink,0.125,free,True,1,Coin,2119.0,True,0.0,0.0018390370532870293,,0.09640771592967212
+multi_entity-2048-2,multi_entity,2048,local_sink,0.0625,free,True,1,Coin,2119.0,True,0.0,0.044206004589796066,,0.19617914936194816
+multi_entity-2048-2,multi_entity,2048,local_sink,0.03125,free,True,1,Coin,2119.0,True,0.0,0.09053829312324524,,0.42029402405023575
+multi_hop-2048-0,multi_hop,2048,dense,1.0,free,False,1,Grace,,,,,,
+multi_hop-2048-0,multi_hop,2048,quest_topk,0.5,free,False,1,Grace,2102.0,False,0.0,1.0221847333014011e-06,0.0075577864249680715,0.025860599426475044
+multi_hop-2048-0,multi_hop,2048,quest_topk,0.25,free,False,1,Grace,2102.0,False,0.0,6.9937086664140224e-06,0.023659755367286078,0.05475782816453526
+multi_hop-2048-0,multi_hop,2048,quest_topk,0.125,free,False,1,Grace,2102.0,False,0.0,1.480898390582297e-06,0.045965306081294934,0.08815829902111243
+multi_hop-2048-0,multi_hop,2048,quest_topk,0.0625,free,False,1,Grace,2102.0,False,0.0,0.0007342775352299213,0.08062470456934534,0.14585245167836547
+multi_hop-2048-0,multi_hop,2048,quest_topk,0.03125,free,False,1,Grace,2102.0,False,0.0,0.0018475009128451347,0.20166574952114993,0.25670634396374226
+multi_hop-2048-0,multi_hop,2048,mean_topk,0.5,free,False,1,Grace,2102.0,False,0.0,6.702728569507599e-06,0.022866817511385307,0.02144201816796946
+multi_hop-2048-0,multi_hop,2048,mean_topk,0.25,free,False,1,Grace,2102.0,False,0.0,0.00028153054881840944,0.058935677244638406,0.055051613928905375
+multi_hop-2048-0,multi_hop,2048,mean_topk,0.125,free,False,1,Grace,2102.0,False,0.0,0.0026227599009871483,0.10640003392472863,0.10374380555003881
+multi_hop-2048-0,multi_hop,2048,mean_topk,0.0625,free,False,1,Grace,2102.0,False,0.0,0.003244964173063636,0.19313697827359042,0.175867119183143
+multi_hop-2048-0,multi_hop,2048,mean_topk,0.03125,free,False,1,Grace,2102.0,False,0.0,0.0018475009128451347,0.3315515434369445,0.25670634396374226
+multi_hop-2048-0,multi_hop,2048,local_sink,0.5,free,False,1,Grace,2102.0,False,0.0,0.0007312772795557976,,0.05790256732143462
+multi_hop-2048-0,multi_hop,2048,local_sink,0.25,free,False,1,Grace,2102.0,False,0.0,0.0006928050424903631,,0.08241312271760155
+multi_hop-2048-0,multi_hop,2048,local_sink,0.125,free,False,1,Grace,2102.0,False,0.0,0.002220751950517297,,0.162568600072215
+multi_hop-2048-0,multi_hop,2048,local_sink,0.0625,free,False,1,Grace,2102.0,False,0.0,0.003049000632017851,,0.18238519116615257
+multi_hop-2048-0,multi_hop,2048,local_sink,0.03125,free,False,1,Grace,2102.0,False,0.0,0.0018475009128451347,,0.25670634396374226
+multi_hop-2048-1,multi_hop,2048,dense,1.0,free,False,1,Grace,,,,,,
+multi_hop-2048-1,multi_hop,2048,quest_topk,0.5,free,False,1,Grace,2109.0,False,0.0,7.63536081649363e-06,0.005941274656076227,0.02585950990517934
+multi_hop-2048-1,multi_hop,2048,quest_topk,0.25,free,False,1,Grace,2109.0,False,0.0,4.04497841373086e-05,0.01802225908310599,0.05645417059228445
+multi_hop-2048-1,multi_hop,2048,quest_topk,0.125,free,False,1,Grace,2109.0,False,0.0,1.4792574802413583e-05,0.03426507377298549,0.08632385540598382
+multi_hop-2048-1,multi_hop,2048,quest_topk,0.0625,free,False,1,Grace,2109.0,False,0.0,0.0004067451227456331,0.06228905568423215,0.14667548417734602
+multi_hop-2048-1,multi_hop,2048,quest_topk,0.03125,free,False,1,Grace,2109.0,False,0.0,0.000991704990155995,0.13334882953980318,0.25053124967962503
+multi_hop-2048-1,multi_hop,2048,mean_topk,0.5,free,False,1,Grace,2109.0,False,0.0,-5.121501089888625e-08,0.028324799951709185,0.020849101196896907
+multi_hop-2048-1,multi_hop,2048,mean_topk,0.25,free,False,1,Grace,2109.0,False,0.0,0.0010204841382801533,0.07310980267357081,0.056387765042018145
+multi_hop-2048-1,multi_hop,2048,mean_topk,0.125,free,False,1,Grace,2109.0,False,0.0,0.0003526092041283846,0.1482826367331048,0.12023153947666287
+multi_hop-2048-1,multi_hop,2048,mean_topk,0.0625,free,False,1,Grace,2109.0,False,0.0,0.008110960945487022,0.23628068373848995,0.17670208603764573
+multi_hop-2048-1,multi_hop,2048,mean_topk,0.03125,free,False,1,Grace,2109.0,False,0.0,0.000991704990155995,0.38864337218304473,0.25053124967962503
+multi_hop-2048-1,multi_hop,2048,local_sink,0.5,free,False,1,Grace,2109.0,False,0.0,0.0010713047813624144,,0.060703103275348745
+multi_hop-2048-1,multi_hop,2048,local_sink,0.25,free,False,1,Grace,2109.0,False,0.0,0.0012056948617100716,,0.1395493266172707
+multi_hop-2048-1,multi_hop,2048,local_sink,0.125,free,False,1,Grace,2109.0,False,0.0,0.001543170539662242,,0.15937521184484163
+multi_hop-2048-1,multi_hop,2048,local_sink,0.0625,free,False,1,Grace,2109.0,False,0.0,0.001831125933676958,,0.17599020960430303
+multi_hop-2048-1,multi_hop,2048,local_sink,0.03125,free,False,1,Grace,2109.0,False,0.0,0.000991704990155995,,0.25053124967962503
+multi_hop-2048-2,multi_hop,2048,dense,1.0,free,False,3,Kavya,,,,,,
+multi_hop-2048-2,multi_hop,2048,quest_topk,0.5,free,False,3,Kavya,2093.0,False,0.0,3.0672358614462304e-05,0.0094353652673615,0.028330900321533486
+multi_hop-2048-2,multi_hop,2048,quest_topk,0.25,free,False,3,Kavya,2093.0,False,0.0,3.316654085002332e-05,0.03193624148965076,0.06298505554312013
+multi_hop-2048-2,multi_hop,2048,quest_topk,0.125,free,False,3,Kavya,2093.0,False,0.0,0.0007040705908138989,0.061867309150936,0.1005493581113923
+multi_hop-2048-2,multi_hop,2048,quest_topk,0.0625,free,False,3,Kavya,2093.0,False,0.0,0.0007105720320623732,0.11163773784291052,0.17297674777607122
+multi_hop-2048-2,multi_hop,2048,quest_topk,0.03125,free,False,3,Kendall,2093.0,False,0.6666666666666666,5.037973842932843,0.2873568410480705,0.286633875945376
+multi_hop-2048-2,multi_hop,2048,mean_topk,0.5,free,False,3,Kavya,2093.0,False,0.0,3.1702888691143016e-05,0.03174510324930048,0.024048036549680143
+multi_hop-2048-2,multi_hop,2048,mean_topk,0.25,free,False,3,Kavya,2093.0,False,0.0,3.6964732801199794e-05,0.08639861984799306,0.06222144070003804
+multi_hop-2048-2,multi_hop,2048,mean_topk,0.125,free,False,3,Kavya,2093.0,False,0.0,0.03498710981572609,0.14635984265866378,0.11969753597966498
+multi_hop-2048-2,multi_hop,2048,mean_topk,0.0625,free,False,3,Kavya,2093.0,False,0.0,0.10650288655112188,0.2316834664282699,0.20952890699522364
+multi_hop-2048-2,multi_hop,2048,mean_topk,0.03125,free,False,3,Kendall,2093.0,False,0.6666666666666666,5.037973842932843,0.3628970915451646,0.286633875945376
+multi_hop-2048-2,multi_hop,2048,local_sink,0.5,free,False,3,Kavya,2093.0,False,0.0,0.00809158792708331,,0.0771996233250118
+multi_hop-2048-2,multi_hop,2048,local_sink,0.25,free,False,2,Kai,2093.0,False,0.5,4.029779398813844,,0.16393125041698414
+multi_hop-2048-2,multi_hop,2048,local_sink,0.125,free,False,2,Kiran,2093.0,False,0.5,3.749386433046311,,0.18959054703979442
+multi_hop-2048-2,multi_hop,2048,local_sink,0.0625,free,False,2,Kiran,2093.0,False,0.5,3.67409332562238,,0.21563050352657837
+multi_hop-2048-2,multi_hop,2048,local_sink,0.03125,free,False,3,Kendall,2093.0,False,0.6666666666666666,5.037973842932843,,0.286633875945376
+coreference-2048-0,coreference,2048,dense,1.0,free,True,3,jeweler,,,,,,
+coreference-2048-0,coreference,2048,quest_topk,0.5,free,True,3,jeweler,2124.0,True,0.0,0.000233282121977633,0.007948161972725151,0.021546460958133038
+coreference-2048-0,coreference,2048,quest_topk,0.25,free,True,3,jeweler,2124.0,True,0.0,0.0013207793538943708,0.025884332892120356,0.04881552706420836
+coreference-2048-0,coreference,2048,quest_topk,0.125,free,True,3,jeweler,2124.0,True,0.0,0.0016835853457450867,0.054536460400716656,0.08250634506758718
+coreference-2048-0,coreference,2048,quest_topk,0.0625,free,True,3,jeweler,2124.0,True,0.0,0.008723868436694223,0.09674364605153744,0.1324555225437507
+coreference-2048-0,coreference,2048,quest_topk,0.03125,free,False,3,jewel,2124.0,True,0.6666666666666666,3.5337807138760886,0.3332673505647108,0.36992501457118326
+coreference-2048-0,coreference,2048,mean_topk,0.5,free,True,3,jeweler,2124.0,True,0.0,2.5375633413204923e-05,0.028265200151913125,0.017192014269918825
+coreference-2048-0,coreference,2048,mean_topk,0.25,free,True,3,jeweler,2124.0,True,0.0,0.0005661807463184232,0.07417510057550518,0.04182880513771023
+coreference-2048-0,coreference,2048,mean_topk,0.125,free,True,3,jeweler,2124.0,True,0.0,0.005348723071316878,0.13105645411026973,0.0858089585025381
+coreference-2048-0,coreference,2048,mean_topk,0.0625,free,True,3,jeweler,2124.0,True,0.0,0.06649389242132504,0.22068074863636866,0.16227650917911282
+coreference-2048-0,coreference,2048,mean_topk,0.03125,free,False,3,jewel,2124.0,True,0.6666666666666666,3.5337807138760886,0.4941074851279457,0.36992501457118326
+coreference-2048-0,coreference,2048,local_sink,0.5,free,True,3,jeweler,2124.0,True,0.0,0.5762658603489399,,0.06833093567466776
+coreference-2048-0,coreference,2048,local_sink,0.25,free,True,3,jeweler,2124.0,True,0.0,0.5749903675168753,,0.08475943339160746
+coreference-2048-0,coreference,2048,local_sink,0.125,free,True,3,jeweler,2124.0,True,0.0,0.5753122872362534,,0.10048967699468551
+coreference-2048-0,coreference,2048,local_sink,0.0625,free,True,3,jeweler,2124.0,True,0.0,0.44980785095443326,,0.15198181471269992
+coreference-2048-0,coreference,2048,local_sink,0.03125,free,False,3,jewel,2124.0,True,0.6666666666666666,3.5337807138760886,,0.36992501457118326
+coreference-2048-1,coreference,2048,dense,1.0,free,True,2,geologist,,,,,,
+coreference-2048-1,coreference,2048,quest_topk,0.5,free,True,2,geologist,2102.0,True,0.0,4.0625302517582895e-05,0.009061345590983667,0.022632723424370248
+coreference-2048-1,coreference,2048,quest_topk,0.25,free,True,2,geologist,2102.0,True,0.0,0.0003144395668641664,0.02915701359408255,0.05010327221437667
+coreference-2048-1,coreference,2048,quest_topk,0.125,free,True,2,geologist,2102.0,True,0.0,0.0005021533615945373,0.05609410765767583,0.08067293288574243
+coreference-2048-1,coreference,2048,quest_topk,0.0625,free,True,2,geologist,2102.0,True,0.0,0.001361997303320095,0.10291670061269542,0.1480489499711742
+coreference-2048-1,coreference,2048,quest_topk,0.03125,free,True,2,geologist,2102.0,True,0.0,0.2933853156864643,0.20722243739389037,0.20287182096702358
+coreference-2048-1,coreference,2048,mean_topk,0.5,free,True,2,geologist,2102.0,True,0.0,6.517393546801031e-05,0.026457288066012552,0.017988068088016007
+coreference-2048-1,coreference,2048,mean_topk,0.25,free,True,2,geologist,2102.0,True,0.0,0.00023707713262410834,0.06971280210564146,0.04878080495594379
+coreference-2048-1,coreference,2048,mean_topk,0.125,free,True,2,geologist,2102.0,True,0.0,0.23597858333960176,0.1125657404481899,0.09711443116733183
+coreference-2048-1,coreference,2048,mean_topk,0.0625,free,True,2,geologist,2102.0,True,0.0,0.339552681427449,0.16880340594798326,0.1280299173279976
+coreference-2048-1,coreference,2048,mean_topk,0.03125,free,True,2,geologist,2102.0,True,0.0,0.2933853156864643,0.3179317048440377,0.20287182096702358
+coreference-2048-1,coreference,2048,local_sink,0.5,free,True,2,geologist,2102.0,True,0.0,9.032468187797349e-05,,0.04203357062457751
+coreference-2048-1,coreference,2048,local_sink,0.25,free,True,2,geologist,2102.0,True,0.0,0.35532091930508614,,0.09714896456959346
+coreference-2048-1,coreference,2048,local_sink,0.125,free,True,2,geologist,2102.0,True,0.0,0.3517710901796818,,0.10944643422650793
+coreference-2048-1,coreference,2048,local_sink,0.0625,free,True,2,geologist,2102.0,True,0.0,0.3620346523821354,,0.1243795263192927
+coreference-2048-1,coreference,2048,local_sink,0.03125,free,True,2,geologist,2102.0,True,0.0,0.2933853156864643,,0.20287182096702358
+coreference-2048-2,coreference,2048,dense,1.0,free,True,2,historian,,,,,,
+coreference-2048-2,coreference,2048,quest_topk,0.5,free,True,2,historian,2112.0,True,0.0,4.1133647528113215e-05,0.004131913372702911,0.023428549813009642
+coreference-2048-2,coreference,2048,quest_topk,0.25,free,True,2,historian,2112.0,True,0.0,0.0027502170705702156,0.014800672127876169,0.05988364531852615
+coreference-2048-2,coreference,2048,quest_topk,0.125,free,True,2,historian,2112.0,True,0.0,0.007151520410843659,0.03299498343434001,0.0975353130682682
+coreference-2048-2,coreference,2048,quest_topk,0.0625,free,True,2,historian,2112.0,True,0.0,0.026045415084809065,0.06137847557056375,0.12528564433644834
+coreference-2048-2,coreference,2048,quest_topk,0.03125,free,False,11,"historicaldocument
+
+To whom is this document addressed?",2112.0,True,0.7272727272727273,3.4070155997760594,0.40215089360858786,0.46188825157217006
+coreference-2048-2,coreference,2048,mean_topk,0.5,free,True,2,historian,2112.0,True,0.0,2.643668295831958e-06,0.016663633277251698,0.017516175714263227
+coreference-2048-2,coreference,2048,mean_topk,0.25,free,True,2,historian,2112.0,True,0.0,3.721344273799332e-05,0.04222658475919161,0.045434514982237786
+coreference-2048-2,coreference,2048,mean_topk,0.125,free,True,2,historian,2112.0,True,0.0,0.001989721931749955,0.08025653233441213,0.08215354135609232
+coreference-2048-2,coreference,2048,mean_topk,0.0625,free,True,2,historian,2112.0,True,0.0,0.016780237725470215,0.14005973019326726,0.13347018178319559
+coreference-2048-2,coreference,2048,mean_topk,0.03125,free,False,11,"historicaldocument
+
+To whom is this document addressed?",2112.0,True,0.7272727272727273,3.4070155997760594,0.516590594511592,0.46188825157217006
+coreference-2048-2,coreference,2048,local_sink,0.5,free,True,2,historian,2112.0,True,0.0,0.028957900824025273,,0.05849235757098843
+coreference-2048-2,coreference,2048,local_sink,0.25,free,True,2,historian,2112.0,True,0.0,0.03022842132486403,,0.07518817944219336
+coreference-2048-2,coreference,2048,local_sink,0.125,free,True,2,historian,2112.0,True,0.0,0.030051083769649267,,0.09333201998379081
+coreference-2048-2,coreference,2048,local_sink,0.0625,free,True,2,historian,2112.0,True,0.0,0.03728819731622934,,0.14598126919008791
+coreference-2048-2,coreference,2048,local_sink,0.03125,free,False,11,"historicaldocument
+
+To whom is this document addressed?",2112.0,True,0.7272727272727273,3.4070155997760594,,0.46188825157217006
+reasoning-2048-0,reasoning,2048,dense,1.0,free,True,40,"Kavya: 4 copies
+Bob: 18 copies
+Ines: 18 copies
+Total: 4 + 18 + 18 = 40 copies",,,,,,
+reasoning-2048-0,reasoning,2048,quest_topk,0.5,free,True,40,"Kavya: 4 copies
+Bob: 18 copies
+Ines: 18 copies
+Total: 4 + 18 + 18 = 40 copies",2076.0,True,0.0,0.0004188157801898962,0.008229381755664159,0.027687760681631823
+reasoning-2048-0,reasoning,2048,quest_topk,0.25,free,False,30,"Kavya: 18 copies
+Bob: 18 copies
+Ines: 18 copies
+Total: 54 copies",2076.0,True,0.03333333333333333,0.0013466882646293735,0.02807492075287175,0.06150736211970474
+reasoning-2048-0,reasoning,2048,quest_topk,0.125,free,True,37,"Kavya: 4
+Bob: 18
+Ines: 18
+Total: 4 + 18 + 18 = 40 copies",2076.0,True,0.02702702702702703,0.002829656090121283,0.0564652607620021,0.0848389794952488
+reasoning-2048-0,reasoning,2048,quest_topk,0.0625,free,False,30,"Kavya: 18 copies
+Bob: 18 copies
+Ines: 18 copies
+Total: 54 copies",2076.0,True,0.0,0.026502439849324825,0.11245969785514817,0.1626377705814472
+reasoning-2048-0,reasoning,2048,quest_topk,0.03125,free,False,128,"Katie, Lisa, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 2023-04-01 12:00:00
+The account was opened o",2076.0,True,0.3828125,1.704880439735689,0.36705225004268033,0.46881316153788555
+reasoning-2048-0,reasoning,2048,mean_topk,0.5,free,True,40,"Kavya: 4 copies
+Bob: 18 copies
+Ines: 18 copies
+Total: 4 + 18 + 18 = 40 copies",2076.0,True,0.0,7.134321271642374e-05,0.018120228955225078,0.018852843863154094
+reasoning-2048-0,reasoning,2048,mean_topk,0.25,free,False,30,"Kavya: 18 copies
+Bob: 18 copies
+Ines: 18 copies
+Total: 54 copies",2076.0,True,0.03333333333333333,0.0016969280329950228,0.053882099311320215,0.04888416674738336
+reasoning-2048-0,reasoning,2048,mean_topk,0.125,free,False,30,"Kavya: 18 copies
+Bob: 18 copies
+Ines: 18 copies
+Total: 54 copies",2076.0,True,0.03333333333333333,0.04457210614815021,0.09762696151058965,0.08628964506529478
+reasoning-2048-0,reasoning,2048,mean_topk,0.0625,free,False,22,"Kavya: 1
+Bob: 1
+Ines: 1
+Total: 3",2076.0,True,0.09090909090909091,0.04961496374825716,0.16547835551583295,0.1425020108581521
+reasoning-2048-0,reasoning,2048,mean_topk,0.03125,free,False,128,"Katie, Lisa, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 2023-04-01 12:00:00
+The account was opened o",2076.0,True,0.3828125,1.704880439735689,0.5687204338949717,0.46881316153788555
+reasoning-2048-0,reasoning,2048,local_sink,0.5,free,False,30,"Kavya: 18 copies
+Bob: 18 copies
+Ines: 18 copies
+Total: 54 copies",2076.0,True,0.0,0.057613403684396464,,0.06093196064401936
+reasoning-2048-0,reasoning,2048,local_sink,0.25,free,False,30,"Kavya: 18 copies
+Bob: 18 copies
+Ines: 18 copies
+Total: 54 copies",2076.0,True,0.0,0.056939860789715094,,0.08362513317163879
+reasoning-2048-0,reasoning,2048,local_sink,0.125,free,False,30,"Kavya: 18 copies
+Bob: 18 copies
+Ines: 18 copies
+Total: 54 copies",2076.0,True,0.0,0.05841290841698689,,0.10356394408639365
+reasoning-2048-0,reasoning,2048,local_sink,0.0625,free,False,22,"Kavya: 1
+Bob: 1
+Ines: 1
+Total: 3",2076.0,True,0.045454545454545456,0.19877847114439426,,0.14974011731365777
+reasoning-2048-0,reasoning,2048,local_sink,0.03125,free,False,128,"Katie, Lisa, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 2023-04-01 12:00:00
+The account was opened o",2076.0,True,0.3828125,1.704880439735689,,0.46881316153788555
+reasoning-2048-1,reasoning,2048,dense,1.0,free,False,26,"Priya: 1 copy
+Carla: 1 copy
+Ines: 1 copy
+Total: 3 copies",,,,,,
+reasoning-2048-1,reasoning,2048,quest_topk,0.5,free,False,28,"Priya: 1 copy
+Carla: 15 copies
+Ines: 6 copies
+Total: 32 copies",2117.0,False,0.03571428571428571,0.0021872301379473364,0.008322312648347397,0.027816045333782402
+reasoning-2048-1,reasoning,2048,quest_topk,0.25,free,False,28,"Priya: 7 copies
+Carla: 15 copies
+Ines: 6 copies
+Total: 38 copies",2117.0,False,0.03571428571428571,0.0038893907684110574,0.02810624728717162,0.05866615504661847
+reasoning-2048-1,reasoning,2048,quest_topk,0.125,free,True,38,"Priya: 7 copies
+Carla: 15 copies
+Ines: 6 copies
+Total: 7 + 15 + 6 = 28 copies",2117.0,False,0.0,0.0032752302709006267,0.06101148168780032,0.09382872116239331
+reasoning-2048-1,reasoning,2048,quest_topk,0.0625,free,False,26,"Priya: 7 copies
+Carla: 6 copies
+Total: 7 + 6 = 13 copies",2117.0,False,0.038461538461538464,0.063109761837141,0.12132705998252884,0.16025367205610308
+reasoning-2048-1,reasoning,2048,quest_topk,0.03125,free,False,6,"Priya, Priya.",2117.0,False,0.6666666666666666,3.44451200713714,0.3565589633427509,0.4063538011266954
+reasoning-2048-1,reasoning,2048,mean_topk,0.5,free,False,28,"Priya: 1 copy
+Carla: 15 copies
+Ines: 6 copies
+Total: 32 copies",2117.0,False,0.03571428571428571,0.0005229824842015571,0.023343717732002143,0.020795607225712342
+reasoning-2048-1,reasoning,2048,mean_topk,0.25,free,False,38,"Priya: 1 copy
+Carla: 15 copies
+Ines: 6 copies
+Total: 1 + 15 + 6 = 22 copies",2117.0,False,0.02631578947368421,0.002832190560164985,0.05466457594019105,0.04509804936803943
+reasoning-2048-1,reasoning,2048,mean_topk,0.125,free,False,28,"Priya: 1 copy
+Carla: 15 copies
+Ines: 6 copies
+Total: 32 copies",2117.0,False,0.03571428571428571,0.016419657442841844,0.11861881572154484,0.09135395420889837
+reasoning-2048-1,reasoning,2048,mean_topk,0.0625,free,False,26,"Priya: 1 copy
+Carla: 1 copy
+Ines: 1 copy
+Total: 3 copies",2117.0,False,0.07692307692307693,0.17539248044959357,0.19745619135359538,0.15415676377298765
+reasoning-2048-1,reasoning,2048,mean_topk,0.03125,free,False,6,"Priya, Priya.",2117.0,False,0.6666666666666666,3.44451200713714,0.5174962097985877,0.4063538011266954
+reasoning-2048-1,reasoning,2048,local_sink,0.5,free,False,27,"Priya: 7 copies
+Carla: 6 copies
+Ines: 6 copies
+Total: 23 copies",2117.0,False,0.037037037037037035,0.024740120494781363,,0.048454174337862636
+reasoning-2048-1,reasoning,2048,local_sink,0.25,free,False,27,"Priya: 7 copies
+Carla: 7 copies
+Ines: 7 copies
+Total: 21 copies",2117.0,False,0.07407407407407407,0.08435740747255922,,0.0853242650908349
+reasoning-2048-1,reasoning,2048,local_sink,0.125,free,False,27,"Priya: 7 copies
+Carla: 7 copies
+Ines: 7 copies
+Total: 21 copies",2117.0,False,0.07407407407407407,0.09172553585412822,,0.10696949570958593
+reasoning-2048-1,reasoning,2048,local_sink,0.0625,free,False,26,"Priya: 1 copy
+Carla: 1 copy
+Ines: 1 copy
+Total: 3 copies",2117.0,False,0.0,0.05490538819663289,,0.15563459095592874
+reasoning-2048-1,reasoning,2048,local_sink,0.03125,free,False,6,"Priya, Priya.",2117.0,False,0.6666666666666666,3.44451200713714,,0.4063538011266954
+reasoning-2048-2,reasoning,2048,dense,1.0,free,False,26,"Alice: 19 copies
+Grace: 3 copies
+Mona: 9 copies
+Total: 51 copies",,,,,,
+reasoning-2048-2,reasoning,2048,quest_topk,0.5,free,False,26,"Alice: 19 copies
+Grace: 3 copies
+Mona: 9 copies
+Total: 51 copies",2124.0,False,0.0,0.0015942845105318616,0.007966276097235072,0.027218756643261986
+reasoning-2048-2,reasoning,2048,quest_topk,0.25,free,False,26,"Alice: 19 copies
+Grace: 3 copies
+Mona: 9 copies
+Total: 51 copies",2124.0,False,0.0,0.028385644114432187,0.02656603252281014,0.058420747666670464
+reasoning-2048-2,reasoning,2048,quest_topk,0.125,free,False,27,"Alice: 19 copies
+Grace: 39 copies
+Mona: 9 copies
+Total: 61 copies",2124.0,False,0.037037037037037035,0.044471999964919726,0.057266532529708605,0.09577825230209985
+reasoning-2048-2,reasoning,2048,quest_topk,0.0625,free,False,20,"Alice: 1
+Grace: 1
+Mona: 1
+Total: 3",2124.0,False,0.05,0.15975107260296112,0.12168203502988033,0.16875651865654315
+reasoning-2048-2,reasoning,2048,quest_topk,0.03125,free,False,45,"Alice, Bob, and Charlie each have 100 marbles. Alice has 3 times as a result of the following sentence: ""The old ferry b",2124.0,False,0.4666666666666667,1.8610687627871003,0.3736414229704274,0.3599472776072583
+reasoning-2048-2,reasoning,2048,mean_topk,0.5,free,False,26,"Alice: 19 copies
+Grace: 3 copies
+Mona: 9 copies
+Total: 51 copies",2124.0,False,0.0,0.0002908651003679097,0.020130535575495177,0.019402013466904653
+reasoning-2048-2,reasoning,2048,mean_topk,0.25,free,False,26,"Alice: 19 copies
+Grace: 3 copies
+Mona: 9 copies
+Total: 32 copies",2124.0,False,0.0,0.0037522839783011596,0.05299645631832671,0.04625826842656795
+reasoning-2048-2,reasoning,2048,mean_topk,0.125,free,False,25,"Alice: 1 copy
+Grace: 3 copies
+Mona: 9 copies
+Total: 12 copies",2124.0,False,0.04,0.05192583089909448,0.0953529760617918,0.08175962778933657
+reasoning-2048-2,reasoning,2048,mean_topk,0.0625,free,False,24,"Alice: 1 copy
+Grace: 1 copy
+Mona: 1 copy
+Total: 3 copies",2124.0,False,0.041666666666666664,0.1650338486765932,0.1767494120997273,0.14330224416820178
+reasoning-2048-2,reasoning,2048,mean_topk,0.03125,free,False,45,"Alice, Bob, and Charlie each have 100 marbles. Alice has 3 times as a result of the following sentence: ""The old ferry b",2124.0,False,0.4666666666666667,1.8610687627871003,0.5302127335634497,0.3599472776072583
+reasoning-2048-2,reasoning,2048,local_sink,0.5,free,False,30,"Alice: 1
+Grace: 1
+Mona: 9
+Total: 1 + 1 + 9 = 11",2124.0,False,0.06666666666666667,0.09393252802711664,,0.04717738357640983
+reasoning-2048-2,reasoning,2048,local_sink,0.25,free,False,34,"Alice: 1 copy
+Grace: 1 copy
+Mona: 9 copies
+Total: 1 + 1 + 9 = 11 copies",2124.0,False,0.058823529411764705,0.083089647581219,,0.06458822583454985
+reasoning-2048-2,reasoning,2048,local_sink,0.125,free,False,34,"Alice: 1 copy
+Grace: 1 copy
+Mona: 9 copies
+Total: 1 + 1 + 9 = 11 copies",2124.0,False,0.029411764705882353,0.09152221181297433,,0.0819401459354113
+reasoning-2048-2,reasoning,2048,local_sink,0.0625,free,False,24,"Alice: 1 copy
+Grace: 1 copy
+Mona: 1 copy
+Total: 3 copies",2124.0,False,0.0,0.10314307110300784,,0.15606048777489276
+reasoning-2048-2,reasoning,2048,local_sink,0.03125,free,False,45,"Alice, Bob, and Charlie each have 100 marbles. Alice has 3 times as a result of the following sentence: ""The old ferry b",2124.0,False,0.4666666666666667,1.8610687627871003,,0.3599472776072583
+longform-2048-0,longform,2048,dense,1.0,free,,27,"The account details the daily activities and gossip of a village council, including the lighthouse keeper, night watch, ",,,,,,
+longform-2048-0,longform,2048,quest_topk,0.5,free,,28,"The account details the activities and changes in the village over several years, including the lighthouse keeper, night",2082.0,,0.03571428571428571,0.03865461875142679,0.012053495102393409,0.05223552489405847
+longform-2048-0,longform,2048,quest_topk,0.25,free,,45,"The account details the activities and changes in the village over several years, including the lighthouse keeper's duti",2082.0,,0.17777777777777778,0.11123589523970925,0.041203335562776944,0.11591029988356039
+longform-2048-0,longform,2048,quest_topk,0.125,free,,49,"The account details the village council's activities, including the night watch, river barge, and apple harvest. It also",2082.0,,0.16326530612244897,0.30007648523960784,0.07732694116718763,0.1710035698401241
+longform-2048-0,longform,2048,quest_topk,0.0625,free,,37,The village council met to discuss the village's finances. The council voted to allocate funds for the village's annual ,2082.0,,0.32432432432432434,0.5909885604538627,0.13444959381901367,0.21513461586463406
+longform-2048-0,longform,2048,quest_topk,0.03125,free,,13,"The village council discussed the matter, but no decision was made.",2082.0,,0.46153846153846156,1.314546854324782,0.4099390345136037,0.3544312801259833
+longform-2048-0,longform,2048,mean_topk,0.5,free,,29,"The account details the daily activities and gossip of a village in the town ledger, including the night watch, lighthou",2082.0,,0.13793103448275862,0.008645690951259057,0.03386274467261867,0.031224729591945784
+longform-2048-0,longform,2048,mean_topk,0.25,free,,37,"The account details the daily activities of a village council, including the night watch, lighthouse keeper, and ferry. ",2082.0,,0.13513513513513514,0.06346638992986423,0.0882808318233688,0.0836675524462391
+longform-2048-0,longform,2048,mean_topk,0.125,free,,36,"The account details the activities and changes in the village over the course of a season, focusing on the lighthouse ke",2082.0,,0.19444444444444445,0.2529005822593149,0.15785293166603273,0.1447232965519005
+longform-2048-0,longform,2048,mean_topk,0.0625,free,,33,"The village council carried on as before, the night watch made the rounds of local gossip, the old ferry maintained its ",2082.0,,0.21212121212121213,0.8021439179319714,0.25935019926765385,0.23209450320420655
+longform-2048-0,longform,2048,mean_topk,0.03125,free,,13,"The village council discussed the matter, but no decision was made.",2082.0,,0.46153846153846156,1.314546854324782,0.455622591651403,0.3544312801259833
+longform-2048-0,longform,2048,local_sink,0.5,free,,32,"The village council discussed the flask exhibition, which was postponed until spring. The lighthouse keeper was discusse",2082.0,,0.21875,0.2492393098593766,,0.10046315229040677
+longform-2048-0,longform,2048,local_sink,0.25,free,,31,"The village council discussed the medal, which was promised by Omar. The lighthouse keeper and the clock tower were ment",2082.0,,0.3548387096774194,0.589273973782075,,0.14410287467512473
+longform-2048-0,longform,2048,local_sink,0.125,free,,16,"The village council discussed the medal's return, with Omar promising to bring it.",2082.0,,0.5,0.6767095323230023,,0.15385451044373136
+longform-2048-0,longform,2048,local_sink,0.0625,free,,21,"The village council discussed the upcoming election, voting on the election process, and voting on the election results.",2082.0,,0.2857142857142857,0.7403726781042115,,0.21573043458481575
+longform-2048-0,longform,2048,local_sink,0.03125,free,,13,"The village council discussed the matter, but no decision was made.",2082.0,,0.46153846153846156,1.314546854324782,,0.3544312801259833
+longform-2048-1,longform,2048,dense,1.0,free,,14,A visiting merchant changed little over the years much to everyone's relief.,,,,,,
+longform-2048-1,longform,2048,quest_topk,0.5,free,,26,A visiting merchant changed little over the years according to the elders. The stone bridge changed little over the year,2085.0,,0.0,0.02689418529980204,0.017353001900369817,0.0806973614505692
+longform-2048-1,longform,2048,quest_topk,0.25,free,,39,"A visiting merchant, Bob, changed little over the years. A visiting merchant, Kavya, changed little over the years. A vi",2085.0,,0.20512820512820512,0.1043431189778531,0.04612155239158159,0.12531530048410133
+longform-2048-1,longform,2048,quest_topk,0.125,free,,61,"A merchant named Kavya visited a village named Kavadi. He met Bob, who was a local farmer. Bob was a merchant himself. K",2085.0,,0.2459016393442623,0.2992097561916245,0.09072134733645218,0.1590960566396571
+longform-2048-1,longform,2048,quest_topk,0.0625,free,,43,A merchant named Bob visited a merchant's house. Bob's house had a clock. The clock had a lighthouse. The lighthouse had,2085.0,,0.46511627906976744,1.2399737144452248,0.16107611815062037,0.22387470611616567
+longform-2048-1,longform,2048,quest_topk,0.03125,free,,15,"A merchant visits a city, where he sells goods and experiences local culture.",2085.0,,0.5333333333333333,1.8013493662079176,0.37189252122770994,0.3406966883378724
+longform-2048-1,longform,2048,mean_topk,0.5,free,,24,A visiting merchant changed little over the years much to everyone's relief. The stone bridge needed repairs again thoug,2085.0,,0.08333333333333333,0.0032311743002371904,0.041078142545504515,0.03630523558695131
+longform-2048-1,longform,2048,mean_topk,0.25,free,,29,"A visiting merchant changed little over the years, while the stone bridge needed repairs again. The northern road carrie",2085.0,,0.034482758620689655,0.03542348928937732,0.09979752897808122,0.08875411583864043
+longform-2048-1,longform,2048,mean_topk,0.125,free,,27,A visiting merchant drew a small crowd as it had for decades. A visiting merchant changed little over the years much to ,2085.0,,0.037037037037037035,0.024863593970470294,0.15585369338787358,0.12930351480723784
+longform-2048-1,longform,2048,mean_topk,0.0625,free,,17,"A visiting merchant changed little over the years, while the stone bridge needed repairs again.",2085.0,,0.058823529411764705,0.20936194308759534,0.2930919445033058,0.23525392225322622
+longform-2048-1,longform,2048,mean_topk,0.03125,free,,15,"A merchant visits a city, where he sells goods and experiences local culture.",2085.0,,0.5333333333333333,1.8013493662079176,0.5068812869592673,0.3406966883378724
+longform-2048-1,longform,2048,local_sink,0.5,free,,128,"A merchant visits a merchant's shop, where a visiting merchant sells a medal. The merchant promises to bring the medal. ",2085.0,,0.125,0.2146625157357569,,0.08040322719849277
+longform-2048-1,longform,2048,local_sink,0.25,free,,59,"A merchant visits a town, where he meets a visiting merchant. The merchant introduces himself and asks about the town's ",2085.0,,0.3220338983050847,0.7377820634717216,,0.1399313544073158
+longform-2048-1,longform,2048,local_sink,0.125,free,,43,"A merchant visits a town, where he meets a local woman named Nadia. She promises to bring a medal to the town. The merch",2085.0,,0.27906976744186046,0.7904497396257971,,0.1538225956141133
+longform-2048-1,longform,2048,local_sink,0.0625,free,,53,"A merchant visits a city, where he meets a merchant from another city. The merchant from the other city offers to sell h",2085.0,,0.24528301886792453,0.5725370269898328,,0.1728930552530325
+longform-2048-1,longform,2048,local_sink,0.03125,free,,15,"A merchant visits a city, where he sells goods and experiences local culture.",2085.0,,0.5333333333333333,1.8013493662079176,,0.3406966883378724
+longform-2048-2,longform,2048,dense,1.0,free,,128,Bob met Jonas at the harbor to plan the medal exhibition. Bob was a visiting merchant. Jonas was a visiting merchant. Bo,,,,,,
+longform-2048-2,longform,2048,quest_topk,0.5,free,,53,Bob met Jonas at the harbor to plan the medal exhibition. Jonas was the lighthouse keeper. Bob met the lighthouse keeper,2121.0,,0.05660377358490566,0.008771065151606463,0.012852352653284892,0.04899407307156189
+longform-2048-2,longform,2048,quest_topk,0.25,free,,36,"Bob and Jonas met at the harbor to plan the medal exhibition. Jonas was the lighthouse keeper, Bob was the stone bridge ",2121.0,,0.1111111111111111,0.05404040043574949,0.04310453804308694,0.11515361461459649
+longform-2048-2,longform,2048,quest_topk,0.125,free,,128,Bob met Jonas at the harbor to plan the medal exhibition. Jonas was the lighthouse keeper. Bob met Bob's friend Bob. Jon,2121.0,,0.046875,0.14170085948568456,0.09109140750357506,0.20175356901586383
+longform-2048-2,longform,2048,quest_topk,0.0625,free,,64,Bob met Jonas at the lighthouse. Jonas met Bob at the river. Jonas met Bob at the harbor. Jonas met Bob at the harbor. J,2121.0,,0.140625,0.3897106505834813,0.15784288767713406,0.248063119057709
+longform-2048-2,longform,2048,quest_topk,0.03125,free,,128,"Bob, the lighthouse keeper, notices the unusual light at the end of the pier. He calls out to the sailors, and the light",2121.0,,0.234375,0.990926074856354,0.35668908577948366,0.42027516366882384
+longform-2048-2,longform,2048,mean_topk,0.5,free,,128,Bob met Jonas at the harbor to plan the medal exhibition. Jonas was the lighthouse keeper. Bob met the visiting merchant,2121.0,,0.0234375,0.0058019331297815765,0.03227001508167386,0.03630380990475146
+longform-2048-2,longform,2048,mean_topk,0.25,free,,51,Bob and Jonas met at the harbor to plan the medal exhibition. Bob met Jonas at the harbor to plan the medal exhibition. ,2121.0,,0.09803921568627451,0.04798792930123722,0.0921924222086471,0.07727373826392245
+longform-2048-2,longform,2048,mean_topk,0.125,free,,38,"Bob, the lighthouse keeper, changed little over the years. The stone bridge remained a favorite topic according to the e",2121.0,,0.07894736842105263,0.24050764664823127,0.15449944249529948,0.13801793785961833
+longform-2048-2,longform,2048,mean_topk,0.0625,free,,29,"Bob, the lighthouse keeper, changed little over the years. The stone bridge remained a favorite topic. The village counc",2121.0,,0.06896551724137931,0.36272072836411867,0.253131745727037,0.2084091085292956
+longform-2048-2,longform,2048,mean_topk,0.03125,free,,128,"Bob, the lighthouse keeper, notices the unusual light at the end of the pier. He calls out to the sailors, and the light",2121.0,,0.234375,0.990926074856354,0.5101062807771086,0.42027516366882384
+longform-2048-2,longform,2048,local_sink,0.5,free,,52,"Bob, the lighthouse keeper, was named. He was named for the lighthouse he used to keep. The lighthouse keeper was named ",2121.0,,0.25,0.347857744011752,,0.11263072797625615
+longform-2048-2,longform,2048,local_sink,0.25,free,,31,"Bob lured the lighthouse keeper to a cliff, where he set the key. The keeper was unaware of the danger, leading to a tra",2121.0,,0.3225806451612903,0.4309265016317142,,0.1430920374232985
+longform-2048-2,longform,2048,local_sink,0.125,free,,35,"Bob lured the lighthouse keeper to a cliff, where he set the key. The keeper was unaware of the danger. The keeper was r",2121.0,,0.3142857142857143,0.4907549710079495,,0.16181569380818733
+longform-2048-2,longform,2048,local_sink,0.0625,free,,39,"Bob, the lighthouse keeper, notices a ship approaching. He calls out to the sailors, ""Be careful! The lighthouse is down",2121.0,,0.28205128205128205,0.6629547100684505,,0.18951021833146295
+longform-2048-2,longform,2048,local_sink,0.03125,free,,128,"Bob, the lighthouse keeper, notices the unusual light at the end of the pier. He calls out to the sailors, and the light",2121.0,,0.234375,0.990926074856354,,0.42027516366882384
