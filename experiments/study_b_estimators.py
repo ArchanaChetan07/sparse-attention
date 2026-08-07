@@ -240,7 +240,9 @@ def coverage_audit(out_rows):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--steps", default="results/study_a_1.5b/steps.csv")
+    # Authoritative run. The un-suffixed study_a_* dirs are SUPERSEDED (see
+    # their SUPERSEDED.md) and must not be re-analysed.
+    ap.add_argument("--steps", default="results/study_a_0.5b_v2/steps.csv")
     ap.add_argument("--summary", default=None,
                     help="Study A summary.json, for the measured probe/step ratio")
     ap.add_argument("--cost-ratio", type=float, default=None,

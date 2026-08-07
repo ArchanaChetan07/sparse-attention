@@ -201,9 +201,11 @@ def ablation5(frames: dict[str, pd.DataFrame], rows: list):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--runs", nargs="+",
-                    default=["0.5b=results/study_a_0.5b/steps.csv",
-                             "1.5b=results/study_a_1.5b/steps.csv"],
-                    help="name=path/to/steps.csv")
+                    default=["0.5b=results/study_a_0.5b_v2/steps.csv",
+                             "1.5b=results/study_a_1.5b_v2/steps.csv"],
+                    help="name=path/to/steps.csv (defaults are the "
+                         "authoritative *_v2 runs; the un-suffixed dirs are "
+                         "SUPERSEDED and must not be re-analysed)")
     ap.add_argument("--out", default="results/ablations")
     args = ap.parse_args()
     out = Path(args.out)

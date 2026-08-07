@@ -4,7 +4,7 @@ Sweeps are expensive and are run at different times; every run must be
 analysed by the same code for cross-run comparisons to mean anything.
 Rewrites summary.json and figures/ in place.
 
-    python experiments/analyze_study_a.py results/study_a_0.5b results/study_a_1.5b
+    python experiments/analyze_study_a.py results/study_a_0.5b_v2 results/study_a_1.5b_v2
 """
 
 import json
@@ -21,7 +21,8 @@ KEYS = ["teacher_steps", "teacher_flip_rate", "dense_qa_accuracy",
 
 
 def main():
-    dirs = sys.argv[1:] or ["results/study_a_0.5b", "results/study_a_1.5b"]
+    # Authoritative runs; the un-suffixed dirs are SUPERSEDED.
+    dirs = sys.argv[1:] or ["results/study_a_0.5b_v2", "results/study_a_1.5b_v2"]
     for d in dirs:
         p = Path(d)
         if not (p / "steps.csv").exists():
