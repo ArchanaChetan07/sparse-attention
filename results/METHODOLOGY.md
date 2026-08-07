@@ -161,16 +161,42 @@ commit also scored answers by substring containment, so `key` matched inside
 checks), and the seeding fix is guarded by a test that runs the generator
 under two values of `PYTHONHASHSEED` and asserts the output is identical.
 
+Diagnosing the resulting zero accuracy exposed two further faults in the task
+suite itself, neither of which involved sparse attention at all. Coreference
+aliases were occupation-shaped ("the archivist", "the navigator"), so
+*"what is the profession of the person known as the archivist?"* had a
+defensible wrong answer and the dense model gave it. Reasoning traces hit a
+64-token decode cap before stating their total, so last-integer scoring picked
+up an intermediate count — the family was measuring decode budget rather than
+arithmetic. Both now carry regression tests. The instructive part: raising the
+cap was *not* what fixed the second one. With a terser answer hint the traces
+finish in 26–40 steps, well under even the old cap, so the binding constraint
+was prompt verbosity and the extra budget is unused headroom.
+
 The blast radius is exactly the quantities computed from `correct`:
 `dense_qa_accuracy`, all `h4_*` blocks, and the `acc:*` columns of the cliff
-table. **H4 is a pre-committed gate criterion, so it must be regenerated
-before any gate decision.** Per-step divergence labels come from paired
+table. **H4 is a pre-committed gate criterion, so it had to be regenerated
+before any gate decision could be taken.** It has been, on the 0.5B: ρ =
+−0.870 answerable, −0.821 within budget, against a \|ρ\| < 0.5 kill bar. The
+1.5B regeneration follows. Per-step divergence labels come from paired
 dense/sparse execution and never read the gold answer, so the H1 AUCs, the
 `flip:*` cliff columns, Studies B and C, and all six ablations are unaffected
 in substance — none of them calls `Task.check`. For those, the defect costs
 exact reproducibility, not validity: they were measured on a valid but
 unrecorded draw from the task distribution.
 
-The lesson generalizes beyond this repo: a seed that is not reproducible is
-not a seed, and a measurement pipeline should assert that property in a test
-rather than assume it.
+Two lessons generalize beyond this repo. First, a seed that is not
+reproducible is not a seed, and a measurement pipeline should assert that
+property in a test rather than assume it.
+
+Second, and more uncomfortable: none of these defects announced itself.
+Nothing crashed, no figure looked absurd, and the headline that would have
+been quoted barely moved — dense accuracy read 0.438 before and 0.458 after,
+and H4 read −0.898 before and −0.870 after. A reviewer comparing summaries
+would have seen agreement and concluded the result was robust. The conclusion
+happened to survive, but it survived on evidence that could not be
+reconstructed, from a task suite where one family was ambiguous as posed and
+another was scored on truncated output. Agreement between a defective
+measurement and a corrected one is not evidence that the defect was harmless;
+here it was luck, and the only reason it is known to be luck is that the runs
+were regenerated rather than re-cited.
