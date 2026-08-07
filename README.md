@@ -3,7 +3,7 @@
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![PyTorch](https://img.shields.io/badge/PyTorch-2.2+-ee4c2c.svg)](https://pytorch.org/)
 [![Transformers](https://img.shields.io/badge/transformers-4.48+-yellow.svg)](https://huggingface.co/docs/transformers)
-[![Tests](https://img.shields.io/badge/tests-70%20passed-brightgreen.svg)](tests/)
+[![Tests](https://img.shields.io/badge/tests-74%20passed-brightgreen.svg)](tests/)
 [![H1 Supported](https://img.shields.io/badge/H1%20detectability-supported-success.svg)](results/REPORT.md)
 [![H4 Supported](https://img.shields.io/badge/H4%20proxy%20validity-supported-success.svg)](results/REPORT.md)
 [![Phase L](https://img.shields.io/badge/phase-L%20smoke%20complete-blueviolet.svg)](results/REPORT.md)
@@ -96,8 +96,8 @@ Measured on **NVIDIA T1000 8GB**, models `Qwen2.5-0.5B-Instruct` and `Qwen2.5-1.
 
 | Hypothesis | Question | Verdict |
 |---|---|---|
-| **H1** | Divergence detectable label-free? | **Supported** — damage-aligned AUC ≈ **0.84**; combined detector CV AUC **0.92** (kill bar &lt; 0.65) |
-| **H2** | Useful bound affordable? | **Not falsified (scale-free)**; short traces inconclusive. Betting CS **fails under bursty drift** |
+| **H1** | Divergence detectable label-free? | **Supported** — damage-aligned AUC **0.808** consensus / **0.807** dropped mass; flip-AUC **0.877** (margin); combined CV **0.92** (kill bar &lt; 0.65) |
+| **H2** | Useful bound affordable? | **Not falsified (scale-free)**; **falsified on short traces** at the measured r = 1.04. Betting CS **fails under bursty drift** (miss rate 0.825) |
 | **H3** | Elastic under load? | **Shape supported (simulation)** — elastic TPOT ≈ baseline; inline latency collapses |
 | **H4** | Divergence ↔ task wrongness? | **Supported** — Spearman **−0.870** answerable, **−0.821** within budget (0.5B v2, regenerated; kill bar \|ρ\| &lt; 0.5) |
 
@@ -143,8 +143,9 @@ Each run directory includes `*.meta.json` (machine fingerprint) and online-aggre
 
 | Directory | Tags | Description | Key result |
 |---|---|---|---|
-| [`results/study_a_0.5b/`](results/study_a_0.5b/) | `#study-a` `#h1` `#superseded` `#qwen-0.5b` `#t1000` | 0.5B paired sweep — **SUPERSEDED**, retained for provenance | Best LF AUC **0.85** (margin); damage-aligned **0.79**. H4 figures withdrawn |
-| [`results/study_a_1.5b/`](results/study_a_1.5b/) | `#study-a` `#h1` `#superseded` `#qwen-1.5b` `#t1000` | 1.5B full Study A — **SUPERSEDED**, retained for provenance | Damage-aligned AUC **0.84**; combined CV **0.92**. H4 figures withdrawn |
+| [`results/study_a_0.5b/`](results/study_a_0.5b/) | `#study-a` `#h1` `#superseded` `#qwen-0.5b` `#t1000` | 0.5B paired sweep — **SUPERSEDED** by `study_a_0.5b_v2/` | Best LF AUC 0.85 (margin); damage-aligned 0.79. Accuracy figures withdrawn |
+| [`results/study_a_1.5b/`](results/study_a_1.5b/) | `#study-a` `#h1` `#superseded` `#qwen-1.5b` `#t1000` | 1.5B full Study A — **SUPERSEDED**, regenerating | Damage-aligned AUC 0.84; combined CV 0.92. Accuracy figures withdrawn |
+| [`results/study_a_0.5b_v2/`](results/study_a_0.5b_v2/) | `#study-a` `#h1` `#h4` `#qwen-0.5b` `#authoritative` | **Authoritative** 0.5B sweep: reproducible seeds, fixed task suite | H4 ρ **−0.870** answerable / **−0.821** within budget; LF AUC **0.877**; dense acc **0.458** |
 | [`results/study_a/`](results/study_a/) | `#superseded` | First Study A run (intermediate code) | Kept for provenance; see `SUPERSEDED.md` |
 | [`results/study_b/`](results/study_b/) | `#study-b` `#h2` `#confidence-sequences` | Bound width vs probe cost; coverage audit under i.i.d. / bursty | Scale-free H2 **not falsified**; adaptive+Betting burst miss **0.97** |
 | [`results/study_c/`](results/study_c/) | `#study-c` `#h3` `#scheduler` `#simulation` | Elastic vs inline vs none under load | High-load P99 TPOT: elastic **17.5** vs inline **44** (none 19.5) |

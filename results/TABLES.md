@@ -77,25 +77,25 @@ Falsification threshold: |rho| < 0.5 kills H4. 'All' pools requests the dense mo
 |---|---|---|---|---|---|---|
 | keep=0.03125 | +/-5% (w=0.10) | not reached | — | — | — | no valid estimator reached this width |
 | keep=0.03125 | +/-2.5% (w=0.05) | not reached | — | — | — | no valid estimator reached this width |
-| keep=0.03125 | +/-10% (w=0.20) | adaptive + Betting | 79.7% | 30.3% | 0.95 |  |
+| keep=0.03125 | +/-10% (w=0.20) | not reached | — | — | — | no valid estimator reached this width |
 | keep=0.0625 | +/-5% (w=0.10) | not reached | — | — | — | no valid estimator reached this width |
 | keep=0.0625 | +/-2.5% (w=0.05) | not reached | — | — | — | no valid estimator reached this width |
-| keep=0.0625 | +/-10% (w=0.20) | fixed + Betting | 39.6% | 17.8% | 0.90 |  |
+| keep=0.0625 | +/-10% (w=0.20) | fixed + EmpBernstein | 79.9% | 45.4% | 1.00 |  |
 | keep=0.125 | +/-5% (w=0.10) | not reached | — | — | — | no valid estimator reached this width |
 | keep=0.125 | +/-2.5% (w=0.05) | not reached | — | — | — | no valid estimator reached this width |
-| keep=0.125 | +/-10% (w=0.20) | fixed + Betting | 19.9% | 9.8% | 0.90 |  |
+| keep=0.125 | +/-10% (w=0.20) | adaptive + EmpBernstein | 66.4% | 40.9% | 1.00 |  |
 | keep=0.25 | +/-5% (w=0.10) | not reached | — | — | — | no valid estimator reached this width |
 | keep=0.25 | +/-2.5% (w=0.05) | not reached | — | — | — | no valid estimator reached this width |
-| keep=0.25 | +/-10% (w=0.20) | fixed + EmpBernstein | 39.6% | 17.8% | 1.00 |  |
-| keep=0.5 | +/-5% (w=0.10) | not reached | — | — | — | no valid estimator reached this width |
+| keep=0.25 | +/-10% (w=0.20) | fixed + EmpBernstein | 39.5% | 29.2% | 1.00 |  |
+| keep=0.5 | +/-5% (w=0.10) | fixed + Betting | 39.5% | 29.2% | 0.95 |  |
 | keep=0.5 | +/-2.5% (w=0.05) | not reached | — | — | — | no valid estimator reached this width |
-| keep=0.5 | +/-10% (w=0.20) | fixed + EmpBernstein | 19.9% | 9.8% | 1.00 |  |
+| keep=0.5 | +/-10% (w=0.20) | fixed + Betting | 9.9% | 9.4% | 1.00 |  |
 | mixed | +/-5% (w=0.10) | not reached | — | — | — | no valid estimator reached this width |
 | mixed | +/-2.5% (w=0.05) | not reached | — | — | — | no valid estimator reached this width |
-| mixed | +/-10% (w=0.20) | fixed + Hoeffding | 80.1% | 30.4% | 1.00 |  |
+| mixed | +/-10% (w=0.20) | fixed + EmpBernstein | 20.0% | 17.3% | 0.90 |  |
 
-Measured probe/step cost ratio r = 0.55 (paired-step ratio (UNDERSTATES r)). H2 falsification: a +/-5% bound costing >15% throughput.
-Short-trace verdict: **INCONCLUSIVE**.
+Measured probe/step cost ratio r = 1.04 (measured (overhead_bench, gather path)). H2 falsification: a +/-5% bound costing >15% throughput.
+Short-trace verdict: **FALSIFIED**.
 Scale-free / primary verdict: **NOT FALSIFIED at stream length >= 10000 steps (valid estimators only: fixed + Hoeffding, fixed + EmpBernstein)**.
 Coverage-valid estimators: ['fixed + Hoeffding', 'fixed + EmpBernstein']; best valid: fixed + EmpBernstein.
 
@@ -104,10 +104,10 @@ Coverage-valid estimators: ['fixed + Hoeffding', 'fixed + EmpBernstein']; best v
 | estimator | w=0.2 | w=0.1 | w=0.05 |
 |---|---|---|---|
 | fixed + Hoeffding | 875 | 4075 | 18700 |
-| fixed + EmpBernstein | 225 | 1050 | 5325 |
-| fixed + Betting | 125 | 487 | 2312 |
+| fixed + EmpBernstein | 225 | 962 | 4837 |
+| fixed + Betting | 125 | 450 | 2075 |
 
-Width scaling exponent beta = 0.427 (width ~ p^-beta; 0.5 is the sqrt-n rate, so cost grows superlinearly in guarantee strength).
+Width scaling exponent beta = 0.443 (width ~ p^-beta; 0.5 is the sqrt-n rate, so cost grows superlinearly in guarantee strength).
 
 ### Bursty-regime anytime miss rate (target alpha = 0.05)
 
@@ -117,7 +117,7 @@ Width scaling exponent beta = 0.427 (width ~ p^-beta; 0.5 is the sqrt-n rate, so
 | fixed + EmpBernstein | 0.000 |
 | fixed + Betting | 0.108 |
 | adaptive + EmpBernstein | 0.000 |
-| adaptive + Betting | 0.967 |
+| adaptive + Betting | 0.825 |
 
 Betting / capital-process estimators that lock under drift are rejected for serving use; Hoeffding and empirical-Bernstein remain coverage-valid.
 
@@ -125,9 +125,9 @@ Betting / capital-process estimators that lock under drift are rejected for serv
 
 | estimator | bursty(.01/.35) | iid_moderate(p=.20) | iid_rare(p=.03) |
 |---|---|---|---|
-| adaptive + Betting | 0.967 | 0.625 | 0.433 |
+| adaptive + Betting | 0.825 | 0.475 | 0.125 |
 | adaptive + EmpBernstein | 0.000 | 0.000 | 0.000 |
-| fixed + Betting | 0.108 | 0.067 | 0.058 |
+| fixed + Betting | 0.108 | 0.050 | 0.050 |
 | fixed + EmpBernstein | 0.000 | 0.008 | 0.000 |
 | fixed + Hoeffding | 0.000 | 0.000 | 0.000 |
 

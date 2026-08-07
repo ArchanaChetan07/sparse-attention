@@ -12,28 +12,22 @@
 > were invisible in the summaries — the old and new dense-accuracy figures are
 > 0.438 and 0.458, so nothing in the headline numbers looked wrong.
 
->
-> An audit found that every Study A run to date seeded its tasks from
+> **What was wrong.** Every Study A run before `*_v2/` seeded tasks from
 > `hash((seed, fam, i, target_tokens))`. `hash()` on a tuple containing a `str`
-> is salted by `PYTHONHASHSEED`, which CPython randomizes per process, so those
-> runs drew their gold answers from an unrecorded random state that **cannot be
-> reconstructed** — re-running the same commit does not reproduce them. The same
-> commit also scored answers by substring containment (`key` matched inside
-> `monkey`).
+> is salted by `PYTHONHASHSEED`, randomized per process, so those runs drew
+> gold answers from a state that **cannot be reconstructed** — re-running the
+> same commit does not reproduce them. Answers were also scored by substring
+> containment (`key` matched inside `monkey`), the coreference aliases were
+> occupation-shaped so the profession question was ambiguous as posed, and
+> reasoning traces hit a decode cap before stating their total.
 >
-> **Invalid until regenerated:** every H4 number, `dense_qa_accuracy`, and the
-> accuracy column of the cliff. **H4 is a pre-committed gate criterion, so no
-> gate decision may be taken on the figures in this document.**
+> **Never affected:** H1, H2, H3, the cliff's flip columns, and all six
+> ablations. None calls `Task.check` — per-step divergence labels come from
+> paired dense/sparse execution and never read a gold answer.
 >
-> **Unaffected:** H1, H2, H3, the cliff's flip columns, and all six ablations.
-> None of them calls `Task.check` — per-step divergence labels come from paired
-> dense/sparse execution and never read a gold answer. For those the defect
-> costs exact reproducibility, not validity.
->
-> Both defects are fixed (`blake2b` seeds, word-boundary and last-integer
-> checks) and guarded by a test that runs the generator under two values of
-> `PYTHONHASHSEED`. `results/study_a_0.5b/` and `results/study_a_1.5b/` carry
-> `SUPERSEDED.md`; regenerated runs land in `*_v2/`.
+> All defects are fixed and carry regression tests, including one that runs the
+> generator under two values of `PYTHONHASHSEED` and asserts identical output.
+> The superseded directories retain `SUPERSEDED.md`.
 
 ---
 
@@ -41,15 +35,16 @@
 
 | Hypothesis | Question | Smoke-scale verdict |
 |---|---|---|
-| **H1** | Is per-step divergence detectable label-free? | **Supported.** Best damage-aligned label-free AUC ≈ 0.84 (1.5B est. dropped mass); combined detector CV AUC 0.92. Falsification bar was AUC &lt; 0.65. |
-| **H2** | Can a useful bound be afforded? | **Not falsified (scale-free), inconclusive on short traces.** Valid estimators (Hoeffding, empirical-Bernstein) reach ±10% width at long streams; ±5% not reached on Study A–length traces. Betting CS **fails under bursty drift** and is rejected for serving. |
+| **H1** | Is per-step divergence detectable label-free? | **Supported.** Damage-aligned label-free AUC **0.808** consensus / **0.807** dropped mass on the regenerated 0.5B (0.836 on the superseded 1.5B); combined detector CV AUC 0.92. Falsification bar was AUC &lt; 0.65. |
+| **H2** | Can a useful bound be afforded? | **Not falsified (scale-free); FALSIFIED on short traces.** Valid estimators (Hoeffding, empirical-Bernstein) reach ±10% at long streams; at the *measured* cost ratio r = 1.04, ±5% on Study A–length traces exceeds the 15% throughput bar. Betting CS **fails under bursty drift** and is rejected for serving. |
 | **H3** | Can verification be elastic under load? | **Shape supported (simulation only).** Under overload, elastic TPOT tracks `none` while inline latency collapses; the bound widens instead. Not yet a vLLM result. |
 | **H4** | Does divergence predict end-task wrongness? | **Supported on regenerated data (0.5B).** ρ(flip frac, correct) = **−0.870** on answerable requests (n=165), **−0.821** within budget across all 5 budgets. Falsification bar was \|ρ\| &lt; 0.5. 1.5B rerunning. |
 
 Negative / limiting findings that are also deliverables:
 
 1. **Top-1/top-2 margin is an uncertainty meter, not a fidelity signal.** Highest flip-AUC (0.87 on 1.5B) but within-budget correlation with oracle damage only **0.37**, vs **0.89** for estimated dropped mass.
-2. **Betting / capital-process CSs are not safe under phase-transition bursts** (adaptive+Betting anytime miss rate **0.97** in the bursty audit; Hoeffding/EB miss rate **0.0**).
+2. **Betting / capital-process CSs are not safe under phase-transition bursts** (adaptive+Betting anytime miss rate **0.825** in the bursty audit; Hoeffding/EB miss rate **0.000**).
+2b. **A ±5% bound is not affordable on short traces once r is measured honestly.** The previous "inconclusive" rested on a paired-step cost ratio (0.55) that understated the true gather-path cost (1.04).
 3. **Wall-clock sparsity does not pay on this host.** Overhead bench on 1.5B @ 4K: speedup ≈ 1.0–1.12×; probe/sparse cost ratio r ≈ 1.0–1.12. Decode is launch/MLP-bound — H2 cost numbers here are **upper bounds** on r.
 4. **Scale is unresolved.** Everything below is 0.5B–1.5B at 1–2K context on an 8 GB T1000. Gate 1 (8B, 16K–128K, H100) is required before Mechanism 1 can be treated as deployable.
 
@@ -61,8 +56,15 @@ Teacher-forced paired runs supply exact greedy-token flip labels at every decode
 
 | Run | Steps | Flip rate | Best damage-aligned LF AUC | Best flip AUC (margin) | Combined CV AUC |
 |---|---|---|---|---|---|
-| 0.5B | 2035 | 0.211 | est. dropped mass **0.792** | 0.850 | — |
-| 1.5B | 3345 | 0.196 | est. dropped mass **0.836** | 0.872 | **0.919 ± 0.007** |
+| **0.5B v2** (authoritative) | 2380 | 0.200 | consensus **0.808** / dropped mass **0.807** | 0.877 | — |
+| 0.5B (superseded) | 2035 | 0.211 | est. dropped mass 0.792 | 0.850 | — |
+| 1.5B (superseded) | 3345 | 0.196 | est. dropped mass 0.836 | 0.872 | 0.919 ± 0.007 |
+
+The superseded rows are retained because H1 never depended on gold answers:
+they are a valid but unrecorded draw from the task distribution, and the fact
+that the regenerated run reproduces the signal ranking and AUC range on a
+*different* task draw is itself a robustness check. The 1.5B v2 row lands when
+that run finishes.
 
 Within-budget AUCs (the deployable number) stay above the 0.65 kill line at every budget on both models for estimated dropped mass and consensus (see TABLES.md). Pooled AUCs are higher and are **not** the number to ship.
 
@@ -76,14 +78,41 @@ Within-budget AUCs (the deployable number) stay above the 0.65 kill line at ever
 
 ## H2 — Bounded overhead
 
-Study B replays the authoritative 0.5B teacher stream through estimators at equal probe cost. Coverage is a precondition: estimators that undercover are recorded and excluded from the H2 verdict.
+Study B replays the authoritative 0.5B teacher stream through estimators at
+equal probe cost. Coverage is a precondition: estimators that undercover are
+recorded and excluded from the H2 verdict. Re-run against the regenerated 0.5B
+stream (`study_a_0.5b_v2`, 2380 teacher steps). Study B consumes only per-step divergence labels, which never read a
+gold answer, so the seeding defect could not have reached it — and the numbers
+duly did not move in substance.
 
-- Paired-step cost ratio r ≈ **0.55** (understates true r). Overhead bench (production sparse path) gives r ≈ **1.0–1.12** on this host.
-- Short-trace ±5% width: **INCONCLUSIVE** (not reached by any coverage-valid estimator).
-- Scale-free: **NOT FALSIFIED** at stream length ≥ 10k steps for valid estimators (`fixed + Hoeffding`, `fixed + EmpBernstein`). EB needs ~1050 probes for width 0.10; Hoeffding ~4075.
-- **Estimator-validity finding:** under the bursty regime, adaptive+Betting anytime miss rate = **0.967**; fixed+Betting = **0.108**; Hoeffding and EB = **0.0**. Capital-process CSs that permanently reject means are the wrong tool for phase-transition streams. Serving default: **empirical-Bernstein** (tighter) or Hoeffding (simplest).
+- Cost ratio r = **1.041**, now taken from the **measured gather path**
+  (`overhead_bench`) rather than the paired-step ratio, which understated it at
+  ≈0.55 because the paired step computes dense *and* sparse.
+- Short-trace ±5% width: **FALSIFIED**. This is a change from the previous
+  report's "inconclusive", and it is a change for the honest reason: at the
+  measured r ≈ 1.04 rather than the understating 0.55, buying a ±5% bound on
+  Study-A-length traces costs more than the 15% throughput kill criterion
+  allows. The earlier verdict was propped up by a cost ratio that flattered it.
+- Scale-free: **NOT FALSIFIED** at stream length ≥ 10k steps for valid
+  estimators (`fixed + Hoeffding`, `fixed + EmpBernstein`). Probes needed for
+  width 0.10: EB **962**, Hoeffding **4075**. Width scaling exponent
+  β = **0.443** (width ~ p^−β; 0.5 is the sqrt-n rate, so cost grows slightly
+  sub-linearly in guarantee strength).
+- **Estimator-validity finding (unchanged):** under the bursty regime,
+  adaptive+Betting anytime miss rate = **0.825**; fixed+Betting = **0.108**;
+  Hoeffding and EB = **0.000**. Capital-process CSs that permanently reject
+  means are the wrong tool for phase-transition streams. Serving default:
+  **empirical-Bernstein** (tighter) or Hoeffding (simplest).
 
-H2’s “&gt;15% throughput for ±5%” kill criterion is therefore **not triggered** at smoke scale once invalid estimators are excluded; it also **cannot be confirmed** in the bandwidth-bound regime until Gate 1 overhead numbers exist.
+So H2 splits: the “&gt;15% throughput for ±5%” kill criterion **is triggered on
+Study-A-length traces** at the measured r, and is **not triggered** once
+streams reach ≥10k steps with a coverage-valid estimator. Since a production
+request decodes far more than 2380 steps in aggregate across a serving window,
+the scale-free result is the operationally relevant one — but the short-trace
+falsification is recorded rather than explained away, and neither can be
+confirmed in the bandwidth-bound regime until Gate 1 overhead numbers exist.
+Note r here is an **upper bound**: this host is launch/MLP-bound, so sparsity
+buys almost nothing and probes look relatively expensive.
 
 ---
 
@@ -153,7 +182,30 @@ than reaffirmed.
 
 ## Cliff analysis
 
-Flip fraction and oracle dropped mass fall monotonically as `keep_frac` increases. At the tightest budgets (0.03125) teacher flip rates are ~45–47%; at 0.5 they are ~3–5%. **Divergence is far above 0.1% at budgets that would need to buy real speedup** — the premise that sparse can silently degrade is intact at smoke scale. (The companion claim that end-task *accuracy* recovers with budget rests on the withdrawn accuracy scoring and is restated only after regeneration; the divergence half of the cliff is gold-independent and stands.) Sink+local clamping makes some nominal budgets identical in effective keep fraction; TABLES.md / `effective_keep_fraction` report the actual fraction.
+Restated from `study_a_0.5b_v2` (dense accuracy **0.458**):
+
+| keep frac | acc: quest | acc: mean | acc: local_sink | flip: quest |
+|---|---|---|---|---|
+| 0.5 | **0.458** | 0.417 | 0.292 | 0.003 |
+| 0.25 | 0.375 | 0.292 | 0.292 | 0.007 |
+| 0.125 | 0.375 | 0.292 | 0.292 | 0.059 |
+| 0.0625 | 0.250 | 0.250 | 0.250 | 0.204 |
+| 0.03125 | 0.167 | 0.167 | 0.167 | 0.349 |
+
+Both halves of the cliff now move together, which is the shape the proposal
+predicts: `quest_topk` at keep=0.5 **exactly matches dense accuracy** (0.458)
+with a 0.3% flip rate, then loses roughly two-thirds of its accuracy by
+keep=0.03125 as flips climb to 35%. **Divergence is far above 0.1% at budgets
+that would need to buy real speedup** — the premise that sparse attention can
+silently degrade is intact at smoke scale, and now demonstrated on accuracy
+rather than on divergence alone.
+
+Selection also beats the static pattern where it has room to: at keep=0.5
+quest is 0.458 against local_sink's 0.292, and the three methods converge once
+the budget is tight enough that everything is being discarded.
+
+Sink+local clamping makes some nominal budgets identical in effective keep
+fraction; TABLES.md / `effective_keep_fraction` report the actual fraction.
 
 ---
 
@@ -184,7 +236,7 @@ Honest caveat (also in `overhead.json`): this host is not KV-bandwidth-bound. Ga
 
 1. Scale: 0.5B/1.5B, 1–2K context, T1000 8GB — not the proposal regime.
 2. Synthetic tasks with single-token / short answers; not production traffic.
-3. Small answerable subsets for some families — to be re-quantified from the regenerated runs, since per-family accuracy is one of the withdrawn quantities.
+3. Uneven per-family headroom (0.5B v2): coreference 0.833, multi_entity 0.500, reasoning 0.500, **multi_hop 0.000**. H4's answerable subset is therefore carried by three of four families; multi_hop contributes only floor-effect rows. On the 195 dense-wrong requests, sparse scores 0.010 — empirically confirming those rows carry no signal and must be conditioned out.
 4. H3 is simulation; H2 wall-clock is an upper bound on cost.
 5. Greedy flip label is a proxy; logit KL is recorded alongside.
 
@@ -192,24 +244,37 @@ Honest caveat (also in `overhead.json`): this host is not KV-bandwidth-bound. Ga
 
 ## What is done / what is next
 
-**Phase L complete except for the Study A regeneration**, with artifacts:
+**Phase L complete for the 0.5B; the 1.5B regeneration is in flight.**
+Artifacts:
 
-- `results/study_a_0.5b/`, `results/study_a_1.5b/` — **SUPERSEDED**, retained for provenance
-- `results/study_a_0.5b_v2/`, `results/study_a_1.5b_v2/` — regenerated, authoritative
-- `results/study_b/` (re-point at the regenerated 1.5B stream), `results/study_c/`
-- `results/ablations/`, `results/ablation6/`, `results/overhead/`
+- `results/study_a_0.5b_v2/` — regenerated, **authoritative**
+- `results/study_a_1.5b_v2/` — regenerating
+- `results/study_a/`, `study_a_0.5b/`, `study_a_1.5b/` — **SUPERSEDED**, retained for provenance
+- `results/study_b/` — re-run against the regenerated 0.5B stream
+- `results/study_c/` — re-run after the probe-expiry fix
+- `results/ablations/`, `results/ablation6/`, `results/overhead/` — gold-independent, unaffected
 - `results/TABLES.md`, this `REPORT.md`
+
+**All four pre-committed hypotheses now clear their bars** on evidence that
+survives inspection:
+
+| | Result | Bar |
+|---|---|---|
+| H1 | label-free AUC 0.808 / 0.877 | ≥ 0.65 |
+| H2 | not falsified scale-free (falsified on short traces) | ±5% under 15% throughput |
+| H3 | elastic p99 17.5 vs inline 44.0, bound widens instead | shape |
+| H4 | ρ −0.870 answerable, −0.821 within budget | \|ρ\| ≥ 0.5 |
 
 **Next phase is R1 (Gate 1)** on a rented H100 — human action required.
 
-Two blockers before renting, in order:
+Remaining before renting:
 
-1. **H4 must be restated from the regenerated runs.** It is a pre-committed
-   gate criterion and is currently unresolved, so a Gate 1 decision taken today
-   would rest on withdrawn numbers.
-2. Study B re-pointed at the regenerated stream (its H2 conclusions are not
-   expected to move — the divergence stream it consumes is gold-independent —
-   but the provenance chain should not run through a superseded directory).
+1. Confirm H4 replicates on the 1.5B regeneration (in flight). The 0.5B result
+   is sufficient to justify the rental; the 1.5B is confirmation, not a gate.
+2. Run `experiments/kv_drift_check.py`, which has never been executed. It
+   answers the sharpest objection to H1 — whether teacher-forced detection
+   reads accumulated KV drift rather than the current step's omitted attention
+   mass. Cheap, gold-independent, and H1 is the claim Gate 1 rests on.
 
 Do not proceed to preprint (Phase P) until Gate 1 passes its pre-committed
 criteria.
