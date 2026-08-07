@@ -167,6 +167,17 @@ def ablation3(df: pd.DataFrame, rows: list):
 # Ablation 5 — detector transfer across models, families, methods, budgets
 # --------------------------------------------------------------------------
 def ablation5(frames: dict[str, pd.DataFrame], rows: list):
+    """Transfer matrices. Read the OFF-diagonal; the diagonal is in-sample.
+
+    Where train and test are the same slice, transfer_auc fits and scores on
+    identical rows, so diagonal cells are not held out and are not directly
+    comparable to off-diagonal ones. Measured inflation against a grouped-CV
+    estimate of the same cell is +0.008 to +0.027 (L2 keeps seven features from
+    overfitting thousands of rows), so it does not move any conclusion here --
+    but the transfer claim rests on the off-diagonal cells and should be quoted
+    from them. Substituting a CV estimate on the diagonal only would put two
+    different estimators in one matrix, which is a worse trade.
+    """
     # (a) across models
     names = list(frames)
     for src in names:

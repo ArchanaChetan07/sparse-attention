@@ -223,10 +223,14 @@ def coverage_audit(out_rows):
                 sigs = 0.1 + 0.8 * xs + 0.15 * rng.random(T)
                 seen, anytime_ok = 0.0, True
                 for t, (xi, si) in enumerate(zip(xs, sigs), 1):
-                    v.step(int(xi), float(si))
+                    # Use step()'s returned bound rather than unscaling
+                    # v.cs.lo/hi by hand. The hand-rolled form clipped only the
+                    # upper end, so a lo above 1 could invert the interval and
+                    # score a spurious miss; SampledVerifier._unscale clips and
+                    # orders both ends. Duplicating it here would let the audit
+                    # drift away from the estimator it is auditing.
+                    _, lo, hi = v.step(int(xi), float(si))
                     seen += xi
-                    lo = v.cs.lo / v.scale
-                    hi = min(v.cs.hi / v.scale, 1.0)
                     if not (lo - 1e-9 <= seen / t <= hi + 1e-9):
                         anytime_ok = False
                 misses += not anytime_ok
