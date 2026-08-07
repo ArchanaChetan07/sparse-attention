@@ -92,7 +92,21 @@ def width_vs_cost(df: pd.DataFrame, out_rows, per_budget=True):
                     true_divergence=mu, n_steps=int(len(x))))
 
 
-MIN_COVERAGE = 0.90  # 1-alpha = 0.95, minus Monte-Carlo slack at N_SEEDS
+# 1-alpha = 0.95, minus Monte-Carlo slack. The slack is real and worth stating
+# rather than waving at: with N_SEEDS = 20 the test needs >= 18/20 seeds to
+# cover, and its power is poor in the middle of the range --
+#
+#   true coverage 0.95 -> passes 92.5%   (7.5% false rejection of a valid CS)
+#   true coverage 0.90 -> passes 67.7%
+#   true coverage 0.85 -> passes 40.5%   (an undercovering CS passes 2 times in 5)
+#   true coverage 0.70 -> passes  3.5%
+#
+# So this screen reliably catches gross undercoverage and is unreliable for
+# anything borderline. That is adequate here only because the finding it
+# carries is gross: adaptive+Betting sits near 0.175 coverage under drift, not
+# near the threshold. Any future conclusion that turns on a borderline
+# estimator must raise N_SEEDS first -- the cost is linear and it is CPU-only.
+MIN_COVERAGE = 0.90
 
 
 def h2_test(wdf: pd.DataFrame, cost_ratio: float, stream: str = "mixed"):
